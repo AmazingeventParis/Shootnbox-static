@@ -25,6 +25,7 @@ const sections = [
   'header',
   'hero',
   'trust',
+  'bento',
   'footer'
 ];
 
