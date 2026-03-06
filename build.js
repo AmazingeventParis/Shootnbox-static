@@ -32,6 +32,7 @@ const sections = [
   'savoirfaire',
   'mur',
   'carte-france',
+  'blog',
   'footer'
 ];
 
