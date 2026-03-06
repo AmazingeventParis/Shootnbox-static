@@ -481,9 +481,13 @@ ul { list-style: none; padding: 0; margin: 0; }
           p.classList.add('hidden');
         }
       });
-      /* Durée proportionnelle au nombre de photos visibles */
-      var baseDur = isMobile ? 20 : 45;
-      var dur = Math.max(5, Math.round(baseDur * (visibleCount / allCount)));
+      var dur;
+      if (isMobile) {
+        dur = Math.max(8, Math.round(20 * (visibleCount / allCount)));
+      } else {
+        var desktopSpeeds = { all: 45, paysage: 30, portrait: 25, slim: 15 };
+        dur = desktopSpeeds[filter] || 45;
+      }
       setTimeout(function() {
         strip.style.setProperty('animation', 'smSlide ' + dur + 's linear infinite', 'important');
       }, 50);
