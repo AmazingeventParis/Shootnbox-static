@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Shootnbox - Location Photobooth | Staging</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Raleway',sans-serif; color:#323338; background:#FFF8EE; }
+a { text-decoration:none; color:inherit; }
+
+/* Staging banner */
+.staging-banner { background:#E51981; color:#fff; text-align:center; padding:8px; font-size:13px; font-weight:700; position:fixed; top:0; left:0; right:0; z-index:99999; }
+.staging-banner span { opacity:0.7; font-weight:400; margin-left:8px; }
+
+body { padding-top:36px; }
+
+/* Placeholder sections */
+.placeholder-section {
+  padding:80px 20px;
+  text-align:center;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+}
+.placeholder-section h2 {
+  font-size:24px;
+  font-weight:800;
+  color:#323338;
+  margin-bottom:8px;
+}
+.placeholder-section p {
+  color:#888;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="staging-banner">
+  STAGING - Site de developpement
+  <span>Ne pas indexer</span>
+</div>
+
+<!-- HERO placeholder -->
+<div class="placeholder-section" style="background:linear-gradient(135deg,#2d0535,#1a1a2e);color:#fff;min-height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <h2 style="color:#fff;font-size:42px;">Shootnbox</h2>
+  <p style="color:rgba(255,255,255,0.7);font-size:18px;">Section Hero - a integrer</p>
+</div>
+
+<!-- Trust placeholder -->
+<div class="placeholder-section">
+  <h2>Ils nous font confiance</h2>
+  <p>Section logos clients - a integrer</p>
+</div>
+
+<!-- Bento placeholder -->
+<div class="placeholder-section">
+  <h2>Bento Grid</h2>
+  <p>Section bento - a integrer</p>
+</div>
+
+<!-- Bornes placeholder -->
+<div class="placeholder-section">
+  <h2>Nos Bornes Photo</h2>
+  <p>Section bornes - a integrer</p>
+</div>
+
+<!-- Stats placeholder -->
+<div class="placeholder-section">
+  <h2>Shootnbox en chiffres</h2>
+  <p>Section stats - a integrer</p>
+</div>
+
+<!-- AVIS - Section complete qui fonctionne -->
+<div id="section-avis"></div>
+<script>
+// Charge la section avis depuis le fichier separe
+fetch('/sections/avis.html')
+  .then(function(r){return r.text();})
+  .then(function(html){
+    document.getElementById('section-avis').innerHTML = html;
+    // Execute les scripts inline
+    var scripts = document.getElementById('section-avis').querySelectorAll('script');
+    scripts.forEach(function(s){
+      var ns = document.createElement('script');
+      ns.textContent = s.textContent;
+      document.body.appendChild(ns);
+    });
+  });
+</script>
+
+<!-- Savoir-faire placeholder -->
+<div class="placeholder-section">
+  <h2>Savoir-faire &amp; Valeurs</h2>
+  <p>Section savoir-faire - a integrer</p>
+</div>
+
+<!-- Equipe placeholder -->
+<div class="placeholder-section">
+  <h2>Notre Equipe</h2>
+  <p>Section equipe - a integrer</p>
+</div>
+
+<!-- Mur placeholder -->
+<div class="placeholder-section">
+  <h2>Mur de Souvenirs</h2>
+  <p>Section mur photos - a integrer</p>
+</div>
+
+<!-- Blog placeholder -->
+<div class="placeholder-section">
+  <h2>Shootnblog</h2>
+  <p>Section blog - a integrer</p>
+</div>
+
+<!-- Footer placeholder -->
+<div class="placeholder-section" style="background:#1a1a2e;color:#fff;">
+  <h2 style="color:#fff;">Footer</h2>
+  <p style="color:rgba(255,255,255,0.5);">Footer - a integrer</p>
+</div>
+
+</body>
+</html>
