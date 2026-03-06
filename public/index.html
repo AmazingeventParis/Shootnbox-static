@@ -4346,8 +4346,7 @@ window.addEventListener('scroll', function() {
 
   /* ── Filtres ── */
   var isMobile = window.innerWidth <= 540;
-  var baseSpeed = isMobile ? '20s' : '45s';
-  var speeds = { all: baseSpeed, paysage: baseSpeed, portrait: baseSpeed, slim: baseSpeed };
+  var allCount = photos.length;
 
   /* Appliquer vitesse mobile au chargement */
   if (isMobile && strip) {
@@ -4363,16 +4362,20 @@ window.addEventListener('scroll', function() {
       var filter = btn.getAttribute('data-filter');
 
       strip.style.setProperty('animation', 'none', 'important');
+      var visibleCount = 0;
       photos.forEach(function(p) {
         if (filter === 'all' || p.getAttribute('data-cat') === filter) {
           p.classList.remove('hidden');
+          visibleCount++;
         } else {
           p.classList.add('hidden');
         }
       });
-      var dur = speeds[filter] || '20s';
+      /* Durée proportionnelle au nombre de photos visibles */
+      var baseDur = isMobile ? 20 : 45;
+      var dur = Math.max(5, Math.round(baseDur * (visibleCount / allCount)));
       setTimeout(function() {
-        strip.style.setProperty('animation', 'smSlide ' + dur + ' linear infinite', 'important');
+        strip.style.setProperty('animation', 'smSlide ' + dur + 's linear infinite', 'important');
       }, 50);
     });
   });
