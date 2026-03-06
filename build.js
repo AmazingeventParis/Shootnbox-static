@@ -27,6 +27,7 @@ const sections = [
   'trust',
   'bento',
   'stats',
+  'avis',
   'footer'
 ];
 
