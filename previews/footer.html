@@ -120,7 +120,18 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 700;
   font-size: 14px;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+.snb-ft-cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.5s ease;
+}
+.snb-ft-cta-btn:hover::before { left: 100%; }
 
 .snb-ft-cta-btn.primary {
   background: linear-gradient(135deg, #E51981, #c41470);
