@@ -4368,8 +4368,7 @@ window.addEventListener('scroll', function() {
       });
       var dur = speeds[filter] || '45s';
       setTimeout(function() {
-        strip.style.animationDuration = dur;
-        strip.style.animation = 'smSlide ' + dur + ' linear infinite';
+        strip.style.setProperty('animation', 'smSlide ' + dur + ' linear infinite', 'important');
       }, 50);
     });
   });
