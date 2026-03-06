@@ -403,10 +403,6 @@ ul { list-style: none; padding: 0; margin: 0; }
   var pos = 0;
   var isMobile = window.innerWidth <= 768;
 
-  // Debug: red border if carousel found, green on first touch
-  carousel.style.outline = "3px solid red";
-  carousel.addEventListener("touchstart", function(){carousel.style.outline="3px solid lime";}, {once:true});
-
   function getGap() { return isMobile ? 12 : 16; }
   function getCardW() { return cards[0].offsetWidth + getGap(); }
   function getVisible() { return isMobile ? 1 : (carousel.offsetWidth < 900 ? 2 : 3); }
@@ -424,10 +420,19 @@ ul { list-style: none; padding: 0; margin: 0; }
   if (prevBtn) prevBtn.addEventListener("click", function(e) { e.preventDefault(); slideTo(pos - 1, true); });
   if (nextBtn) nextBtn.addEventListener("click", function(e) { e.preventDefault(); slideTo(pos + 1, true); });
 
-  // Touch swipe (mobile + tablet)
+  // Touch swipe — listeners on document to avoid any interception
   var startX = 0, startY = 0, dx = 0, isDragging = false, isScrolling = false;
 
-  carousel.addEventListener("touchstart", function(e) {
+  function isInsideCarousel(el) {
+    while (el) {
+      if (el === carousel) return true;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  document.addEventListener("touchstart", function(e) {
+    if (!isInsideCarousel(e.target)) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     dx = 0;
@@ -436,32 +441,28 @@ ul { list-style: none; padding: 0; margin: 0; }
     track.style.transition = "none";
   }, {passive: true});
 
-  carousel.addEventListener("touchmove", function(e) {
+  document.addEventListener("touchmove", function(e) {
     if (!isDragging) return;
     var moveX = e.touches[0].clientX - startX;
     var moveY = e.touches[0].clientY - startY;
 
-    // First significant move: decide if horizontal swipe or vertical scroll
     if (!isScrolling && Math.abs(moveX) < 5 && Math.abs(moveY) < 5) return;
     if (!isScrolling && Math.abs(moveY) > Math.abs(moveX)) {
-      // Vertical scroll — let browser handle it
       isDragging = false;
       return;
     }
     isScrolling = true;
 
-    // Horizontal swipe — prevent page scroll, move track
     e.preventDefault();
     dx = moveX;
     var base = -pos * getCardW();
-    // Add resistance at edges
     var newX = base + dx;
     if (pos === 0 && dx > 0) newX = base + dx * 0.3;
     if (pos >= getMaxPos() && dx < 0) newX = base + dx * 0.3;
     track.style.transform = "translateX(" + newX + "px)";
   }, {passive: false});
 
-  carousel.addEventListener("touchend", function() {
+  document.addEventListener("touchend", function() {
     if (!isDragging && !isScrolling) return;
     isDragging = false;
     if (Math.abs(dx) > 40) {
@@ -472,7 +473,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     }
   }, {passive: true});
 
-  // Recalc on resize
   window.addEventListener("resize", function() {
     isMobile = window.innerWidth <= 768;
     slideTo(pos, false);
