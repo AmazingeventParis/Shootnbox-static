@@ -31,6 +31,7 @@ const sections = [
   'equipe',
   'savoirfaire',
   'mur',
+  'carte-france',
   'footer'
 ];
 
