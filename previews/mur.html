@@ -21,26 +21,28 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 
 
+.snb-mur-divider {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  margin-top: -40px;
+  z-index: 101;
+  overflow: visible;
+}
+.snb-mur-divider svg {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 100%;
+}
 .snb-mur {
-  padding: 120px 0 40px;
-  margin-top: -60px;
+  padding: 60px 0 40px;
+  margin-top: -20px;
   background: linear-gradient(175deg, #1a1a2e 0%, #16162a 40%, #1e1335 70%, #1a1a2e 100%);
   position: relative;
   overflow: hidden;
   font-family: 'Raleway', sans-serif !important;
   z-index: 100;
   isolation: isolate;
-  clip-path: polygon(0 0, 100% 60px, 100% 100%, 0 100%);
-}
-.snb-mur::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 90px;
-  background: linear-gradient(75deg, #E51981, #7828C8 40%, #0250FF 70%, #E51981);
-  clip-path: polygon(0 0, 100% 60px, 100% 64px, 0 4px);
-  z-index: 3;
-  opacity: 0.8;
 }
 .sm-glow {
   position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px);
@@ -337,6 +339,17 @@ ul { list-style: none; padding: 0; margin: 0; }
   *{animation:none!important;transition:none!important;}
 }
 </style>
+<div class="snb-mur-divider">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,120 C240,40 480,100 720,60 C960,20 1200,80 1440,50 L1440,120 L0,120 Z" fill="#E51981" opacity="0.15"/>
+    <path d="M0,120 C180,70 420,110 660,75 C900,40 1140,95 1440,65 L1440,120 L0,120 Z" fill="#7828C8" opacity="0.12"/>
+    <path d="M0,120 C300,90 540,50 780,85 C1020,120 1260,70 1440,90 L1440,120 L0,120 Z" fill="#0250FF" opacity="0.18"/>
+    <line x1="10%" y1="95" x2="90%" y2="95" stroke="#E51981" stroke-width="2" opacity="0.3" stroke-dasharray="8,12"/>
+    <circle cx="50%" cy="95" r="5" fill="#E51981" opacity="0.5"/>
+    <circle cx="48%" cy="95" r="3" fill="#0250FF" opacity="0.4"/>
+    <circle cx="52%" cy="95" r="3" fill="#7828C8" opacity="0.4"/>
+  </svg>
+</div>
 <section class="snb-mur">
 
   <div class="sm-glow g1"></div>
