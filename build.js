@@ -30,6 +30,7 @@ const sections = [
   'avis',
   'equipe',
   'savoirfaire',
+  'mur',
   'footer'
 ];
 
