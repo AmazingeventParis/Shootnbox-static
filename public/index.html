@@ -1389,8 +1389,10 @@ window.addEventListener('scroll', function() {
   .snb-avis .avis-inner{flex-direction:column;gap:20px;align-items:center;}
   .snb-avis .avis-business{width:100%;max-width:300px;}
   .snb-avis .avis-nav{display:none !important;}
-  .snb-avis .avis-carousel{width:100%;padding:0;overflow:visible;}
-  .snb-avis .avis-track{display:flex;gap:12px;padding:0 16px;overflow-x:scroll;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;transform:none !important;transition:none !important;}
+  .snb-avis{overflow:visible !important;}
+  .snb-avis .avis-inner{overflow:visible !important;}
+  .snb-avis .avis-carousel{width:100%;padding:0;overflow:visible !important;}
+  .snb-avis .avis-track{display:flex;gap:12px;padding:0 16px;overflow-x:scroll !important;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;transform:none !important;transition:none !important;}
   .snb-avis .avis-track::-webkit-scrollbar{display:none;}
   .snb-avis .avis-card{flex:0 0 85vw;min-width:85vw;max-width:85vw;scroll-snap-align:start;}
 }
