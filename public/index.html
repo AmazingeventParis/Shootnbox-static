@@ -4198,7 +4198,7 @@ window.addEventListener('scroll', function() {
   .sm-photo img { height: 150px !important; }
   .sm-photo.slim img { height: 200px !important; }
   .sm-photo:nth-child(n+16) { display: none !important; }
-  .sm-strip { animation-duration: 20s !important; gap: 10px !important; }
+  .sm-strip { animation-duration: 10s !important; gap: 10px !important; }
   .sm-strip-wrap { margin-bottom: 30px !important; padding: 6px 0 !important; }
   .sm-strip-wrap::before, .sm-strip-wrap::after { width: 40px !important; }
   /* Pas de hover sur mobile */
@@ -4350,7 +4350,7 @@ window.addEventListener('scroll', function() {
 
   /* Appliquer vitesse mobile au chargement */
   if (isMobile && strip) {
-    strip.style.setProperty('animation', 'smSlide 20s linear infinite', 'important');
+    strip.style.setProperty('animation', 'smSlide 10s linear infinite', 'important');
   }
 
   btns.forEach(function(btn) {
@@ -4373,8 +4373,8 @@ window.addEventListener('scroll', function() {
       });
       var dur;
       if (isMobile) {
-        var mobileSpeeds = { all: 20, paysage: 20, portrait: 20, slim: 20 };
-        dur = mobileSpeeds[filter] || 20;
+        var mobileSpeeds = { all: 10, paysage: 10, portrait: 10, slim: 10 };
+        dur = mobileSpeeds[filter] || 10;
       } else {
         var desktopSpeeds = { all: 45, paysage: 45, portrait: 25, slim: 15 };
         dur = desktopSpeeds[filter] || 45;
