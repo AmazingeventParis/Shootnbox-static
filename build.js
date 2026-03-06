@@ -28,6 +28,7 @@ const sections = [
   'bento',
   'stats',
   'avis',
+  'equipe',
   'footer'
 ];
 
