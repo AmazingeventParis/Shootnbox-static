@@ -283,31 +283,32 @@ ul { list-style: none; padding: 0; margin: 0; }
   .sm-eyebrow { font-size: 13px !important; padding: 8px 20px !important; margin-bottom: 14px !important; }
   /* Filtres mobile : scrollable horizontalement */
   .sm-filters {
-    gap: 6px !important;
-    justify-content: flex-start !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    overflow-x: visible !important;
+    flex-wrap: wrap !important;
     padding: 0 4px 8px !important;
     margin-bottom: 24px !important;
     position: relative !important;
     z-index: 100 !important;
   }
-  .sm-filters::-webkit-scrollbar { display: none !important; }
   .sm-filter-btn {
-    padding: 8px 14px !important; font-size: 11px !important;
+    padding: 8px 16px !important; font-size: 12px !important;
     white-space: nowrap !important; flex-shrink: 0 !important;
     position: relative !important; z-index: 101 !important;
     pointer-events: auto !important;
     -webkit-tap-highlight-color: rgba(229,25,129,0.2) !important;
   }
+  .sm-filter-btn[data-filter="all"] {
+    width: 100% !important; justify-content: center !important;
+  }
   .sm-filter-btn .count { display: none !important; }
-  .sm-filter-btn svg { width: 12px !important; height: 12px !important; }
+  .sm-filter-btn svg { width: 14px !important; height: 14px !important; }
   /* Photos mobile : plus petites, moins nombreuses */
   .sm-photo img { height: 150px !important; }
   .sm-photo.slim img { height: 200px !important; }
   .sm-photo:nth-child(n+16) { display: none !important; }
-  .sm-strip { animation-duration: 60s !important; gap: 10px !important; }
+  .sm-strip { animation-duration: 20s !important; gap: 10px !important; }
   .sm-strip-wrap { margin-bottom: 30px !important; padding: 6px 0 !important; }
   .sm-strip-wrap::before, .sm-strip-wrap::after { width: 40px !important; }
   /* Pas de hover sur mobile */
