@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Swipe</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+h1 { font-size: 18px; margin-bottom: 10px; }
+p { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+.scroll-container {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.scroll-container::-webkit-scrollbar { display: none; }
+
+.card {
+  flex: 0 0 85vw;
+  min-width: 85vw;
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  font-size: 16px;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<h1>Test Swipe Mobile</h1>
+<p>Swipez les cartes ci-dessous :</p>
+
+<div class="scroll-container">
+  <div class="card" style="border-left: 4px solid #E51981;">Card 1 - Swipez vers la gauche</div>
+  <div class="card" style="border-left: 4px solid #0250FF;">Card 2</div>
+  <div class="card" style="border-left: 4px solid #FF7A00;">Card 3</div>
+  <div class="card" style="border-left: 4px solid #7828C8;">Card 4</div>
+  <div class="card" style="border-left: 4px solid #16A34A;">Card 5</div>
+</div>
+
+<p style="margin-top:20px;">Si les cartes au-dessus scrollent, le probleme est dans le CSS du module avis (parents qui bloquent). Si ca ne scrolle pas non plus, c'est un probleme de navigateur/cache.</p>
+</body>
+</html>
