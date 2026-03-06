@@ -44,10 +44,6 @@ for (const name of sections) {
     content = content.replace(/<!-- Contenu demo -->[\s\S]*?<\/div>\s*\n/, '');
   }
 
-  // Fix carte-france: change position:fixed to position:absolute
-  if (name === 'carte-france') {
-    content = content.replace('.carte-bg {\n      position: fixed;', '.carte-bg {\n      position: absolute;');
-  }
 
   sectionContents[name] = content;
 }
