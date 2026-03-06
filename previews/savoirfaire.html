@@ -975,6 +975,23 @@ ul { list-style: none; padding: 0; margin: 0; }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
 }
+.sf-bgwave {
+  position: absolute;
+  width: 200%;
+  height: 180px;
+  opacity: 0.07;
+  left: -50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.sf-bgwave1 { bottom:15%; background:linear-gradient(90deg,transparent 0%,#E51981 20%,#ff6eb4 40%,transparent 60%,#E51981 80%,transparent 100%); border-radius:40%; animation:sfWaveSlide1 12s ease-in-out infinite; }
+.sf-bgwave2 { bottom:5%; height:150px; background:linear-gradient(90deg,transparent 0%,#0250FF 25%,#5c9fff 50%,transparent 75%); border-radius:45%; animation:sfWaveSlide2 16s ease-in-out infinite; }
+.sf-bgwave3 { bottom:0%; height:160px; background:linear-gradient(90deg,transparent 0%,#FF7A00 30%,#ffad5c 55%,transparent 80%); border-radius:42%; animation:sfWaveSlide3 20s ease-in-out infinite; }
+.sf-bgwave4 { bottom:-5%; height:140px; background:linear-gradient(90deg,transparent 0%,#7828C8 20%,#b47eff 50%,transparent 70%,#7828C8 90%,transparent 100%); border-radius:38%; animation:sfWaveSlide4 18s ease-in-out infinite; }
+@keyframes sfWaveSlide1 { 0%,100%{transform:translateX(0) rotate(-2deg)} 50%{transform:translateX(15%) rotate(2deg)} }
+@keyframes sfWaveSlide2 { 0%,100%{transform:translateX(0) rotate(3deg)} 50%{transform:translateX(-20%) rotate(-3deg)} }
+@keyframes sfWaveSlide3 { 0%,100%{transform:translateX(0) rotate(-1deg)} 50%{transform:translateX(10%) rotate(4deg)} }
+@keyframes sfWaveSlide4 { 0%,100%{transform:translateX(5%) rotate(2deg)} 50%{transform:translateX(-15%) rotate(-2deg)} }
 </style>
 <section class="snb-sf">
 
@@ -1232,6 +1249,12 @@ ul { list-style: none; padding: 0; margin: 0; }
     </div>
   </div>
 
+
+  <!-- Vagues animées bas -->
+  <div class="sf-bgwave sf-bgwave1"></div>
+  <div class="sf-bgwave sf-bgwave2"></div>
+  <div class="sf-bgwave sf-bgwave3"></div>
+  <div class="sf-bgwave sf-bgwave4"></div>
 
 </section>
 
