@@ -4549,6 +4549,19 @@ window.addEventListener('scroll', function() {
   text-align: center;
 }
 .snb-cf-title span { color: #323338 !important; }
+.snb-cf-gr {
+  background: linear-gradient(120deg, #E51981, #ff6ab0, #0250FF, #0891B2, #E51981, #ff6ab0) !important;
+  background-size: 200% 100% !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: snbCfGrad 4s ease-in-out infinite !important;
+}
+@keyframes snbCfGrad {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 /* === MOSAIC PHOTOS === */
 .snb-cf-photos { width: 100%; }
 .snb-cf-photos-wrap { position: relative; }
@@ -4760,7 +4773,7 @@ window.addEventListener('scroll', function() {
     <!-- CARD INFO -->
     <div class="snb-cf-card">
       <h2 class="snb-cf-title">
-        Votre borne photo livr&eacute;e en <span>48h partout</span> en France &#x1F514;
+        Votre borne photo livr&eacute;e en <span class="snb-cf-gr">48h partout en France</span> &#x1F514;
       </h2>
 
       <div class="snb-cf-photos">
