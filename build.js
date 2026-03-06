@@ -23,6 +23,8 @@ const allSections = [
 // Active sections to include in build (add modules one by one)
 const sections = [
   'header',
+  'hero',
+  'trust',
   'footer'
 ];
 
