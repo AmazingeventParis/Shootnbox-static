@@ -419,4 +419,58 @@ img { max-width: 100%; height: auto; }
 
   // Touch swipe (mobile + tablet)
   var startX = 0, startY = 0, dx = 0, isDragging = false, isScrolling = false;
+
+  carousel.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    dx = 0;
+    isDragging = true;
+    isScrolling = false;
+    track.style.transition = "none";
+  }, {passive: true});
+
+  carousel.addEventListener("touchmove", function(e) {
+    if (!isDragging) return;
+    var moveX = e.touches[0].clientX - startX;
+    var moveY = e.touches[0].clientY - startY;
+
+    // First significant move: decide if horizontal swipe or vertical scroll
+    if (!isScrolling && Math.abs(moveX) < 5 && Math.abs(moveY) < 5) return;
+    if (!isScrolling && Math.abs(moveY) > Math.abs(moveX)) {
+      // Vertical scroll — let browser handle it
+      isDragging = false;
+      return;
+    }
+    isScrolling = true;
+
+    // Horizontal swipe — prevent page scroll, move track
+    e.preventDefault();
+    dx = moveX;
+    var base = -pos * getCardW();
+    // Add resistance at edges
+    var newX = base + dx;
+    if (pos === 0 && dx > 0) newX = base + dx * 0.3;
+    if (pos >= getMaxPos() && dx < 0) newX = base + dx * 0.3;
+    track.style.transform = "translateX(" + newX + "px)";
+  }, {passive: false});
+
+  carousel.addEventListener("touchend", function() {
+    if (!isDragging && !isScrolling) return;
+    isDragging = false;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) slideTo(pos + 1, true);
+      else slideTo(pos - 1, true);
+    } else {
+      slideTo(pos, true);
+    }
+  }, {passive: true});
+
+  // Recalc on resize
+  window.addEventListener("resize", function() {
+    isMobile = window.innerWidth <= 768;
+    slideTo(pos, false);
+  });
+})();
+</script>
+
 </body></html>
