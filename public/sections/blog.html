@@ -1,0 +1,82 @@
+<style>
+.snb-blog { padding: 80px 20px; background: #FFF8EE; text-align: center; position: relative; overflow: hidden; }
+.snb-blog h2 { font-size: 36px; font-weight: 900; color: #323338; margin-bottom: 8px; }
+.snb-blog .snb-blog-sub { font-size: 16px; color: #888; margin-bottom: 40px; }
+.snb-blog-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  max-width: 1140px; margin: 0 auto 40px; text-align: left;
+}
+.snb-blog-card {
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.snb-blog-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+.snb-blog-card img { width: 100%; height: 200px; object-fit: cover; }
+.snb-blog-card-body { padding: 20px; }
+.snb-blog-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 10px;
+}
+.snb-blog-card h3 { font-size: 16px; font-weight: 700; color: #323338; margin-bottom: 8px; line-height: 1.4; }
+.snb-blog-card p { font-size: 13px; color: #888; line-height: 1.5; }
+.snb-blog-card .snb-blog-link { display: inline-block; margin-top: 12px; color: #E51981; font-weight: 700; font-size: 13px; }
+.snb-blog-cta {
+  display: inline-block; padding: 14px 36px; border-radius: 25px; font-weight: 700;
+  font-size: 15px; color: #fff; text-decoration: none;
+  background: linear-gradient(135deg, #E51981, #ff6eb4);
+  box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+  transition: all 0.3s ease; position: relative; overflow: hidden;
+}
+.snb-blog-cta:hover {
+  transform: translateY(-3px); box-shadow: 0 8px 30px rgba(229,25,129,0.4);
+}
+@media (max-width: 900px) {
+  .snb-blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .snb-blog-grid { grid-template-columns: 1fr; }
+  .snb-blog h2 { font-size: 28px; }
+}
+</style>
+
+<section class="snb-blog">
+  <h2>Shootnblog</h2>
+  <p class="snb-blog-sub">Conseils, tendances et inspirations pour vos evenements</p>
+  <div class="snb-blog-grid" id="snb-blog-grid">
+    <div style="text-align:center;padding:40px;color:#999;grid-column:1/-1;">Chargement des articles...</div>
+  </div>
+  <a href="https://shootnbox.fr/blog/" class="snb-blog-cta">Voir tous les articles</a>
+</section>
+
+<script>
+(function() {
+  var colors = ['#E51981','#0250FF','#FF7A00','#7828C8','#0891B2','#16A34A'];
+  fetch('https://shootnbox.fr/wp-json/wp/v2/posts?per_page=6&_embed')
+    .then(function(r) { return r.json(); })
+    .then(function(posts) {
+      var grid = document.getElementById('snb-blog-grid');
+      grid.innerHTML = '';
+      posts.forEach(function(post, i) {
+        var img = '';
+        try { img = post._embedded['wp:featuredmedia'][0].source_url; } catch(e) {}
+        var excerpt = post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 120) + '...';
+        var card = document.createElement('div');
+        card.className = 'snb-blog-card';
+        card.innerHTML =
+          (img ? '<img src="' + img + '" alt="' + post.title.rendered + '">' : '') +
+          '<div class="snb-blog-card-body">' +
+            '<span class="snb-blog-badge" style="background:' + colors[i % 6] + '">Article</span>' +
+            '<h3>' + post.title.rendered + '</h3>' +
+            '<p>' + excerpt + '</p>' +
+            '<a href="' + post.link + '" class="snb-blog-link">Lire la suite &rarr;</a>' +
+          '</div>';
+        card.onclick = function() { window.open(post.link, '_blank'); };
+        grid.appendChild(card);
+      });
+    })
+    .catch(function() {
+      document.getElementById('snb-blog-grid').innerHTML = '<div style="text-align:center;padding:40px;color:#999;grid-column:1/-1;">Blog non disponible</div>';
+    });
+})();
+</script>

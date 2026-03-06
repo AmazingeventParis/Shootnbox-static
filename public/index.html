@@ -4,121 +4,825 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Shootnbox - Location Photobooth | Staging</title>
+<title>Shootnbox - Location Photobooth</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Raleway',sans-serif; color:#323338; background:#FFF8EE; }
-a { text-decoration:none; color:inherit; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Raleway', sans-serif; color: #333; line-height: 1.6; background: #fff; }
+a { text-decoration: none; color: inherit; }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
 
-/* Staging banner */
-.staging-banner { background:#E51981; color:#fff; text-align:center; padding:8px; font-size:13px; font-weight:700; position:fixed; top:0; left:0; right:0; z-index:99999; }
-.staging-banner span { opacity:0.7; font-weight:400; margin-left:8px; }
+/* ============================================ */
+/* HERO                                         */
+/* ============================================ */
+.hero {
+  position: relative; overflow: hidden;
+  background: #0a0a12;
+  color: #fff; padding: 0;
+}
+.hero-photo {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('/images/vegas3.jpg') 70% center / cover no-repeat;
+}
+.hero-gradient {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to right,
+    #0a0a12 0%, #0a0a12 25%,
+    rgba(10,10,18,0.97) 32%, rgba(10,10,18,0.90) 38%,
+    rgba(10,10,18,0.78) 44%, rgba(10,10,18,0.60) 52%,
+    rgba(10,10,18,0.40) 60%, rgba(10,10,18,0.20) 70%,
+    rgba(10,10,18,0.08) 80%, transparent 90%
+  );
+  z-index: 1;
+}
+.hero-tint {
+  position: absolute; bottom: 0; right: 0;
+  width: 50%; height: 50%;
+  background: linear-gradient(to top left, rgba(229,25,129,0.2), transparent);
+  z-index: 1;
+}
+.hero .container {
+  position: relative; z-index: 2;
+  display: flex; align-items: center;
+  padding: 50px 20px 50px;
+  min-height: 520px;
+}
+.hero-left { max-width: 550px; }
+.hero .badge {
+  display: inline-block; background: rgba(251,191,36,0.15); color: #fbbf24;
+  padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700;
+  margin-bottom: 18px; border: 1px solid rgba(251,191,36,0.3);
+}
+.hero h1 {
+  font-size: 50px; font-weight: 900; color: #fff;
+  margin-bottom: 8px; line-height: 1.1; letter-spacing: -1px;
+}
+.hero h1 .accent { color: #E51981; }
+.hero h1 .hero-wave {
+  display: inline-block;
+  animation: hero-color-wave 4s ease-in-out infinite;
+}
+@keyframes hero-color-wave {
+  0%, 100% { color: #fff; }
+  30% { color: #E51981; }
+  60% { color: #4d8aff; }
+  85% { color: #fff; }
+}
+.hero .hero-tagline {
+  font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.5);
+  margin-bottom: 22px; letter-spacing: 2px; text-transform: uppercase;
+}
+.hero .sub1 {
+  font-size: 17px; color: rgba(255,255,255,0.7); margin-bottom: 22px; line-height: 1.6;
+  max-width: 480px;
+}
+.hero .sub1 strong { color: #fff; }
+.hero-proof {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+  padding: 12px 20px; border-radius: 14px;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+  width: fit-content;
+}
+.hero-proof .stars { color: #fbbf24; font-size: 18px; line-height: 1; }
+.hero-proof .proof-text { font-size: 14px; color: rgba(255,255,255,0.7); }
+.hero-proof .proof-text strong { color: #fff; font-size: 20px; font-weight: 900; }
+.hero-proof .divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); }
+.hero-proof .proof-logo { font-size: 12px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px; }
+.hero-proof .proof-logo .g-icon {
+  width: 20px; height: 20px; background: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 12px; color: #4285f4;
+}
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+.hero-buttons .btn-blue {
+  padding: 15px 34px; font-size: 16px;
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  box-shadow: 0 4px 20px rgba(229,25,129,0.35);
+}
+.hero-buttons .btn-blue:hover { box-shadow: 0 8px 30px rgba(229,25,129,0.5); }
+.hero-buttons .btn-outline { padding: 15px 34px; font-size: 16px; }
+.hero-perks { display: flex; gap: 20px; flex-wrap: wrap; }
+.hero-perks .perk {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: rgba(255,255,255,0.45);
+}
+.hero-perks .perk-icon {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(229,25,129,0.15); color: #E51981;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+}
+.hero-stats {
+  display: flex; gap: 28px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.hero-stat { display: flex; align-items: center; gap: 10px; }
+.hero-stat-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.hero-stat-icon.pink { background: rgba(229,25,129,0.15); color: #E51981; }
+.hero-stat-icon.blue { background: rgba(2,80,255,0.15); color: #4d8aff; }
+.hero-stat-number { font-size: 20px; font-weight: 900; color: #fff; line-height: 1.1; }
+.hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); }
 
-body { padding-top:36px; }
+/* Buttons */
+.btn {
+  display: inline-block; padding: 14px 32px; border-radius: 25px; font-weight: 700;
+  font-size: 16px; text-decoration: none; cursor: pointer; border: none;
+  font-family: 'Raleway', sans-serif; position: relative; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.btn::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+.btn:hover::before { left: 100%; }
+.btn-blue {
+  background: linear-gradient(135deg, #E51981, #ff6eb4); color: #fff;
+  box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+}
+.btn-blue:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(229,25,129,0.45);
+}
+.btn-outline {
+  background: transparent; color: #fff; border: 2px solid #fff;
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-3px) scale(1.05);
+}
+.btn-pink {
+  background: linear-gradient(135deg, #E51981, #ff6eb4); color: #fff;
+  box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+}
+.btn-pink:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(229,25,129,0.45);
+}
+.btn-white {
+  background: #fff; color: #323338; font-size: 18px; padding: 16px 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.btn-white:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
 
-/* Placeholder sections */
-.placeholder-section {
-  padding:80px 20px;
-  text-align:center;
-  border-bottom:1px solid rgba(0,0,0,0.05);
+/* ============================================ */
+/* TRUST                                        */
+/* ============================================ */
+.trust {
+  background: #f8f8fa; padding: 0; overflow: hidden;
+  position: relative; z-index: 5; margin-top: -28px;
 }
-.placeholder-section h2 {
-  font-size:24px;
-  font-weight:800;
-  color:#323338;
-  margin-bottom:8px;
+.trust-title-bar { text-align: center; padding: 0 0 8px; }
+.trust-title {
+  display: inline-block; background: #fff;
+  color: #323338; font-size: 15px; text-transform: uppercase;
+  letter-spacing: 4px; font-weight: 800;
+  padding: 14px 40px; border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.08);
 }
-.placeholder-section p {
-  color:#888;
-  font-size:14px;
+.trust-title span { color: #E51981; }
+.trust-track-wrapper {
+  position: relative; width: 100%; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
 }
+.trust-track {
+  display: flex; align-items: center; gap: 30px;
+  width: max-content; animation: scroll-logos 35s linear infinite; padding: 10px 0 0;
+}
+.trust-track:hover { animation-play-state: paused; }
+.trust-track img {
+  height: 110px; width: auto; object-fit: contain;
+  filter: grayscale(100%); opacity: 0.45;
+  transition: all 0.4s ease; flex-shrink: 0;
+}
+.trust-track img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.15); }
+@keyframes scroll-logos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================ */
+/* BORNES INTRO                                 */
+/* ============================================ */
+.bornes-intro { background: #fff; padding: 60px 20px 40px; text-align: center; }
+.bornes-intro .bi-line {
+  width: 80px; height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, #E51981, #0250FF);
+  margin: 0 auto 28px;
+}
+.bornes-intro-stats { display: flex; justify-content: center; gap: 30px; margin-bottom: 28px; }
+.bi-stat {
+  text-align: center; padding: 16px 28px; border-radius: 16px;
+  background: #f8f8fa; border: 1px solid #eee; transition: all 0.3s ease;
+}
+.bi-stat:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+.bi-stat-num { font-size: 32px; font-weight: 900; line-height: 1; }
+.bi-stat-num.pink { color: #E51981; }
+.bi-stat-num.blue { color: #0250FF; }
+.bi-stat-num.gold { color: #f59e0b; }
+.bi-stat-label {
+  font-size: 11px; color: #999; text-transform: uppercase;
+  letter-spacing: 1.5px; margin-top: 4px; font-weight: 600;
+}
+.bornes-intro h2 {
+  font-size: 48px; font-weight: 900; color: #323338;
+  margin-bottom: 14px; line-height: 1.15;
+}
+.bornes-intro h2 .wave {
+  display: inline-block; color: #323338;
+  animation: color-wave 4s ease-in-out infinite;
+}
+@keyframes color-wave {
+  0%, 100% { color: #323338; }
+  40% { color: #E51981; }
+  70% { color: #0250FF; }
+}
+.bornes-intro .bi-sub {
+  font-size: 17px; color: #888; max-width: 550px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ============================================ */
+/* NOS BORNES (cards)                           */
+/* ============================================ */
+.bornes { padding: 20px 20px 60px; background: #fff; }
+.snb-cards { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 10px; align-items: stretch; }
+.snb-card {
+  flex: 1; min-width: 230px; max-width: 270px;
+  background: #fff; border-radius: 20px; overflow: hidden;
+  text-align: center; cursor: pointer;
+  border: 2px solid rgba(0,0,0,0.04);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative; display: flex; flex-direction: column;
+}
+.snb-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, #E51981, #0250FF);
+  opacity: 0; transition: opacity 0.4s;
+}
+.snb-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  border-color: rgba(229,25,129,0.15);
+}
+.snb-card:hover::before { opacity: 1; }
+.snb-card-best {
+  border: 2px solid #E51981;
+  box-shadow: 0 4px 25px rgba(229,25,129,0.15);
+  transform: scale(1.03);
+}
+.snb-card-best::before { opacity: 1; height: 4px; background: linear-gradient(90deg, #E51981, #ff6eb4); }
+.snb-card-best:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 60px rgba(229,25,129,0.25);
+}
+.snb-card .snb-img img { width: 100%; height: 100%; object-fit: cover; }
+.snb-card .snb-img {
+  height: 220px;
+  background: linear-gradient(160deg, #f0f0f3, #e4e4e8);
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; font-size: 14px; position: relative; overflow: hidden;
+}
+.snb-card .snb-img::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+.snb-card:hover .snb-img::after { left: 150%; }
+.snb-card .snb-body { padding: 24px 20px 28px; display: flex; flex-direction: column; flex: 1; }
+.snb-card h3 { font-size: 22px; font-weight: 800; color: #323338; margin-bottom: 4px; }
+.snb-card .snb-subtitle { font-size: 12px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.snb-card .snb-price { font-size: 32px; font-weight: 900; color: #E51981; margin: 6px 0 14px; line-height: 1; }
+.snb-card .snb-feat { font-size: 13px; color: #666; text-align: left; padding: 0 6px; line-height: 1.8; margin-bottom: 6px; flex: 1; }
+.snb-card .snb-feat span { color: #E51981; font-weight: 700; margin-right: 4px; }
+.snb-card .snb-btn {
+  display: inline-block; padding: 12px 28px;
+  background: linear-gradient(135deg, #E51981, #ff6eb4);
+  color: #fff; border-radius: 25px; font-weight: 700;
+  text-decoration: none; font-size: 14px; margin-top: 14px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+}
+.snb-card .snb-btn::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+.snb-card .snb-btn:hover::before { left: 100%; }
+.snb-card .snb-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(229,25,129,0.45);
+}
+.snb-card .snb-btn-violet {
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+}
+.snb-badge {
+  position: absolute; top: 14px; right: -6px; z-index: 2;
+  background: linear-gradient(135deg, #E51981, #c41470); color: #fff;
+  padding: 6px 18px; font-size: 11px; font-weight: 800;
+  letter-spacing: 1.2px; border-radius: 6px 0 0 6px;
+  box-shadow: 0 3px 12px rgba(229,25,129,0.3);
+}
+.snb-badge::after {
+  content: ''; position: absolute; bottom: -6px; right: 0;
+  border-left: 6px solid #9e1160; border-bottom: 6px solid transparent;
+}
+
+/* ============================================ */
+/* EVENEMENTS                                   */
+/* ============================================ */
+.events { padding: 80px 20px; background: #FFF8EE; }
+.events h2, .avantages h2, .zones h2 { font-size: 36px; font-weight: 800; color: #E51981; margin-bottom: 12px; text-align: center; }
+.events .subtitle, .avantages .subtitle, .zones .subtitle { text-align: center; color: #666; max-width: 700px; margin: 0 auto; }
+.snb-evt { flex: 1; min-width: 220px; max-width: 260px; background: #fff; border-radius: 16px; overflow: hidden; text-align: center; transition: all 0.3s ease; }
+.snb-evt:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+.snb-evt .snb-evt-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.snb-evt .snb-evt-body { padding: 20px; }
+.snb-evt h3 { font-size: 18px; font-weight: 700; color: #323338; }
+.snb-evt p { font-size: 13px; color: #666; }
+.snb-evt a.snb-evt-link { color: #E51981; font-weight: 700; text-decoration: none; font-size: 14px; }
+
+/* ============================================ */
+/* AVANTAGES                                    */
+/* ============================================ */
+.avantages { padding: 80px 20px; background: #fff; }
+.av-grid { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+.av-item { flex: 1; min-width: 280px; max-width: 340px; text-align: center; padding: 30px 20px; }
+.av-icon { width: 70px; height: 70px; border-radius: 50%; background: #FFF8EE; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 30px; }
+.av-item h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: #323338; }
+.av-item p { font-size: 14px; color: #666; }
+
+/* ============================================ */
+/* ZONES                                        */
+/* ============================================ */
+.zones { padding: 80px 20px; background: #FFF8EE; }
+.villes { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+.snb-ville {
+  display: inline-block; padding: 10px 20px; background: #fff; border-radius: 30px;
+  font-weight: 600; font-size: 14px; color: #323338; text-decoration: none;
+  border: 1px solid #e0e0e0; position: relative; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.snb-ville::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+.snb-ville:hover::before { left: 100%; }
+.snb-ville:hover {
+  background: linear-gradient(135deg, #E51981, #ff6eb4); color: #fff; border-color: #E51981;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(229,25,129,0.45);
+}
+.snb-ville-main { font-weight: 700; }
+.snb-ville-all {
+  background: linear-gradient(135deg, #E51981, #ff6eb4); color: #fff; border-color: #E51981;
+  font-weight: 700; box-shadow: 0 4px 15px rgba(229,25,129,0.25);
+}
+.snb-ville-all:hover { background: linear-gradient(135deg, #c41470, #E51981); border-color: #c41470; }
+
+/* ============================================ */
+/* CTA FINAL                                    */
+/* ============================================ */
+.cta-final { padding: 80px 20px; text-align: center; background: linear-gradient(135deg, #E51981 0%, #8b1a9e 100%); color: #fff; }
+.cta-final h2 { font-size: 40px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+.cta-final .sub { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 30px; }
+.cta-contact { display: flex; justify-content: center; gap: 30px; margin-top: 24px; flex-wrap: wrap; font-size: 16px; font-weight: 600; }
+
+/* ============================================ */
+/* RESPONSIVE                                   */
+/* ============================================ */
+@media (max-width: 900px) {
+  .hero { min-height: 0; }
+  .hero-photo { width: 100%; height: 100%; opacity: 1; background-position: 35% center; }
+  .hero-gradient {
+    background: linear-gradient(to bottom,
+      rgba(10,10,18,0.75) 0%, rgba(10,10,18,0.6) 40%,
+      rgba(10,10,18,0.5) 70%, rgba(10,10,18,0.7) 100%
+    );
+  }
+  .hero-tint { display: none; }
+  .hero .container { padding: 40px 20px 50px; min-height: 0; }
+  .hero-left { max-width: 100%; text-align: center; }
+  .hero h1 { font-size: 36px; text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+  .hero .hero-tagline { font-size: 14px; letter-spacing: 1.5px; }
+  .hero .sub1 { font-size: 16px; text-shadow: 0 1px 10px rgba(0,0,0,0.4); }
+  .hero-buttons { justify-content: center; }
+  .hero-buttons .btn { width: 100%; max-width: 300px; text-align: center; }
+  .hero-proof { margin: 0 auto 28px; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); }
+  .hero-perks { justify-content: center; }
+  .hero-stats { justify-content: center; gap: 20px; }
+  .trust { padding: 0; margin-top: -22px; }
+  .trust-track img { height: 60px; }
+  .trust-track { gap: 20px; animation-duration: 22s; }
+  .trust-title { font-size: 12px; padding: 10px 24px; letter-spacing: 2px; }
+  .bornes-intro { padding: 40px 16px 30px; }
+  .bornes-intro h2 { font-size: 30px; }
+  .bornes-intro .bi-sub { font-size: 15px; }
+  .bornes-intro-stats { gap: 10px; flex-wrap: wrap; }
+  .bi-stat { padding: 12px 18px; }
+  .bi-stat-num { font-size: 24px; }
+}
+@media (max-width: 768px) {
+  .hero h1 { font-size: 32px; }
+  .bornes h2, .events h2, .avantages h2, .zones h2, .cta-final h2 { font-size: 28px; }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .bornes { padding: 20px 8px 60px; }
+  .bornes .container { padding: 0; }
+  .snb-cards { gap: 12px; flex-direction: column; align-items: stretch; }
+  .snb-card {
+    min-width: 0; max-width: 100%; width: 100%;
+    flex-direction: row; border-radius: 16px;
+  }
+  .snb-card-best { transform: scale(1); }
+  .snb-card .snb-img {
+    height: auto; width: 60%; min-height: 180px;
+    border-radius: 16px 0 0 16px; flex-shrink: 0;
+  }
+  .snb-card .snb-body { padding: 12px 14px; text-align: left; min-width: 0; }
+  .snb-card h3 { font-size: 18px; margin-bottom: 2px; }
+  .snb-card .snb-subtitle { font-size: 10px; margin-bottom: 4px; }
+  .snb-card .snb-price { font-size: 24px; margin: 4px 0 8px; }
+  .snb-card .snb-feat { font-size: 11px; line-height: 1.6; padding: 0; }
+  .snb-card .snb-btn { padding: 6px 14px; font-size: 11px; margin-top: 8px; width: auto; display: inline-block; white-space: nowrap; }
+  .snb-badge { top: 8px; right: -6px; padding: 4px 12px; font-size: 9px; }
+  .av-grid { gap: 16px; }
+  .av-item { min-width: 100%; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; }
+  .hero .container { padding: 30px 16px 40px; }
+  .hero-proof { padding: 10px 14px; gap: 10px; }
+  .hero-proof .proof-text strong { font-size: 18px; }
+  .hero-stat-number { font-size: 18px; }
+  .hero-stat-icon { width: 34px; height: 34px; font-size: 15px; }
+  .cta-final h2 { font-size: 28px; }
+}
+
+/* Section containers for loaded content */
+.section-loaded { min-height: 50px; }
 </style>
 </head>
 <body>
 
-<div class="staging-banner">
-  STAGING - Site de developpement
-  <span>Ne pas indexer</span>
-</div>
+<!-- HEADER (charge via fetch) -->
+<div id="section-header" class="section-loaded"></div>
 
-<!-- HERO placeholder -->
-<div class="placeholder-section" style="background:linear-gradient(135deg,#2d0535,#1a1a2e);color:#fff;min-height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-  <h2 style="color:#fff;font-size:42px;">Shootnbox</h2>
-  <p style="color:rgba(255,255,255,0.7);font-size:18px;">Section Hero - a integrer</p>
-</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-tint"></div>
+  <div class="container">
+    <div class="hero-left">
+      <h1>
+        <span class="hero-wave" style="animation-delay:0s">Des sourires.</span><br>
+        <span class="hero-wave" style="animation-delay:0.4s">Des fous rires.</span><br>
+        <span class="hero-wave" style="animation-delay:0.8s">Createur de souvenirs.</span>
+      </h1>
+      <p class="hero-tagline">L'animation photo qui marque les esprits</p>
+      <p class="sub1">Location de <strong>photobooth professionnel</strong> pour vos mariages, soirees d'entreprise et evenements. Livraison et installation dans <strong>toute la France</strong>.</p>
+      <div class="hero-proof">
+        <div><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+        <div class="proof-text"><strong>4.8</strong>/5</div>
+        <div class="divider"></div>
+        <div class="proof-logo"><span class="g-icon">G</span> 1 192 avis Google</div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-icon pink">&#127881;</div>
+          <div><div class="hero-stat-number">+8 000</div><div class="hero-stat-label">evenements animes</div></div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon blue">&#128179;</div>
+          <div><div class="hero-stat-number">4x</div><div class="hero-stat-label">paiement sans frais</div></div>
+        </div>
+      </div>
+      <div class="hero-buttons">
+        <a href="https://shootnbox.fr/reservation/" class="btn btn-blue">Obtenir un devis gratuit</a>
+        <a href="#bornes" class="btn btn-outline">Voir nos bornes</a>
+      </div>
+      <div class="hero-perks">
+        <div class="perk"><span class="perk-icon">&#10003;</span> Installation en 5 min</div>
+        <div class="perk"><span class="perk-icon">&#10003;</span> Appareil Reflex Canon</div>
+        <div class="perk"><span class="perk-icon">&#10003;</span> 600 impressions incluses</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- Trust placeholder -->
-<div class="placeholder-section">
-  <h2>Ils nous font confiance</h2>
-  <p>Section logos clients - a integrer</p>
-</div>
+<!-- TRUST (logos defilants) -->
+<section class="trust">
+  <div class="trust-title-bar">
+    <span class="trust-title">Ils nous font <span>confiance</span></span>
+  </div>
+  <div class="trust-track-wrapper">
+    <div class="trust-track">
+      <img src="/images/logos/logo ils nous font confiance_Plan de travail 1.jpg" alt="Amazon">
+      <img src="/images/logos/logo ils nous font confiance-02.jpg" alt="Chanel">
+      <img src="/images/logos/logo ils nous font confiance-03.jpg" alt="Client 3">
+      <img src="/images/logos/logo ils nous font confiance-04.jpg" alt="Client 4">
+      <img src="/images/logos/logo ils nous font confiance-05.jpg" alt="La Banque Postale">
+      <img src="/images/logos/logo ils nous font confiance-06.jpg" alt="Client 6">
+      <img src="/images/logos/logo ils nous font confiance-07.jpg" alt="Client 7">
+      <img src="/images/logos/logo ils nous font confiance-08.jpg" alt="Client 8">
+      <img src="/images/logos/logo ils nous font confiance-09.jpg" alt="Client 9">
+      <img src="/images/logos/logo ils nous font confiance-10.jpg" alt="Black Trombone">
+      <img src="/images/logos/logo ils nous font confiance-11.jpg" alt="Client 11">
+      <img src="/images/logos/logo ils nous font confiance-12.jpg" alt="Client 12">
+      <img src="/images/logos/logo ils nous font confiance-13.jpg" alt="Client 13">
+      <img src="/images/logos/logo ils nous font confiance-14.jpg" alt="Client 14">
+      <img src="/images/logos/logo ils nous font confiance-15.jpg" alt="Client 15">
+      <img src="/images/logos/logo ils nous font confiance-16.jpg" alt="Client 16">
+      <img src="/images/logos/logo ils nous font confiance-17.jpg" alt="Client 17">
+      <img src="/images/logos/logo ils nous font confiance-18.jpg" alt="Client 18">
+      <img src="/images/logos/logo ils nous font confiance-19.jpg" alt="Client 19">
+      <img src="/images/logos/logo ils nous font confiance_Plan de travail 1.jpg" alt="Amazon">
+      <img src="/images/logos/logo ils nous font confiance-02.jpg" alt="Chanel">
+      <img src="/images/logos/logo ils nous font confiance-03.jpg" alt="Client 3">
+      <img src="/images/logos/logo ils nous font confiance-04.jpg" alt="Client 4">
+      <img src="/images/logos/logo ils nous font confiance-05.jpg" alt="La Banque Postale">
+      <img src="/images/logos/logo ils nous font confiance-06.jpg" alt="Client 6">
+      <img src="/images/logos/logo ils nous font confiance-07.jpg" alt="Client 7">
+      <img src="/images/logos/logo ils nous font confiance-08.jpg" alt="Client 8">
+      <img src="/images/logos/logo ils nous font confiance-09.jpg" alt="Client 9">
+      <img src="/images/logos/logo ils nous font confiance-10.jpg" alt="Black Trombone">
+      <img src="/images/logos/logo ils nous font confiance-11.jpg" alt="Client 11">
+      <img src="/images/logos/logo ils nous font confiance-12.jpg" alt="Client 12">
+      <img src="/images/logos/logo ils nous font confiance-13.jpg" alt="Client 13">
+      <img src="/images/logos/logo ils nous font confiance-14.jpg" alt="Client 14">
+      <img src="/images/logos/logo ils nous font confiance-15.jpg" alt="Client 15">
+      <img src="/images/logos/logo ils nous font confiance-16.jpg" alt="Client 16">
+      <img src="/images/logos/logo ils nous font confiance-17.jpg" alt="Client 17">
+      <img src="/images/logos/logo ils nous font confiance-18.jpg" alt="Client 18">
+      <img src="/images/logos/logo ils nous font confiance-19.jpg" alt="Client 19">
+    </div>
+  </div>
+</section>
 
-<!-- Bento placeholder -->
-<div class="placeholder-section">
-  <h2>Bento Grid</h2>
-  <p>Section bento - a integrer</p>
-</div>
+<!-- BENTO (charge via fetch) -->
+<div id="section-bento" class="section-loaded"></div>
 
-<!-- Bornes placeholder -->
-<div class="placeholder-section">
-  <h2>Nos Bornes Photo</h2>
-  <p>Section bornes - a integrer</p>
-</div>
+<!-- BORNES INTRO -->
+<section class="bornes-intro" id="bornes">
+  <div class="container">
+    <div class="bi-line"></div>
+    <h2>
+      <span class="wave" style="animation-delay:0s">Trouvez la borne parfaite</span><br>
+      <span class="wave" style="animation-delay:0.5s">pour votre evenement</span>
+    </h2>
+    <p class="bi-sub">Materiel professionnel Canon, livraison et installation en 5 minutes. Choisissez parmi nos 4 modeles.</p>
+    <div class="bornes-intro-stats">
+      <div class="bi-stat">
+        <div class="bi-stat-num pink">+8 000</div>
+        <div class="bi-stat-label">Evenements</div>
+      </div>
+      <div class="bi-stat">
+        <div class="bi-stat-num gold">4.8/5</div>
+        <div class="bi-stat-label">Note Google</div>
+      </div>
+      <div class="bi-stat">
+        <div class="bi-stat-num blue">4x</div>
+        <div class="bi-stat-label">Sans frais</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- Stats placeholder -->
-<div class="placeholder-section">
-  <h2>Shootnbox en chiffres</h2>
-  <p>Section stats - a integrer</p>
-</div>
+<!-- NOS BORNES -->
+<section class="bornes">
+  <div class="container">
+    <div class="snb-cards">
+      <div class="snb-card">
+        <div class="snb-img"><img src="/images/bornes/Ring.jpg" alt="Borne photo Ring Shootnbox"></div>
+        <div class="snb-body">
+          <h3>Le Ring</h3>
+          <p class="snb-subtitle">Sans impressions / 100% numerique</p>
+          <p class="snb-price">199&euro;</p>
+          <p class="snb-feat"><span>&#10003;</span> Photos illimitees<br><span>&#10003;</span> Partage par mail illimites<br><span>&#10003;</span> Photos, Gifs &amp; Boomerangs<br><span>&#10003;</span> Contour photo<br><span>&#10003;</span> Galerie Web</p>
+          <a href="https://shootnbox.fr/le-ring/" class="snb-btn">En savoir plus</a>
+        </div>
+      </div>
+      <div class="snb-card snb-card-best">
+        <div class="snb-img"><img src="/images/bornes/Vegas.jpg" alt="Borne photo Vegas Shootnbox"><span class="snb-badge">BEST-SELLER</span></div>
+        <div class="snb-body">
+          <h3>Le Vegas</h3>
+          <p class="snb-subtitle">600 impressions</p>
+          <p class="snb-price">399&euro;</p>
+          <p class="snb-feat"><span>&#10003;</span> 600 impressions<br><span>&#10003;</span> Photos illimitees<br><span>&#10003;</span> Impression en 9 secondes<br><span>&#10003;</span> Contour photo<br><span>&#10003;</span> Galerie Web</p>
+          <a href="https://shootnbox.fr/le-vegas/" class="snb-btn snb-btn-violet">Decouvrir le Vegas</a>
+        </div>
+      </div>
+      <div class="snb-card">
+        <div class="snb-img"><img src="/images/bornes/Miroir.jpg" alt="Borne photo Miroir Shootnbox"></div>
+        <div class="snb-body">
+          <h3>Le Miroir</h3>
+          <p class="snb-subtitle">100% impression</p>
+          <p class="snb-price">799&euro;</p>
+          <p class="snb-feat"><span>&#10003;</span> 600 impressions<br><span>&#10003;</span> Photos illimitees<br><span>&#10003;</span> Contour personnalise<br><span>&#10003;</span> Eclairage flash<br><span>&#10003;</span> Galerie Web</p>
+          <a href="https://shootnbox.fr/le-miroir/" class="snb-btn">En savoir plus</a>
+        </div>
+      </div>
+      <div class="snb-card">
+        <div class="snb-img"><img src="/images/bornes/Spinner.jpg" alt="Borne photo Spinner 360 Shootnbox"></div>
+        <div class="snb-body">
+          <h3>Le Spinner</h3>
+          <p class="snb-subtitle">Videobooth</p>
+          <p class="snb-price">899&euro;</p>
+          <p class="snb-feat"><span>&#10003;</span> Videos illimitees<br><span>&#10003;</span> Partage par mail illimites<br><span>&#10003;</span> Technicien present<br><span>&#10003;</span> Effets speciaux<br><span>&#10003;</span> Contour personnalise<br><span>&#10003;</span> Galerie Web</p>
+          <a href="https://shootnbox.fr/le-spinner-360/" class="snb-btn">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- AVIS - Section complete qui fonctionne -->
-<div id="section-avis"></div>
+<!-- STATS (charge via fetch) -->
+<div id="section-stats" class="section-loaded"></div>
+
+<!-- EVENEMENTS -->
+<section class="events">
+  <div class="container">
+    <h2>Une borne photo pour chaque evenement</h2>
+    <p class="subtitle">Quel que soit votre projet, nous avons la solution d'animation photo adaptee.</p>
+    <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 30px;">
+      <div class="snb-evt">
+        <div class="snb-evt-img" style="background: linear-gradient(135deg, #f8d7e8, #e8b4d0); color: #8b5575;">&#128141; Mariage</div>
+        <div class="snb-evt-body">
+          <h3>Mariage</h3>
+          <p>Des souvenirs uniques pour le plus beau jour de votre vie. Cadre personnalise a vos couleurs.</p>
+          <a href="https://shootnbox.fr/mariage/" class="snb-evt-link">Decouvrir l'offre mariage &rarr;</a>
+        </div>
+      </div>
+      <div class="snb-evt">
+        <div class="snb-evt-img" style="background: linear-gradient(135deg, #d7e8f8, #b4cde8); color: #5575a0;">&#127970; Entreprise</div>
+        <div class="snb-evt-body">
+          <h3>Entreprise</h3>
+          <p>Seminaire, lancement produit, soiree de fin d'annee. Option marque blanche disponible.</p>
+          <a href="https://shootnbox.fr/entreprise/" class="snb-evt-link">Decouvrir l'offre pro &rarr;</a>
+        </div>
+      </div>
+      <div class="snb-evt">
+        <div class="snb-evt-img" style="background: linear-gradient(135deg, #f8ead7, #e8d4b4); color: #8b7355;">&#127874; Anniversaire</div>
+        <div class="snb-evt-body">
+          <h3>Anniversaire</h3>
+          <p>De 7 a 77 ans, le photobooth est l'animation qui met tout le monde d'accord.</p>
+          <a href="https://shootnbox.fr/anniversaire/" class="snb-evt-link">Decouvrir l'offre anniversaire &rarr;</a>
+        </div>
+      </div>
+      <div class="snb-evt">
+        <div class="snb-evt-img" style="background: linear-gradient(135deg, #d7f8e8, #b4e8c8); color: #558b70;">&#127915; Salon</div>
+        <div class="snb-evt-body">
+          <h3>Salon &amp; Evenement</h3>
+          <p>Stand professionnel, inauguration, fete publique. Borne personnalisable a 100%.</p>
+          <a href="https://shootnbox.fr/contact/" class="snb-evt-link">Nous contacter &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVANTAGES -->
+<section class="avantages">
+  <div class="container">
+    <h2>Pourquoi choisir Shootnbox ?</h2>
+    <p class="subtitle">Depuis 2019, nous avons anime plus de 8 000 evenements. Voici ce qui fait la difference.</p>
+    <div class="av-grid">
+      <div class="av-item">
+        <div class="av-icon">&#128247;</div>
+        <h3>Qualite Reflex Canon</h3>
+        <p>Pas de webcam. Un vrai appareil photo Reflex pour des cliches dignes d'un studio pro.</p>
+      </div>
+      <div class="av-item">
+        <div class="av-icon">&#128438;</div>
+        <h3>600 impressions incluses</h3>
+        <p>Papier professionnel DNP, impression en 9 secondes. Format 10x15 ou bandelette.</p>
+      </div>
+      <div class="av-item">
+        <div class="av-icon">&#9201;</div>
+        <h3>Installation en 5 minutes</h3>
+        <p>Plug &amp; Play. Une seule prise a brancher. Valise a roulettes qui tient dans un coffre.</p>
+      </div>
+      <div class="av-item">
+        <div class="av-icon">&#127467;&#127479;</div>
+        <h3>Fabrique en France</h3>
+        <p>Conception, fabrication et assemblage dans notre usine en Normandie. Circuit court.</p>
+      </div>
+      <div class="av-item">
+        <div class="av-icon">&#128666;</div>
+        <h3>Livraison France entiere</h3>
+        <p>Retrait gratuit Paris/Bordeaux. Livraison et installation par nos equipes partout en France.</p>
+      </div>
+      <div class="av-item">
+        <div class="av-icon">&#128222;</div>
+        <h3>Assistance 7j/7</h3>
+        <p>Support technique par telephone de 8h a 22h. On ne vous laisse jamais tomber.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS (charge via fetch - carousel complet avec 31 avis) -->
+<div id="section-avis" class="section-loaded"></div>
+
+<!-- SAVOIR-FAIRE (charge via fetch) -->
+<div id="section-savoirfaire" class="section-loaded"></div>
+
+<!-- EQUIPE (charge via fetch) -->
+<div id="section-equipe" class="section-loaded"></div>
+
+<!-- CARTE FRANCE (charge via fetch) -->
+<div id="section-carte" class="section-loaded"></div>
+
+<!-- ZONES -->
+<section class="zones">
+  <div class="container">
+    <h2>Location de photobooth partout en France</h2>
+    <p class="subtitle">Retrait gratuit a Paris-Montreuil et Bordeaux-Begles, ou livraison partout en France par nos equipes.</p>
+    <div class="villes">
+      <a href="https://shootnbox.fr/location-photobooth-paris/" class="snb-ville snb-ville-main">Paris &amp; Ile-de-France</a>
+      <a href="https://shootnbox.fr/location-photobooth-bordeaux/" class="snb-ville snb-ville-main">Bordeaux</a>
+      <a href="https://shootnbox.fr/location-photobooth-lyon/" class="snb-ville">Lyon</a>
+      <a href="https://shootnbox.fr/location-photobooth-marseille/" class="snb-ville">Marseille</a>
+      <a href="https://shootnbox.fr/location-photobooth-toulouse/" class="snb-ville">Toulouse</a>
+      <a href="https://shootnbox.fr/location-photobooth-lille/" class="snb-ville">Lille</a>
+      <a href="https://shootnbox.fr/location-photobooth-nantes/" class="snb-ville">Nantes</a>
+      <a href="#" class="snb-ville">Strasbourg</a>
+      <a href="#" class="snb-ville">Nice</a>
+      <a href="#" class="snb-ville">Montpellier</a>
+      <a href="#" class="snb-ville">Rennes</a>
+      <a href="#" class="snb-ville">Reims</a>
+      <a href="https://shootnbox.fr/toutes-les-villes/" class="snb-ville snb-ville-all">Voir toutes les villes &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG (charge via fetch) -->
+<div id="section-blog" class="section-loaded"></div>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="container">
+    <h2>Pret a animer votre evenement ?</h2>
+    <p class="sub">Obtenez votre devis gratuit en moins de 2 minutes. Reponse instantanee, pas de CB requise.</p>
+    <a href="https://shootnbox.fr/reservation/" class="btn btn-white">Obtenir mon devis gratuit</a>
+    <div class="cta-contact">
+      <span>&#128222; 01.45.01.66.66</span>
+      <span>&#128222; 05.32.96.96.96</span>
+      <span>&#9993; contact@shootnbox.fr</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (charge via fetch) -->
+<div id="section-footer" class="section-loaded"></div>
+
+<!-- Chargement des sections externes -->
 <script>
-// Charge la section avis depuis le fichier separe
-fetch('/sections/avis.html')
-  .then(function(r){return r.text();})
-  .then(function(html){
-    document.getElementById('section-avis').innerHTML = html;
-    // Execute les scripts inline
-    var scripts = document.getElementById('section-avis').querySelectorAll('script');
-    scripts.forEach(function(s){
-      var ns = document.createElement('script');
-      ns.textContent = s.textContent;
-      document.body.appendChild(ns);
+function loadSection(id, url) {
+  fetch(url)
+    .then(function(r) { return r.text(); })
+    .then(function(html) {
+      var el = document.getElementById(id);
+      el.innerHTML = html;
+      // Execute inline scripts
+      var scripts = el.querySelectorAll('script');
+      scripts.forEach(function(s) {
+        var ns = document.createElement('script');
+        if (s.src) {
+          ns.src = s.src;
+        } else {
+          ns.textContent = s.textContent;
+        }
+        document.body.appendChild(ns);
+      });
+    })
+    .catch(function(err) {
+      console.warn('Section ' + id + ' not loaded:', err);
     });
-  });
+}
+
+// Charger toutes les sections
+loadSection('section-header', '/sections/header.html');
+loadSection('section-bento', '/sections/bento.html');
+loadSection('section-stats', '/sections/stats.html');
+loadSection('section-avis', '/sections/avis.html');
+loadSection('section-savoirfaire', '/sections/savoirfaire.html');
+loadSection('section-equipe', '/sections/equipe.html');
+loadSection('section-carte', '/sections/carte-france.html');
+loadSection('section-blog', '/sections/blog.html');
+loadSection('section-footer', '/sections/footer.html');
 </script>
-
-<!-- Savoir-faire placeholder -->
-<div class="placeholder-section">
-  <h2>Savoir-faire &amp; Valeurs</h2>
-  <p>Section savoir-faire - a integrer</p>
-</div>
-
-<!-- Equipe placeholder -->
-<div class="placeholder-section">
-  <h2>Notre Equipe</h2>
-  <p>Section equipe - a integrer</p>
-</div>
-
-<!-- Mur placeholder -->
-<div class="placeholder-section">
-  <h2>Mur de Souvenirs</h2>
-  <p>Section mur photos - a integrer</p>
-</div>
-
-<!-- Blog placeholder -->
-<div class="placeholder-section">
-  <h2>Shootnblog</h2>
-  <p>Section blog - a integrer</p>
-</div>
-
-<!-- Footer placeholder -->
-<div class="placeholder-section" style="background:#1a1a2e;color:#fff;">
-  <h2 style="color:#fff;">Footer</h2>
-  <p style="color:rgba(255,255,255,0.5);">Footer - a integrer</p>
-</div>
 
 </body>
 </html>
