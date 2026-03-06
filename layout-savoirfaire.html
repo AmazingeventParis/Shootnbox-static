@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Positionnement photos Savoir-faire</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Raleway', Arial, sans-serif; background: #f5f5f5; padding: 30px; }
+h1 { font-size: 22px; margin-bottom: 10px; color: #323338; }
+h2 { font-size: 16px; margin: 30px 0 10px; color: #666; }
+.section { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+.row { display: flex; gap: 8px; margin-bottom: 10px; }
+.photo-box { flex: 1; position: relative; border-radius: 12px; overflow: hidden; }
+.photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-box .label { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: #fff; font-weight: 800; font-size: 14px; text-shadow: 0 2px 6px rgba(0,0,0,0.5); text-transform: uppercase; }
+.controls { display: flex; gap: 20px; align-items: center; padding: 8px 0; }
+.controls label { font-size: 13px; font-weight: 600; color: #444; min-width: 120px; }
+.controls input[type=range] { flex: 1; max-width: 300px; }
+.controls .val { font-size: 13px; font-weight: 700; color: #E51981; min-width: 40px; }
+.row-top .photo-box { height: 400px; }
+.row-bottom .photo-box { aspect-ratio: 1/1; }
+#output { margin-top: 20px; background: #1a1a2e; color: #0f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre-wrap; }
+button { background: #E51981; color: #fff; border: none; padding: 12px 28px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 15px; }
+button:hover { background: #c0136d; }
+</style>
+</head>
+<body>
+
+<h1>Positionnement des photos - Savoir-faire</h1>
+
+<div class="section">
+<h2>Photos du haut (PARIS / BORD DE MER / EVENEMENT)</h2>
+<div class="row row-top">
+  <div class="photo-box" id="box-paris">
+    <img id="img-paris" src="public/images/savoirfaire/sf-paris-15-scaled.jpg">
+    <div class="label">Paris</div>
+  </div>
+  <div class="photo-box" id="box-borddemer">
+    <img id="img-borddemer" src="public/images/savoirfaire/sf-borddemer-15.jpg">
+    <div class="label">Bord de mer</div>
+  </div>
+  <div class="photo-box" id="box-evenement">
+    <img id="img-evenement" src="public/images/savoirfaire/sf-evenement-15.jpg">
+    <div class="label">Evenement</div>
+  </div>
+</div>
+<div class="controls">
+  <label>Paris (vertical)</label>
+  <input type="range" min="0" max="100" value="0" oninput="setPos('paris','v',this.value)">
+  <span class="val" id="val-paris-v">0%</span>
+</div>
+<div class="controls">
+  <label>Bord de mer (vertical)</label>
+  <input type="range" min="0" max="100" value="0" oninput="setPos('borddemer','v',this.value)">
+  <span class="val" id="val-borddemer-v">0%</span>
+</div>
+<div class="controls">
+  <label>Evenement (vertical)</label>
+  <input type="range" min="0" max="100" value="0" oninput="setPos('evenement','v',this.value)">
+  <span class="val" id="val-evenement-v">0%</span>
+</div>
+</div>
+
+<div class="section">
+<h2>Photos du bas (MARIAGE / GALA / SOIREE)</h2>
+<div class="row row-bottom">
+  <div class="photo-box" id="box-mariage">
+    <img id="img-mariage" src="public/images/savoirfaire/sf-mariage.png">
+    <div class="label">Mariage</div>
+  </div>
+  <div class="photo-box" id="box-gala">
+    <img id="img-gala" src="public/images/savoirfaire/sf-gala.png">
+    <div class="label">Gala</div>
+  </div>
+  <div class="photo-box" id="box-soiree">
+    <img id="img-soiree" src="public/images/savoirfaire/sf-soiree.png">
+    <div class="label">Soiree</div>
+  </div>
+</div>
+<div class="controls">
+  <label>Mariage (vertical)</label>
+  <input type="range" min="0" max="100" value="10" oninput="setPos('mariage','v',this.value)">
+  <span class="val" id="val-mariage-v">10%</span>
+</div>
+<div class="controls">
+  <label>Gala (vertical)</label>
+  <input type="range" min="0" max="100" value="10" oninput="setPos('gala','v',this.value)">
+  <span class="val" id="val-gala-v">10%</span>
+</div>
+<div class="controls">
+  <label>Soiree (vertical)</label>
+  <input type="range" min="0" max="100" value="0" oninput="setPos('soiree','v',this.value)">
+  <span class="val" id="val-soiree-v">0%</span>
+</div>
+</div>
+
+<div class="section">
+<h2>Grande photo (NRJ)</h2>
+<div style="width:50%;position:relative;border-radius:12px;overflow:hidden;">
+  <img id="img-nrj" src="public/images/savoirfaire/sf-nrj-7.jpg" style="width:100%;height:350px;object-fit:cover;display:block;">
+</div>
+<div class="controls">
+  <label>NRJ (vertical)</label>
+  <input type="range" min="0" max="100" value="50" oninput="setPos('nrj','v',this.value)">
+  <span class="val" id="val-nrj-v">50%</span>
+</div>
+</div>
+
+<button onclick="genCode()">Generer le code CSS</button>
+<div id="output"></div>
+
+<script>
+var positions = {
+  paris: {v:0}, borddemer: {v:0}, evenement: {v:0},
+  mariage: {v:10}, gala: {v:10}, soiree: {v:0},
+  nrj: {v:50}
+};
+
+function setPos(name, axis, val) {
+  positions[name][axis] = parseInt(val);
+  document.getElementById('val-'+name+'-'+axis).textContent = val+'%';
+  var img = document.getElementById('img-'+name);
+  img.style.objectPosition = 'center ' + val + '%';
+}
+
+// Init
+['paris','borddemer','evenement'].forEach(function(n){ setPos(n,'v',0); });
+['mariage','gala'].forEach(function(n){ setPos(n,'v',10); });
+setPos('soiree','v',0);
+setPos('nrj','v',50);
+
+function genCode() {
+  var out = '/* Photos du haut */\n';
+  out += '.sf-gallery-row .sf-gallery-photo:nth-child(1) img { object-position: center '+positions.paris.v+'%; } /* Paris */\n';
+  out += '.sf-gallery-row .sf-gallery-photo:nth-child(2) img { object-position: center '+positions.borddemer.v+'%; } /* Bord de mer */\n';
+  out += '.sf-gallery-row .sf-gallery-photo:nth-child(3) img { object-position: center '+positions.evenement.v+'%; } /* Evenement */\n\n';
+  out += '/* Photos du bas */\n';
+  out += '.sf-bottom-frame .sf-gallery-photo:nth-child(1) img { object-position: center '+positions.mariage.v+'%; } /* Mariage */\n';
+  out += '.sf-bottom-frame .sf-gallery-photo:nth-child(2) img { object-position: center '+positions.gala.v+'%; } /* Gala */\n';
+  out += '.sf-bottom-frame .sf-gallery-photo:nth-child(3) img { object-position: center '+positions.soiree.v+'%; } /* Soiree */\n\n';
+  out += '/* NRJ */\n';
+  out += '.sf-features-row .sf-feat-photo img { object-position: center '+positions.nrj.v+'%; }\n';
+  document.getElementById('output').textContent = out;
+}
+</script>
+
+</body>
+</html>
