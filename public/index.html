@@ -3865,13 +3865,14 @@ window.addEventListener('scroll', function() {
 
 
 .snb-mur {
-  padding: 120px 0 40px;
+  padding: 80px 0 40px;
   background: linear-gradient(175deg, #1a1a2e 0%, #16162a 40%, #1e1335 70%, #1a1a2e 100%);
   position: relative;
   overflow: hidden;
   font-family: 'Raleway', sans-serif !important;
   z-index: 100;
   isolation: isolate;
+  clip-path: polygon(0 60px, 100% 0, 100% 100%, 0 100%);
 }
 .snb-mur::before {
   content: '';
@@ -3879,10 +3880,9 @@ window.addEventListener('scroll', function() {
   top: 0; left: 0; right: 0;
   height: 90px;
   background: linear-gradient(75deg, #E51981, #7828C8 40%, #0250FF 70%, #E51981);
-  clip-path: polygon(0 0, 100% 72px, 100% 84px, 0 12px);
+  clip-path: polygon(0 60px, 100% 0, 100% 4px, 0 64px);
   z-index: 3;
-  filter: blur(4px);
-  opacity: 0.6;
+  opacity: 0.8;
 }
 .sm-glow {
   position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px);
