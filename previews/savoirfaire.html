@@ -992,6 +992,18 @@ ul { list-style: none; padding: 0; margin: 0; }
 @keyframes sfWaveSlide2 { 0%,100%{transform:translateX(0) rotate(3deg)} 50%{transform:translateX(-20%) rotate(-3deg)} }
 @keyframes sfWaveSlide3 { 0%,100%{transform:translateX(0) rotate(-1deg)} 50%{transform:translateX(10%) rotate(4deg)} }
 @keyframes sfWaveSlide4 { 0%,100%{transform:translateX(5%) rotate(2deg)} 50%{transform:translateX(-15%) rotate(-2deg)} }
+.sf-card-wave {
+  position: absolute;
+  width: 200%;
+  height: 120px;
+  opacity: 0.06;
+  left: -50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.sf-card-wave1 { bottom:18%; background:linear-gradient(90deg,transparent 0%,#E51981 20%,#ff6eb4 40%,transparent 60%,#E51981 80%,transparent 100%); border-radius:40%; animation:sfWaveSlide1 14s ease-in-out infinite; }
+.sf-card-wave2 { bottom:8%; height:100px; background:linear-gradient(90deg,transparent 0%,#0250FF 25%,#5c9fff 50%,transparent 75%); border-radius:45%; animation:sfWaveSlide2 18s ease-in-out infinite; }
+.sf-card-wave3 { bottom:0%; height:110px; background:linear-gradient(90deg,transparent 0%,#7828C8 20%,#b47eff 50%,transparent 70%,#7828C8 90%,transparent 100%); border-radius:42%; animation:sfWaveSlide3 22s ease-in-out infinite; }
 </style>
 <section class="snb-sf">
 
@@ -1165,6 +1177,11 @@ ul { list-style: none; padding: 0; margin: 0; }
           </a>
           <div class="sf-cta-note">R&eacute;ponse sous 24h<br>sans engagement</div>
         </div>
+
+        <!-- Vagues animées sous la carte -->
+        <div class="sf-card-wave sf-card-wave1"></div>
+        <div class="sf-card-wave sf-card-wave2"></div>
+        <div class="sf-card-wave sf-card-wave3"></div>
 
       </div>
 
