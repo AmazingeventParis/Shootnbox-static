@@ -1389,9 +1389,9 @@ window.addEventListener('scroll', function() {
   .snb-avis .avis-inner{flex-direction:column;gap:20px;align-items:center;}
   .snb-avis .avis-business{width:100%;max-width:300px;}
   .snb-avis .avis-nav{display:none !important;}
-  .snb-avis .avis-carousel{width:100%;padding:0;overflow:hidden;}
-  .snb-avis .avis-carousel::-webkit-scrollbar{display:none;}
-  .snb-avis .avis-track{width:max-content;gap:12px;padding:0 4px;}
+  .snb-avis .avis-carousel{width:100%;padding:0;overflow:visible;}
+  .snb-avis .avis-track{display:flex;gap:12px;padding:0 16px;overflow-x:scroll;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;transform:none !important;transition:none !important;}
+  .snb-avis .avis-track::-webkit-scrollbar{display:none;}
   .snb-avis .avis-card{flex:0 0 85vw;min-width:85vw;max-width:85vw;scroll-snap-align:start;}
 }
 @media(max-width:480px){
@@ -1715,54 +1715,28 @@ window.addEventListener('scroll', function() {
 
 <script>
 (function(){
+  // Mobile: native scroll only, no JS needed
+  if (window.innerWidth <= 768) return;
+
+  // Desktop: arrow navigation with translateX
   var carousel = document.querySelector(".avis-carousel");
   if (!carousel) return;
   var track = document.getElementById("snbAvisTrack");
   if (!track) return;
   var cards = track.querySelectorAll(".avis-card");
   var pos = 0;
-  var isMobile = window.innerWidth <= 768;
-
-  function getCardW() { return cards[0].offsetWidth + (isMobile ? 12 : 16); }
-  function getVisible() { return isMobile ? 1 : (carousel.offsetWidth < 900 ? 2 : 3); }
+  function getCardW() { return cards[0].offsetWidth + 16; }
+  function getVisible() { return carousel.offsetWidth < 900 ? 2 : 3; }
   function getMaxPos() { return Math.max(0, cards.length - getVisible()); }
   function slideTo(p, animate) {
     pos = Math.max(0, Math.min(p, getMaxPos()));
     track.style.transition = animate ? "transform 0.3s ease" : "none";
     track.style.transform = "translateX(" + (-pos * getCardW()) + "px)";
   }
-
-  // Desktop arrows
   var prevBtn = document.getElementById("snbAvisPrev");
   var nextBtn = document.getElementById("snbAvisNext");
   if (prevBtn) prevBtn.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); slideTo(pos - 1, true); });
   if (nextBtn) nextBtn.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); slideTo(pos + 1, true); });
-
-  // Touch swipe for mobile
-  var startX = 0, startY = 0, dragging = false, dx = 0;
-  track.addEventListener("touchstart", function(e) {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    dragging = true;
-    dx = 0;
-    track.style.transition = "none";
-  }, {passive: true});
-  track.addEventListener("touchmove", function(e) {
-    if (!dragging) return;
-    dx = e.touches[0].clientX - startX;
-    var dy = Math.abs(e.touches[0].clientY - startY);
-    if (dy > Math.abs(dx)) { dragging = false; return; }
-    e.preventDefault();
-    var base = -pos * getCardW();
-    track.style.transform = "translateX(" + (base + dx) + "px)";
-  }, {passive: false});
-  track.addEventListener("touchend", function() {
-    if (!dragging) return;
-    dragging = false;
-    if (dx < -50) slideTo(pos + 1, true);
-    else if (dx > 50) slideTo(pos - 1, true);
-    else slideTo(pos, true);
-  }, {passive: true});
 })();
 </script>
 </main>
