@@ -403,6 +403,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   var pos = 0;
   var isMobile = window.innerWidth <= 768;
 
+  // Debug: red border if carousel found, green on first touch
+  carousel.style.outline = "3px solid red";
+  carousel.addEventListener("touchstart", function(){carousel.style.outline="3px solid lime";}, {once:true});
+
   function getGap() { return isMobile ? 12 : 16; }
   function getCardW() { return cards[0].offsetWidth + getGap(); }
   function getVisible() { return isMobile ? 1 : (carousel.offsetWidth < 900 ? 2 : 3); }
