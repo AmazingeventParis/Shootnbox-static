@@ -15,7 +15,6 @@ const sections = [
   'equipe',
   'savoirfaire',
   'mur',
-  'carte-france',
   'blog',
   'footer'
 ];
@@ -84,7 +83,6 @@ ${sectionContents['avis']}
 ${sectionContents['equipe']}
 ${sectionContents['savoirfaire']}
 ${sectionContents['mur']}
-${sectionContents['carte-france']}
 ${sectionContents['blog']}
 </main>
 
