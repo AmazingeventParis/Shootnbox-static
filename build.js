@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const sectionsDir = path.join(__dirname, 'public', 'sections');
+const previewsDir = path.join(__dirname, 'previews');
 
-// Order of sections matching the WordPress home-v2
-const sections = [
+// All sections in order (matching WordPress home-v2)
+const allSections = [
   'header',
   'hero',
   'trust',
@@ -20,30 +20,33 @@ const sections = [
   'footer'
 ];
 
-// Read all section files
+// Active sections to include in build (add modules one by one)
+const sections = [
+  'header',
+  'footer'
+];
+
+// Extract body content from preview files (already validated, no demo content)
 const sectionContents = {};
 for (const name of sections) {
-  const filePath = path.join(sectionsDir, `${name}.html`);
+  const filePath = path.join(previewsDir, `${name}.html`);
   let content = fs.readFileSync(filePath, 'utf8');
 
-  // Clean up header: remove demo content
-  if (name === 'header') {
-    // Remove everything from "<!-- ========== CONTENU DEMO ==========" to the script tag
-    content = content.replace(/<!-- ========== CONTENU DEMO ==========[\s\S]*?(?=<script>)/, '');
-    // Also remove .demo CSS block
-    content = content.replace(/\/\* ========== CONTENU DEMO ========== \*\/[\s\S]*?(?=<\/style>)/, '');
+  // Extract content between <body> and </body>
+  const bodyMatch = content.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+  if (!bodyMatch) {
+    console.error(`ERROR: Could not extract <body> from ${name}.html`);
+    process.exit(1);
   }
+  content = bodyMatch[1].trim();
 
-  // Clean up footer: remove demo content and Vamtam overrides
-  if (name === 'footer') {
-    // Remove demo CSS
-    content = content.replace(/\/\* Contenu demo pour scroller \*\/[\s\S]*?\.demo p \{[^}]*\}/, '');
-    // Remove Vamtam override CSS block (not needed without WordPress)
-    content = content.replace(/\/\* ={5,}\s*\n\s*OVERRIDES VAMTAM[\s\S]*?(?=<\/style>)/, '');
-    // Remove demo HTML
-    content = content.replace(/<!-- Contenu demo -->[\s\S]*?<\/div>\s*\n/, '');
-  }
+  // Fix image paths back: ../public/images/ -> /images/
+  content = content.replace(/src="\.\.\/public\/images\//g, 'src="/images/');
+  content = content.replace(/url\(\.\.\/public\/images\//g, 'url(/images/');
+  content = content.replace(/url\('\.\.\/public\/images\//g, "url('/images/");
 
+  // Fix logo path: ../public/logo -> /logo
+  content = content.replace(/src="\.\.\/public\/logo/g, 'src="/logo');
 
   sectionContents[name] = content;
 }
@@ -75,17 +78,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 ${sectionContents['header']}
 
 <main class="snb-page-content">
-${sectionContents['hero']}
-${sectionContents['trust']}
-${sectionContents['bento']}
-${sectionContents['bornes']}
-${sectionContents['stats']}
-${sectionContents['avis']}
-${sectionContents['equipe']}
-${sectionContents['savoirfaire']}
-${sectionContents['mur']}
-${sectionContents['carte-france']}
-${sectionContents['blog']}
+${sections.filter(s => s !== 'header' && s !== 'footer' && sectionContents[s]).map(s => sectionContents[s]).join('\n\n')}
 </main>
 
 ${sectionContents['footer']}
