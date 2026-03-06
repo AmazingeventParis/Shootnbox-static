@@ -4382,9 +4382,6 @@ window.addEventListener('scroll', function() {
 
 })();
 </script>
-
-<div style="background:red;color:white;font-size:40px;padding:40px;text-align:center;z-index:9999;position:relative;">DEBUG: ICI COMMENCE LA CARTE DE FRANCE</div>
-
 <style>
 
     /* body resets removed for embedded use */
@@ -4548,8 +4545,6 @@ window.addEventListener('scroll', function() {
       gap: 40px;
       position: relative;
       z-index: 1;
-      background: red !important;
-      min-height: 200px;
     }
 
     .carte-left {
@@ -4904,9 +4899,14 @@ window.addEventListener('scroll', function() {
       .agence-mosaic { grid-template-rows: 110px 80px; }
       .agence-mosaic-bottom .agence-mosaic-cell { height: 70px; }
     }
+    .carte-wrapper {
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+      background: #fff;
+    }
   </style>
-<!-- Carte de France -->
-<div style="position:relative; overflow:hidden;">
+<div class="carte-wrapper">
 <!-- Fond anime -->
 <div class="carte-bg">
   <div class="carte-bg-blob carte-bg-blob1"></div>
@@ -5172,7 +5172,8 @@ window.addEventListener('scroll', function() {
     </div>
   </div>
 </section>
-</div><!-- /carte wrapper -->
+
+</div><!-- /carte-wrapper -->
 
 <script>
 (function() {

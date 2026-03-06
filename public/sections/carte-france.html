@@ -515,7 +515,14 @@
       .agence-mosaic { grid-template-rows: 110px 80px; }
       .agence-mosaic-bottom .agence-mosaic-cell { height: 70px; }
     }
+    .carte-wrapper {
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+      background: #fff;
+    }
   </style>
+<div class="carte-wrapper">
 <!-- Fond anime -->
 <div class="carte-bg">
   <div class="carte-bg-blob carte-bg-blob1"></div>
@@ -781,6 +788,8 @@
     </div>
   </div>
 </section>
+
+</div><!-- /carte-wrapper -->
 
 <script>
 (function() {
