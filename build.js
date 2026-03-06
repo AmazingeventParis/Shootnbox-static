@@ -29,6 +29,7 @@ const sections = [
   'stats',
   'avis',
   'equipe',
+  'savoirfaire',
   'footer'
 ];
 
