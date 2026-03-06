@@ -455,7 +455,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   var wrap = document.querySelector('.sm-strip-wrap');
 
   /* ── Filtres ── */
-  var speeds = { all: '45s', paysage: '30s', portrait: '25s', slim: '15s' };
+  var isMobile = window.innerWidth <= 540;
+  var speeds = isMobile
+    ? { all: '20s', paysage: '12s', portrait: '10s', slim: '8s' }
+    : { all: '45s', paysage: '30s', portrait: '25s', slim: '15s' };
 
   btns.forEach(function(btn) {
     btn.addEventListener('click', function(e) {
