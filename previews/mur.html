@@ -485,7 +485,7 @@ ul { list-style: none; padding: 0; margin: 0; }
       if (isMobile) {
         dur = Math.max(8, Math.round(20 * (visibleCount / allCount)));
       } else {
-        var desktopSpeeds = { all: 45, paysage: 30, portrait: 25, slim: 15 };
+        var desktopSpeeds = { all: 45, paysage: 45, portrait: 25, slim: 15 };
         dur = desktopSpeeds[filter] || 45;
       }
       setTimeout(function() {
