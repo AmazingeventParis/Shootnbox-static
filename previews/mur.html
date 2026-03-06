@@ -308,7 +308,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   .sm-photo img { height: 150px !important; }
   .sm-photo.slim img { height: 200px !important; }
   .sm-photo:nth-child(n+16) { display: none !important; }
-  .sm-strip { animation-duration: 20s !important; gap: 10px !important; }
+  .sm-strip { animation: smSlide 20s linear infinite !important; gap: 10px !important; }
   .sm-strip-wrap { margin-bottom: 30px !important; padding: 6px 0 !important; }
   .sm-strip-wrap::before, .sm-strip-wrap::after { width: 40px !important; }
   /* Pas de hover sur mobile */
@@ -468,7 +468,7 @@ ul { list-style: none; padding: 0; margin: 0; }
       btn.classList.add('active');
       var filter = btn.getAttribute('data-filter');
 
-      strip.style.animation = 'none';
+      strip.style.setProperty('animation', 'none', 'important');
       photos.forEach(function(p) {
         if (filter === 'all' || p.getAttribute('data-cat') === filter) {
           p.classList.remove('hidden');
@@ -476,7 +476,7 @@ ul { list-style: none; padding: 0; margin: 0; }
           p.classList.add('hidden');
         }
       });
-      var dur = speeds[filter] || '45s';
+      var dur = speeds[filter] || '20s';
       setTimeout(function() {
         strip.style.setProperty('animation', 'smSlide ' + dur + ' linear infinite', 'important');
       }, 50);
