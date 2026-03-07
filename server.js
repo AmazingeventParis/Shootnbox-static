@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const fs = require('fs');
@@ -13,6 +14,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ShootnboxSEO2026';
 // Active sessions (in-memory, reset on restart)
 const sessions = new Map();
 
+// Gzip/Brotli compression for all responses
+app.use(compression());
 app.use(express.json({ limit: '5mb' }));
 app.use(cookieParser());
 
@@ -319,8 +322,15 @@ app.use((req, res, next) => {
   res.type('html').send(html);
 });
 
-// Static files
-app.use(express.static('public'));
+// Static files with cache headers
+app.use(express.static('public', {
+  maxAge: '7d',          // cache images/css/js for 7 days
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache'); // always revalidate HTML
+    }
+  }
+}));
 
 // SPA fallback
 app.get('*', (req, res) => {
