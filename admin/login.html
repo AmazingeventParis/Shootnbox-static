@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Shootnbox - Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #141425 0%, #2d0535 100%);
+  font-family: 'Raleway', sans-serif;
+}
+.login-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+}
+.login-logo {
+  font-size: 28px;
+  font-weight: 900;
+  font-style: italic;
+  color: #323338;
+  margin-bottom: 6px;
+}
+.login-logo span { color: #E51981; }
+.login-subtitle {
+  font-size: 13px;
+  color: #999;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+.login-field {
+  position: relative;
+  margin-bottom: 20px;
+}
+.login-field input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.login-field input:focus {
+  border-color: #E51981;
+}
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(229,25,129,0.35);
+}
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(229,25,129,0.5);
+}
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.login-error {
+  color: #E51981;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 12px;
+  display: none;
+}
+.login-error.show { display: block; }
+</style>
+</head>
+<body>
+<div class="login-card">
+  <div class="login-logo">Shoot<span>n</span>box</div>
+  <div class="login-subtitle">Edition du site</div>
+  <form id="loginForm">
+    <div class="login-field">
+      <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="login-btn" id="loginBtn">Se connecter</button>
+    <div class="login-error" id="loginError">Mot de passe incorrect</div>
+  </form>
+</div>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const error = document.getElementById('loginError');
+  btn.disabled = true;
+  btn.textContent = 'Connexion...';
+  error.classList.remove('show');
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: document.getElementById('password').value })
+    });
+    if (res.ok) {
+      window.location.href = '/';
+    } else {
+      error.classList.add('show');
+    }
+  } catch (err) {
+    error.textContent = 'Erreur de connexion';
+    error.classList.add('show');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Se connecter';
+});
+</script>
+</body>
+</html>

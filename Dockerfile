@@ -1,5 +1,13 @@
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY .htpasswd /etc/nginx/conf.d/.htpasswd
-COPY public /usr/share/nginx/html
-EXPOSE 80
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --production
+
+COPY . .
+RUN node build.js
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]
