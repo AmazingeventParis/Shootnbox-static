@@ -218,8 +218,9 @@ function postProcess(html) {
   const editableClasses = [
     '.hero-subtitle', '.hero-tagline',
     '.card-sub',
-    '.equipe-subtitle', '.eq-card-text', '.eq-reass-quote',
-    '.sf-card-desc', '.sf-engage-desc',
+    '.trust-title',
+    '.equipe-subtitle', '.eq-card-text', '.eq-card-label', '.eq-reass-quote',
+    '.sf-card-desc', '.sf-engage-desc', '.sf-feature-text',
     '.sm-subtitle',
     '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
     '.snb-bl-title', '.snb-bl-subtitle',
