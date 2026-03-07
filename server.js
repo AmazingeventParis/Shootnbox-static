@@ -134,7 +134,11 @@ const editableClasses = [
   '.trust-title',
   '.equipe-subtitle', '.eq-card-text', '.eq-card-label', '.eq-reass-quote',
   '.sf-card-desc', '.sf-engage-desc', '.sf-feature-text',
-  '.sm-subtitle',
+  '.sf-cta-note', '.sf-review-text', '.sf-engage-sub',
+  '.sf-stat-n', '.sf-stat-l',
+  '.sf-gallery-caption', '.sf-gallery-label',
+  '.stat-label',
+  '.sm-subtitle', '.sm-cta-sub',
   '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
   '.snb-bl-title', '.snb-bl-subtitle',
   '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc'
