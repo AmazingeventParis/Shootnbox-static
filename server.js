@@ -223,7 +223,12 @@ app.post('/api/save', requireAuth, (req, res) => {
       }
 
       // Rebuild
-      execSync('node build.js', { cwd: __dirname, timeout: 30000 });
+      try {
+        execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
+      } catch (buildErr) {
+        console.error('Build error:', buildErr.stderr ? buildErr.stderr.toString() : buildErr.message);
+        throw new Error('Build failed: ' + (buildErr.stderr ? buildErr.stderr.toString().slice(0, 200) : buildErr.message));
+      }
     }
 
     res.json({ success: true, message: 'Sauvegardé' });

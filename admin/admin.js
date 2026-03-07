@@ -382,14 +382,20 @@
         })
       });
 
-      if (!saveRes.ok) throw new Error('Erreur sauvegarde');
+      if (!saveRes.ok) {
+        const errData = await saveRes.json().catch(() => ({}));
+        throw new Error(errData.error || 'Erreur sauvegarde (' + saveRes.status + ')');
+      }
       showToast('Sauvegarde OK, reconstruction...', 'success');
 
       btn.textContent = 'Reconstruction...';
 
       // Rebuild site
       const deployRes = await fetch('/api/deploy', { method: 'POST' });
-      if (!deployRes.ok) throw new Error('Erreur reconstruction');
+      if (!deployRes.ok) {
+        const errData = await deployRes.json().catch(() => ({}));
+        throw new Error(errData.error || 'Erreur reconstruction (' + deployRes.status + ')');
+      }
 
       showToast('Modifications appliquees !', 'success');
 
