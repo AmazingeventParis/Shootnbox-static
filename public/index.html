@@ -53,7 +53,7 @@
                 <div class="snb-mega-card-name">Borne Ring</div>
                 <div class="snb-mega-card-desc">L'anneau lumineux iconique</div>
               </div>
-              <div class="snb-mega-card-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+              <div class="snb-mega-card-cta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
             </a>
             <a href="/borne-photo-vegas/" class="snb-mega-card card-vegas">
               <div class="snb-mega-card-img">
@@ -63,7 +63,7 @@
                 <div class="snb-mega-card-name">Borne Vegas</div>
                 <div class="snb-mega-card-desc">Le photobooth glamour</div>
               </div>
-              <div class="snb-mega-card-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+              <div class="snb-mega-card-cta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
             </a>
             <a href="/borne-photo-miroir/" class="snb-mega-card card-miroir">
               <div class="snb-mega-card-img">
@@ -73,7 +73,7 @@
                 <div class="snb-mega-card-name">Borne Miroir</div>
                 <div class="snb-mega-card-desc">Le miroir magique interactif</div>
               </div>
-              <div class="snb-mega-card-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+              <div class="snb-mega-card-cta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
             </a>
             <a href="/borne-photo-spinner/" class="snb-mega-card card-spinner">
               <div class="snb-mega-card-img">
@@ -83,7 +83,7 @@
                 <div class="snb-mega-card-name">Spinner 360°</div>
                 <div class="snb-mega-card-desc">La video 360 virale</div>
               </div>
-              <div class="snb-mega-card-cta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+              <div class="snb-mega-card-cta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
             </a>
           </div>
           <a href="/nos-bornes/" class="snb-mega-footer">Voir toutes les bornes</a>
@@ -439,8 +439,8 @@ window.addEventListener('scroll', function() {
       </div>
     </div>
     <div class="avis-carousel">
-      <button type="button" class="avis-nav nav-prev" id="snbAvisPrev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-      <button type="button" class="avis-nav nav-next" id="snbAvisNext"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+      <button type="button" class="avis-nav nav-prev" id="snbAvisPrev" aria-label="Avis précédents"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button type="button" class="avis-nav nav-next" id="snbAvisNext" aria-label="Avis suivants"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
       <div class="avis-track" id="snbAvisTrack">
 <div class="avis-card">
         <div class="avis-header">
@@ -1700,8 +1700,8 @@ window.addEventListener('scroll', function() {
     </div>
 
     <div class="snb-bl-grid-wrap" style="position:relative;padding:0 60px;">
-      <button id="snbBlPrev" class="snb-bl-arrow snb-bl-arrow-left" onclick="snbBlNav(-1)" disabled="" style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:2px solid #E51981;background:white;color:#E51981;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:20px;transition:all 0.3s;">❮</button>
-      <button id="snbBlNext" class="snb-bl-arrow snb-bl-arrow-right" onclick="snbBlNav(1)" style="position:absolute;right:0;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:2px solid #E51981;background:white;color:#E51981;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:20px;transition:all 0.3s;">❯</button>
+      <button id="snbBlPrev" class="snb-bl-arrow snb-bl-arrow-left" onclick="snbBlNav(-1)" disabled="" aria-label="Articles précédents" style="position:absolute;left:0;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:2px solid #E51981;background:white;color:#E51981;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:20px;transition:all 0.3s;">❮</button>
+      <button id="snbBlNext" class="snb-bl-arrow snb-bl-arrow-right" onclick="snbBlNav(1)" aria-label="Articles suivants" style="position:absolute;right:0;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:2px solid #E51981;background:white;color:#E51981;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:20px;transition:all 0.3s;">❯</button>
       <div id="snbBlGrid" class="snb-bl-grid">
       <article class="snb-bl-card snb-bl-cat-rose">
         <div class="snb-bl-card-imgwrap">
