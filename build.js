@@ -160,6 +160,93 @@ function postProcess(html) {
     return `<a ${attrs}>`;
   });
 
+  // 3. Add data-snb-edit attributes for admin inline editing
+  // Identify sections by their unique class names
+  const sectionMap = {
+    'snb-hero': 'hero',
+    'snb-bento': 'bento',
+    'trust': 'trust',
+    'snb-stats': 'stats',
+    'snb-avis': 'avis',
+    'snb-equipe': 'equipe',
+    'snb-sf': 'savoirfaire',
+    'snb-mur': 'mur',
+    'snb-cf': 'carte-france',
+    'snb-bl': 'blog',
+    'snb-footer': 'footer',
+    'snb-ft': 'footer'
+  };
+
+  // Use cheerio to add data attributes to editable elements
+  const cheerio = require('cheerio');
+  const $ = cheerio.load(html, { decodeEntities: false });
+
+  // Track indices per section
+  const sectionCounters = {};
+
+  // Editable tags
+  const editableTags = ['h1', 'h2', 'h3', 'h4'];
+  const editableSelectors = editableTags.join(',');
+
+  $(editableSelectors).each((i, el) => {
+    const $el = $(el);
+    // Skip admin elements
+    if ($el.closest('#snb-admin-bar, #snb-seo-panel').length) return;
+    // Skip empty elements
+    if (!$el.text().trim()) return;
+
+    // Determine section
+    let section = 'unknown';
+    for (const [cls, name] of Object.entries(sectionMap)) {
+      if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
+        section = name;
+        break;
+      }
+    }
+
+    // Increment counter
+    if (!sectionCounters[section]) sectionCounters[section] = 0;
+    const idx = sectionCounters[section]++;
+    const tag = el.tagName.toLowerCase();
+
+    $el.attr('data-snb-edit', `${section}:${idx}:${tag}`);
+    $el.attr('data-snb-section', section);
+    $el.attr('data-snb-tag', tag.toUpperCase());
+  });
+
+  // Also make key paragraphs/subtitles editable
+  const editableClasses = [
+    '.hero-subtitle', '.hero-tagline',
+    '.card-sub',
+    '.equipe-subtitle', '.eq-card-text', '.eq-reass-quote',
+    '.sf-card-desc', '.sf-engage-desc',
+    '.sm-subtitle',
+    '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
+    '.snb-bl-title', '.snb-bl-subtitle',
+    '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc'
+  ];
+  editableClasses.forEach(sel => {
+    $(sel).each((i, el) => {
+      const $el = $(el);
+      if ($el.attr('data-snb-edit')) return; // Already tagged
+      let section = 'unknown';
+      for (const [cls, name] of Object.entries(sectionMap)) {
+        if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
+          section = name;
+          break;
+        }
+      }
+      if (!sectionCounters[section]) sectionCounters[section] = 0;
+      const idx = sectionCounters[section]++;
+      const tag = el.tagName.toLowerCase();
+      $el.attr('data-snb-edit', `${section}:${idx}:${tag}`);
+      $el.attr('data-snb-section', section);
+      $el.attr('data-snb-tag', tag.toUpperCase());
+    });
+  });
+
+  html = $.html();
+
   return html;
 }
 

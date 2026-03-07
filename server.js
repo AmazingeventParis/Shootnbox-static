@@ -130,8 +130,13 @@ app.get('/api/page/:slug', requireAuth, (req, res) => {
 const editableTags = ['h1', 'h2', 'h3', 'h4'];
 const editableClasses = [
   '.hero-subtitle', '.hero-tagline',
+  '.card-sub',
+  '.equipe-subtitle', '.eq-card-text', '.eq-reass-quote',
+  '.sf-card-desc', '.sf-engage-desc',
+  '.sm-subtitle',
   '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
-  '.snb-bl-title', '.snb-ft-cta-title', '.snb-ft-cta-text'
+  '.snb-bl-title', '.snb-bl-subtitle',
+  '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc'
 ];
 
 // Find the nth editable element in a preview's HTML (replicates build.js counting)
