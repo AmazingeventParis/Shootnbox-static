@@ -212,6 +212,53 @@ ${sectionContents['footer']}
 // Apply Lighthouse optimizations
 html = postProcess(html);
 
+// ===== CSS EXTRACTION & MINIFICATION =====
+// Critical sections to keep inline (above the fold): global, header, hero
+const criticalSections = ['HEADER', 'hero'];
+
+function minifyCSS(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')        // remove comments
+    .replace(/\s*\n\s*/g, '')                 // remove newlines
+    .replace(/\s*{\s*/g, '{')                 // remove spaces around {
+    .replace(/\s*}\s*/g, '}')                 // remove spaces around }
+    .replace(/\s*:\s*/g, ':')                 // remove spaces around :
+    .replace(/\s*;\s*/g, ';')                 // remove spaces around ;
+    .replace(/\s*,\s*/g, ',')                 // remove spaces around ,
+    .replace(/;}/g, '}')                      // remove last semicolon
+    .replace(/\s{2,}/g, ' ')                  // collapse multiple spaces
+    .trim();
+}
+
+// Extract all <style> blocks
+const styleBlocks = [];
+let blockIndex = 0;
+html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, css) => {
+  blockIndex++;
+  const isCritical = blockIndex <= 3; // blocks 1-3 = global, header, hero
+  styleBlocks.push({ css, isCritical, index: blockIndex });
+  if (isCritical) {
+    return `<style>${minifyCSS(css)}</style>`;
+  }
+  return ''; // remove non-critical inline styles
+});
+
+// Write non-critical CSS to external file
+const nonCriticalCSS = styleBlocks
+  .filter(b => !b.isCritical)
+  .map(b => b.css)
+  .join('\n');
+const minified = minifyCSS(nonCriticalCSS);
+fs.writeFileSync(path.join(__dirname, 'public', 'styles.css'), minified, 'utf8');
+
+// Add link to external CSS (deferred loading)
+html = html.replace('</head>',
+  `<link rel="preload" as="style" href="/styles.css" onload="this.onload=null;this.rel='stylesheet'">\n<noscript><link rel="stylesheet" href="/styles.css"></noscript>\n</head>`
+);
+
+console.log(`Critical CSS (inline): ${styleBlocks.filter(b=>b.isCritical).reduce((s,b)=>s+b.css.length,0)/1024|0} KB`);
+console.log(`External CSS (styles.css): ${(minified.length/1024).toFixed(1)} KB (minified from ${(nonCriticalCSS.length/1024).toFixed(1)} KB)`);
+
 fs.writeFileSync(path.join(__dirname, 'public', 'index.html'), html, 'utf8');
 console.log('index.html built successfully!');
 console.log(`Size: ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`);
