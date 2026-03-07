@@ -8,6 +8,6 @@ RUN npm ci --production
 COPY . .
 RUN node build.js
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "server.js"]

@@ -7,7 +7,7 @@ const { execSync } = require('child_process');
 const cheerio = require('cheerio');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ShootnboxSEO2026';
 
 // Active sessions (in-memory, reset on restart)
