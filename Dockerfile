@@ -6,7 +6,6 @@ COPY package.json package-lock.json ./
 RUN npm ci --production
 
 COPY . .
-RUN node build.js
 
 EXPOSE 80
 
