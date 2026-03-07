@@ -130,6 +130,10 @@
   // ===== INIT EDITABLE ELEMENTS =====
   function initEditableElements() {
     const editables = document.querySelectorAll('[data-snb-edit]');
+    console.log('[SNB Admin] Found', editables.length, 'editable elements');
+    if (editables.length === 0) {
+      showToast('Aucun element editable trouve !', 'error');
+    }
 
     editables.forEach(el => {
       const id = el.getAttribute('data-snb-edit');

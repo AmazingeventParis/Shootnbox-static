@@ -112,48 +112,43 @@ body.snb-admin-mode .snb-page-content {
 
 /* ===== EDITABLE ELEMENTS ===== */
 [data-snb-edit] {
-  position: relative;
-  outline: 2px dashed rgba(229,25,129,0.3);
+  position: relative !important;
+  outline: 3px dashed rgba(229,25,129,0.5) !important;
   outline-offset: 4px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: outline-color 0.2s, background 0.2s;
+  z-index: 10 !important;
 }
 
 [data-snb-edit]:hover {
-  outline-color: rgba(229,25,129,0.6);
+  outline-color: rgba(229,25,129,0.8) !important;
 }
 
 [data-snb-edit]:focus {
-  outline: 2px solid #E51981;
+  outline: 3px solid #E51981 !important;
   outline-offset: 4px;
   background: rgba(229,25,129,0.05);
 }
 
-/* Badge showing tag type */
+/* Badge showing tag type — always visible */
 [data-snb-edit]::after {
   content: attr(data-snb-tag);
   position: absolute;
-  top: -12px;
+  top: -14px;
   right: -2px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
   font-family: 'Raleway', sans-serif;
   color: #fff;
   background: #E51981;
-  padding: 1px 6px;
+  padding: 2px 8px;
   border-radius: 4px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s;
-  z-index: 10;
-}
-
-[data-snb-edit]:hover::after,
-[data-snb-edit]:focus::after {
-  opacity: 1;
+  opacity: 1 !important;
+  z-index: 11;
 }
 
 /* Modified indicator */
