@@ -274,6 +274,7 @@ let html = `<!DOCTYPE html>
 <link rel="preload" as="image" href="/images/vegas-hero-group.webp" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://shootnbox.fr">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800;1,900&family=Outfit:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800;1,900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 <style>
@@ -350,6 +351,38 @@ html = html.replace('</head>',
 
 console.log(`Critical CSS (inline): ${styleBlocks.filter(b=>b.isCritical).reduce((s,b)=>s+b.css.length,0)/1024|0} KB`);
 console.log(`External CSS (styles.css): ${(minified.length/1024).toFixed(1)} KB (minified from ${(nonCriticalCSS.length/1024).toFixed(1)} KB)`);
+
+// ===== SCRIPT EXTRACTION =====
+// Extract all inline <script> blocks to external deferred file
+const scriptBlocks = [];
+html = html.replace(/<script>([\s\S]*?)<\/script>/gi, (match, js) => {
+  const trimmed = js.trim();
+  if (!trimmed) return '';
+  scriptBlocks.push(trimmed);
+  return ''; // remove inline script
+});
+
+if (scriptBlocks.length > 0) {
+  // defer attribute ensures DOM is fully parsed before execution
+  const allScripts = scriptBlocks.join('\n');
+  fs.writeFileSync(path.join(__dirname, 'public', 'scripts.js'), allScripts, 'utf8');
+  // Add deferred script tag before </body>
+  html = html.replace('</body>', `<script src="/scripts.js" defer></script>\n</body>`);
+  console.log(`Scripts: ${scriptBlocks.length} blocks extracted to scripts.js (${(allScripts.length/1024).toFixed(1)} KB)`);
+}
+
+// ===== HTML MINIFICATION =====
+const htmlSizeBefore = Buffer.byteLength(html);
+// Remove HTML comments (keep conditional comments)
+html = html.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
+// Collapse multiple blank lines to single newline
+html = html.replace(/\n\s*\n\s*\n/g, '\n');
+// Remove leading whitespace on lines (but preserve content)
+html = html.replace(/\n\s{2,}/g, '\n');
+// Remove empty lines
+html = html.replace(/\n\s*\n/g, '\n');
+const htmlSizeAfter = Buffer.byteLength(html);
+console.log(`HTML minified: ${(htmlSizeBefore/1024).toFixed(1)} KB → ${(htmlSizeAfter/1024).toFixed(1)} KB (-${((htmlSizeBefore-htmlSizeAfter)/1024).toFixed(1)} KB)`);
 
 fs.writeFileSync(path.join(__dirname, 'public', 'index.html'), html, 'utf8');
 console.log('index.html built successfully!');
