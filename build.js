@@ -3,37 +3,37 @@ const path = require('path');
 
 const previewsDir = path.join(__dirname, 'previews');
 
-// All sections in order (matching WordPress home-v2)
-const allSections = [
-  'header',
-  'hero',
-  'trust',
-  'bento',
-  'bornes',
-  'stats',
-  'avis',
-  'equipe',
-  'savoirfaire',
-  'mur',
-  'carte-france',
-  'blog',
-  'footer'
-];
-
-// Active sections to include in build (add modules one by one)
-const sections = [
-  'header',
-  'hero',
-  'trust',
-  'bento',
-  'stats',
-  'avis',
-  'equipe',
-  'savoirfaire',
-  'mur',
-  'carte-france',
-  'blog',
-  'footer'
+// ===== PAGES CONFIGURATION =====
+const pages = [
+  {
+    slug: 'home',
+    output: 'public/index.html',
+    title: 'Shootnbox - Location Photobooth &amp; Borne Photo Paris | \u00c9v\u00e9nements',
+    description: 'Shootnbox, sp\u00e9cialiste de la location de photobooth et borne photo \u00e0 Paris et en \u00cele-de-France. Mariages, entreprises, soir\u00e9es : des souvenirs inoubliables pour vos \u00e9v\u00e9nements.',
+    ogTitle: 'Shootnbox - Location Photobooth & Borne Photo Paris',
+    ogDescription: 'Sp\u00e9cialiste de la location de photobooth et borne photo \u00e0 Paris. Mariages, entreprises, soir\u00e9es.',
+    ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
+    ogUrl: 'https://shootnbox.swipego.app/',
+    preloadImage: '/images/vegas-hero-group.webp',
+    sections: [
+      'hero', 'trust', 'bento', 'stats', 'avis',
+      'equipe', 'savoirfaire', 'mur', 'carte-france', 'blog'
+    ],
+    previewDir: previewsDir  // sections at root of previews/
+  },
+  {
+    slug: 'location-photobooth',
+    output: 'public/location-photobooth/index.html',
+    title: 'Location Photobooth Paris | Borne Photo Mariage & Entreprise - Shootnbox',
+    description: 'Louez un photobooth professionnel \u00e0 Paris et en \u00cele-de-France. Borne photo Ring, Vegas, Miroir, Spinner 360. Mariages, soir\u00e9es, \u00e9v\u00e9nements d\'entreprise.',
+    ogTitle: 'Location Photobooth Paris - Shootnbox',
+    ogDescription: 'Louez un photobooth professionnel pour vos \u00e9v\u00e9nements. 4 bornes au choix, livraison partout en France.',
+    ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
+    ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
+    preloadImage: null, // will be set when hero is created
+    sections: ['hero'],  // user will add more sections
+    previewDir: path.join(previewsDir, 'location-photobooth')
+  }
 ];
 
 // Image dimensions map (path -> [width, height]) for CLS prevention
@@ -85,30 +85,25 @@ for (let i = 2; i <= 19; i++) {
 }
 imageDimensions['/images/logos/logo ils nous font confiance_Plan de travail 1.webp'] = [417, 417];
 
-// Extract body content from preview files (already validated, no demo content)
-const sectionContents = {};
-for (const name of sections) {
-  const filePath = path.join(previewsDir, `${name}.html`);
+// ===== SHARED: Read header & footer =====
+function readSection(filePath) {
   let content = fs.readFileSync(filePath, 'utf8');
-
-  // Extract content between <body> and </body>
   const bodyMatch = content.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   if (!bodyMatch) {
-    console.error(`ERROR: Could not extract <body> from ${name}.html`);
+    console.error(`ERROR: Could not extract <body> from ${filePath}`);
     process.exit(1);
   }
   content = bodyMatch[1].trim();
-
-  // Fix image paths back: ../public/images/ -> /images/
-  content = content.replace(/src="\.\.\/public\/images\//g, 'src="/images/');
-  content = content.replace(/url\(\.\.\/public\/images\//g, 'url(/images/');
-  content = content.replace(/url\('\.\.\/public\/images\//g, "url('/images/");
-
-  // Fix logo path: ../public/logo -> /logo
+  // Fix image paths (both ../public/ and ../../public/ for subdirectories)
+  content = content.replace(/src="(?:\.\.\/)+public\/images\//g, 'src="/images/');
+  content = content.replace(/url\((?:\.\.\/)+public\/images\//g, 'url(/images/');
+  content = content.replace(/url\('(?:\.\.\/)+public\/images\//g, "url('/images/");
   content = content.replace(/src="\.\.\/public\/logo/g, 'src="/logo');
-
-  sectionContents[name] = content;
+  return content;
 }
+
+const sharedHeader = readSection(path.join(previewsDir, 'header.html'));
+const sharedFooter = readSection(path.join(previewsDir, 'footer.html'));
 
 // ===== POST-PROCESSING for Lighthouse =====
 function postProcess(html) {
@@ -118,7 +113,7 @@ function postProcess(html) {
     if (!srcMatch) return match;
     const src = srcMatch[1];
 
-    // External images (blog thumbnails from WordPress) — add 768x494 dimensions
+    // External images (blog thumbnails from WordPress)
     if (src.startsWith('http')) {
       if (!attrs.includes('width=') && src.includes('768x494')) {
         attrs += ' width="768" height="494"';
@@ -161,7 +156,6 @@ function postProcess(html) {
   });
 
   // 3. Add data-snb-edit attributes for admin inline editing
-  // Identify sections by their unique class names
   const sectionMap = {
     'snb-hero': 'hero',
     'snb-bento': 'bento',
@@ -177,25 +171,15 @@ function postProcess(html) {
     'snb-ft': 'footer'
   };
 
-  // Use cheerio to add data attributes to editable elements
   const cheerio = require('cheerio');
   const $ = cheerio.load(html, { decodeEntities: false });
-
-  // Track indices per section
   const sectionCounters = {};
 
-  // Editable tags
   const editableTags = ['h1', 'h2', 'h3', 'h4'];
-  const editableSelectors = editableTags.join(',');
-
-  $(editableSelectors).each((i, el) => {
+  $(editableTags.join(',')).each((i, el) => {
     const $el = $(el);
-    // Skip admin elements
     if ($el.closest('#snb-admin-bar, #snb-seo-panel').length) return;
-    // Skip empty elements
     if (!$el.text().trim()) return;
-
-    // Determine section
     let section = 'unknown';
     for (const [cls, name] of Object.entries(sectionMap)) {
       if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
@@ -203,18 +187,14 @@ function postProcess(html) {
         break;
       }
     }
-
-    // Increment counter
     if (!sectionCounters[section]) sectionCounters[section] = 0;
     const idx = sectionCounters[section]++;
     const tag = el.tagName.toLowerCase();
-
     $el.attr('data-snb-edit', `${section}:${idx}:${tag}`);
     $el.attr('data-snb-section', section);
     $el.attr('data-snb-tag', tag.toUpperCase());
   });
 
-  // Also make key paragraphs/subtitles editable
   const editableClasses = [
     '.hero-subtitle', '.hero-tagline',
     '.card-sub',
@@ -233,7 +213,7 @@ function postProcess(html) {
   editableClasses.forEach(sel => {
     $(sel).each((i, el) => {
       const $el = $(el);
-      if ($el.attr('data-snb-edit')) return; // Already tagged
+      if ($el.attr('data-snb-edit')) return;
       let section = 'unknown';
       for (const [cls, name] of Object.entries(sectionMap)) {
         if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
@@ -251,27 +231,98 @@ function postProcess(html) {
   });
 
   html = $.html();
-
   return html;
 }
 
-// Build the page
-let html = `<!DOCTYPE html>
+// ===== CSS HELPERS =====
+function minifyCSS(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s*\n\s*/g, '')
+    .replace(/\s*{\s*/g, '{')
+    .replace(/\s*}\s*/g, '}')
+    .replace(/\s*:\s*/g, ':')
+    .replace(/\s*;\s*/g, ';')
+    .replace(/\s*,\s*/g, ',')
+    .replace(/;}/g, '}')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function extractAndProcessCSS(html) {
+  const styleBlocks = [];
+  let blockIdx = 0;
+  html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, css) => {
+    blockIdx++;
+    const isCritical = blockIdx <= 3; // blocks 1-3 = global, header, hero
+    styleBlocks.push({ css, isCritical, index: blockIdx });
+    if (isCritical) {
+      return `<style>${minifyCSS(css)}</style>`;
+    }
+    return '';
+  });
+
+  const nonCriticalCSS = styleBlocks.filter(b => !b.isCritical).map(b => b.css).join('\n');
+  const minified = minifyCSS(nonCriticalCSS);
+
+  return { html, styleBlocks, minifiedCSS: minified };
+}
+
+function extractScripts(html) {
+  const scriptBlocks = [];
+  html = html.replace(/<script>([\s\S]*?)<\/script>/gi, (match, js) => {
+    const trimmed = js.trim();
+    if (!trimmed) return '';
+    scriptBlocks.push(trimmed);
+    return '';
+  });
+  return { html, scriptBlocks };
+}
+
+function minifyHTML(html) {
+  html = html.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
+  html = html.replace(/\n\s*\n\s*\n/g, '\n');
+  html = html.replace(/\n\s{2,}/g, '\n');
+  html = html.replace(/\n\s*\n/g, '\n');
+  return html;
+}
+
+// ===== BUILD EACH PAGE =====
+for (const page of pages) {
+  console.log(`\n=== Building: ${page.slug} ===`);
+
+  // Read page-specific sections
+  const sectionContents = {};
+  for (const name of page.sections) {
+    const filePath = path.join(page.previewDir, `${name}.html`);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`  WARN: ${name}.html not found in ${page.previewDir}, skipping`);
+      continue;
+    }
+    sectionContents[name] = readSection(filePath);
+  }
+
+  // Assemble page HTML
+  const preloadImg = page.preloadImage
+    ? `<link rel="preload" as="image" href="${page.preloadImage}" type="image/webp" fetchpriority="high">`
+    : '';
+
+  let html = `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Shootnbox - Location Photobooth &amp; Borne Photo Paris | \u00c9v\u00e9nements</title>
-<meta name="description" content="Shootnbox, sp\u00e9cialiste de la location de photobooth et borne photo \u00e0 Paris et en \u00cele-de-France. Mariages, entreprises, soir\u00e9es : des souvenirs inoubliables pour vos \u00e9v\u00e9nements.">
+<title>${page.title}</title>
+<meta name="description" content="${page.description}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Shootnbox - Location Photobooth & Borne Photo Paris">
-<meta property="og:description" content="Sp\u00e9cialiste de la location de photobooth et borne photo \u00e0 Paris. Mariages, entreprises, soir\u00e9es.">
-<meta property="og:image" content="https://shootnbox.swipego.app/images/vegas-hero-group.webp">
-<meta property="og:url" content="https://shootnbox.swipego.app/">
+<meta property="og:title" content="${page.ogTitle}">
+<meta property="og:description" content="${page.ogDescription}">
+<meta property="og:image" content="${page.ogImage}">
+<meta property="og:url" content="${page.ogUrl}">
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" as="image" href="/images/vegas-hero-group.webp" type="image/webp" fetchpriority="high">
+${preloadImg}
 <link rel="dns-prefetch" href="https://shootnbox.fr">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/raleway-latin.woff2" crossorigin>
 <style>
@@ -285,114 +336,70 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; }
 ul { list-style: none; padding: 0; margin: 0; }
-/* Header spacer */
 .snb-page-content { padding-top: 72px; }
 @media (max-width: 850px) { .snb-page-content { padding-top: 60px; } }
 </style>
 </head>
 <body>
 
-${sectionContents['header']}
+${sharedHeader}
 
 <main class="snb-page-content">
-${sections.filter(s => s !== 'header' && s !== 'footer' && sectionContents[s]).map(s => sectionContents[s]).join('\n\n')}
+${page.sections.filter(s => sectionContents[s]).map(s => sectionContents[s]).join('\n\n')}
 </main>
 
-${sectionContents['footer']}
+${sharedFooter}
 
 </body>
 </html>`;
 
-// Apply Lighthouse optimizations
-html = postProcess(html);
+  // Apply Lighthouse optimizations
+  html = postProcess(html);
 
-// ===== CSS EXTRACTION & MINIFICATION =====
-// Critical sections to keep inline (above the fold): global, header, hero
-const criticalSections = ['HEADER', 'hero'];
+  // CSS extraction
+  const cssResult = extractAndProcessCSS(html);
+  html = cssResult.html;
 
-function minifyCSS(css) {
-  return css
-    .replace(/\/\*[\s\S]*?\*\//g, '')        // remove comments
-    .replace(/\s*\n\s*/g, '')                 // remove newlines
-    .replace(/\s*{\s*/g, '{')                 // remove spaces around {
-    .replace(/\s*}\s*/g, '}')                 // remove spaces around }
-    .replace(/\s*:\s*/g, ':')                 // remove spaces around :
-    .replace(/\s*;\s*/g, ';')                 // remove spaces around ;
-    .replace(/\s*,\s*/g, ',')                 // remove spaces around ,
-    .replace(/;}/g, '}')                      // remove last semicolon
-    .replace(/\s{2,}/g, ' ')                  // collapse multiple spaces
-    .trim();
-}
+  // Write page-specific CSS (or shared if home)
+  const cssFileName = page.slug === 'home' ? 'styles.css' : `styles-${page.slug}.css`;
+  fs.writeFileSync(path.join(__dirname, 'public', cssFileName), cssResult.minifiedCSS, 'utf8');
 
-// Extract all <style> blocks
-const styleBlocks = [];
-let blockIndex = 0;
-html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, css) => {
-  blockIndex++;
-  const isCritical = blockIndex <= 3; // blocks 1-3 = global, header, hero
-  styleBlocks.push({ css, isCritical, index: blockIndex });
-  if (isCritical) {
-    return `<style>${minifyCSS(css)}</style>`;
+  // Add deferred CSS link
+  html = html.replace('</head>',
+    `<link rel="preload" as="style" href="/${cssFileName}" onload="this.onload=null;this.rel='stylesheet'">\n<noscript><link rel="stylesheet" href="/${cssFileName}"></noscript>\n</head>`
+  );
+
+  // Script extraction
+  const jsResult = extractScripts(html);
+  html = jsResult.html;
+
+  const jsFileName = page.slug === 'home' ? 'scripts.js' : `scripts-${page.slug}.js`;
+  if (jsResult.scriptBlocks.length > 0) {
+    const allScripts = jsResult.scriptBlocks.join('\n');
+    fs.writeFileSync(path.join(__dirname, 'public', jsFileName), allScripts, 'utf8');
+    html = html.replace('</body>', `<script src="/${jsFileName}" defer></script>\n</body>`);
+    console.log(`  Scripts: ${jsResult.scriptBlocks.length} blocks → ${jsFileName} (${(allScripts.length/1024).toFixed(1)} KB)`);
   }
-  return ''; // remove non-critical inline styles
-});
 
-// Write non-critical CSS to external file
-const nonCriticalCSS = styleBlocks
-  .filter(b => !b.isCritical)
-  .map(b => b.css)
-  .join('\n');
-const minified = minifyCSS(nonCriticalCSS);
-fs.writeFileSync(path.join(__dirname, 'public', 'styles.css'), minified, 'utf8');
+  // HTML minification
+  const sizeBefore = Buffer.byteLength(html);
+  html = minifyHTML(html);
+  const sizeAfter = Buffer.byteLength(html);
 
-// Add link to external CSS (deferred loading)
-html = html.replace('</head>',
-  `<link rel="preload" as="style" href="/styles.css" onload="this.onload=null;this.rel='stylesheet'">\n<noscript><link rel="stylesheet" href="/styles.css"></noscript>\n</head>`
-);
+  // Ensure output directory exists
+  const outputPath = path.join(__dirname, page.output);
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(outputPath, html, 'utf8');
 
-console.log(`Critical CSS (inline): ${styleBlocks.filter(b=>b.isCritical).reduce((s,b)=>s+b.css.length,0)/1024|0} KB`);
-console.log(`External CSS (styles.css): ${(minified.length/1024).toFixed(1)} KB (minified from ${(nonCriticalCSS.length/1024).toFixed(1)} KB)`);
+  // Stats
+  const criticalSize = cssResult.styleBlocks.filter(b=>b.isCritical).reduce((s,b)=>s+b.css.length,0);
+  console.log(`  Critical CSS: ${(criticalSize/1024)|0} KB | External CSS: ${(cssResult.minifiedCSS.length/1024).toFixed(1)} KB`);
+  console.log(`  HTML: ${(sizeBefore/1024).toFixed(1)} KB → ${(sizeAfter/1024).toFixed(1)} KB`);
+  console.log(`  → ${page.output} (${(sizeAfter/1024).toFixed(1)} KB)`);
 
-// ===== SCRIPT EXTRACTION =====
-// Extract all inline <script> blocks to external deferred file
-const scriptBlocks = [];
-html = html.replace(/<script>([\s\S]*?)<\/script>/gi, (match, js) => {
-  const trimmed = js.trim();
-  if (!trimmed) return '';
-  scriptBlocks.push(trimmed);
-  return ''; // remove inline script
-});
-
-if (scriptBlocks.length > 0) {
-  // defer attribute ensures DOM is fully parsed before execution
-  const allScripts = scriptBlocks.join('\n');
-  fs.writeFileSync(path.join(__dirname, 'public', 'scripts.js'), allScripts, 'utf8');
-  // Add deferred script tag before </body>
-  html = html.replace('</body>', `<script src="/scripts.js" defer></script>\n</body>`);
-  console.log(`Scripts: ${scriptBlocks.length} blocks extracted to scripts.js (${(allScripts.length/1024).toFixed(1)} KB)`);
+  const imgCount = (html.match(/<img /g) || []).length;
+  const lazyCount = (html.match(/loading="lazy"/g) || []).length;
+  console.log(`  Images: ${imgCount} total, ${lazyCount} lazy`);
 }
 
-// ===== HTML MINIFICATION =====
-const htmlSizeBefore = Buffer.byteLength(html);
-// Remove HTML comments (keep conditional comments)
-html = html.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
-// Collapse multiple blank lines to single newline
-html = html.replace(/\n\s*\n\s*\n/g, '\n');
-// Remove leading whitespace on lines (but preserve content)
-html = html.replace(/\n\s{2,}/g, '\n');
-// Remove empty lines
-html = html.replace(/\n\s*\n/g, '\n');
-const htmlSizeAfter = Buffer.byteLength(html);
-console.log(`HTML minified: ${(htmlSizeBefore/1024).toFixed(1)} KB → ${(htmlSizeAfter/1024).toFixed(1)} KB (-${((htmlSizeBefore-htmlSizeAfter)/1024).toFixed(1)} KB)`);
-
-fs.writeFileSync(path.join(__dirname, 'public', 'index.html'), html, 'utf8');
-console.log('index.html built successfully!');
-console.log(`Size: ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`);
-
-// Report optimization stats
-const imgCount = (html.match(/<img /g) || []).length;
-const lazyCount = (html.match(/loading="lazy"/g) || []).length;
-const dimCount = (html.match(/<img [^>]*width="\d+"[^>]*height="\d+"/g) || []).length;
-const noopenerCount = (html.match(/rel="noopener noreferrer"/g) || []).length;
-console.log(`Images: ${imgCount} total, ${lazyCount} lazy, ${dimCount} with w/h`);
-console.log(`External links secured: ${noopenerCount}`);
+console.log('\nAll pages built successfully!');
