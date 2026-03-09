@@ -23,23 +23,42 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
 }
 
-/* Sparkles decoratifs */
+/* Sparkles decoratifs CSS pur */
 .lp-sparkle {
   position: absolute;
   pointer-events: none;
-  opacity: 0.4;
+  width: 20px; height: 20px;
 }
-.lp-sparkle svg { width: 100%; height: 100%; }
-.lp-sparkle-1 { top: 8%; left: 5%; width: 24px; height: 24px; animation: lp-sparkle-float 4s ease-in-out infinite; }
-.lp-sparkle-2 { top: 15%; right: 8%; width: 18px; height: 18px; animation: lp-sparkle-float 5s ease-in-out infinite 1s; }
-.lp-sparkle-3 { bottom: 20%; left: 10%; width: 20px; height: 20px; animation: lp-sparkle-float 4.5s ease-in-out infinite 0.5s; }
-.lp-sparkle-4 { top: 40%; right: 4%; width: 16px; height: 16px; animation: lp-sparkle-float 5.5s ease-in-out infinite 2s; }
-.lp-sparkle-5 { bottom: 12%; right: 12%; width: 22px; height: 22px; animation: lp-sparkle-float 4s ease-in-out infinite 1.5s; }
-.lp-sparkle-6 { top: 5%; left: 50%; width: 14px; height: 14px; animation: lp-sparkle-float 6s ease-in-out infinite 0.8s; }
+.lp-sparkle::before, .lp-sparkle::after {
+  content: '';
+  position: absolute;
+  background: #E51981;
+  border-radius: 50%;
+}
+.lp-sparkle::before {
+  width: 100%; height: 30%;
+  top: 35%; left: 0;
+  border-radius: 40%;
+}
+.lp-sparkle::after {
+  width: 30%; height: 100%;
+  top: 0; left: 35%;
+  border-radius: 40%;
+}
+.lp-sparkle-1 { top: 8%; left: 5%; width: 22px; height: 22px; animation: lp-sparkle-float 4s ease-in-out infinite; }
+.lp-sparkle-1::before, .lp-sparkle-1::after { background: #E51981; opacity: 0.4; }
+.lp-sparkle-2 { top: 15%; right: 8%; width: 16px; height: 16px; animation: lp-sparkle-float 5s ease-in-out infinite 1s; }
+.lp-sparkle-2::before, .lp-sparkle-2::after { background: #0250FF; opacity: 0.35; }
+.lp-sparkle-3 { bottom: 20%; left: 10%; width: 18px; height: 18px; animation: lp-sparkle-float 4.5s ease-in-out infinite 0.5s; }
+.lp-sparkle-3::before, .lp-sparkle-3::after { background: #7828C8; opacity: 0.35; }
+.lp-sparkle-4 { top: 40%; right: 4%; width: 14px; height: 14px; animation: lp-sparkle-float 5.5s ease-in-out infinite 2s; }
+.lp-sparkle-4::before, .lp-sparkle-4::after { background: #fbbf24; opacity: 0.5; }
+.lp-sparkle-5 { bottom: 12%; right: 12%; width: 20px; height: 20px; animation: lp-sparkle-float 4s ease-in-out infinite 1.5s; }
+.lp-sparkle-5::before, .lp-sparkle-5::after { background: #E51981; opacity: 0.35; }
 
 @keyframes lp-sparkle-float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
-  50% { transform: translateY(-12px) scale(1.2); opacity: 0.7; }
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+  50% { transform: translateY(-12px) scale(1.2); opacity: 0.8; }
 }
 
 /* Petits cercles decoratifs flottants */
@@ -290,13 +309,12 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <section class="lp-etapes">
-  <!-- Sparkles decoratifs -->
-  <div class="lp-sparkle lp-sparkle-1"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#E51981" opacity="0.6"/></svg></div>
-  <div class="lp-sparkle lp-sparkle-2"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0250FF" opacity="0.5"/></svg></div>
-  <div class="lp-sparkle lp-sparkle-3"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#7828C8" opacity="0.5"/></svg></div>
-  <div class="lp-sparkle lp-sparkle-4"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#fbbf24" opacity="0.6"/></svg></div>
-  <div class="lp-sparkle lp-sparkle-5"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#E51981" opacity="0.5"/></svg></div>
-  <div class="lp-sparkle lp-sparkle-6"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0250FF" opacity="0.4"/></svg></div>
+  <!-- Sparkles decoratifs CSS pur -->
+  <div class="lp-sparkle lp-sparkle-1"></div>
+  <div class="lp-sparkle lp-sparkle-2"></div>
+  <div class="lp-sparkle lp-sparkle-3"></div>
+  <div class="lp-sparkle lp-sparkle-4"></div>
+  <div class="lp-sparkle lp-sparkle-5"></div>
 
   <!-- Cercles decoratifs -->
   <div class="lp-dot-deco lp-dot-1"></div>
