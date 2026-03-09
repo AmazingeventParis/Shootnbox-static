@@ -267,13 +267,14 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   padding: 6px 6px 22px;
   border-radius: 3px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
-  transition: transform 0.4s cubic-bezier(.22,.68,0,1.2);
+  transition: transform 0.6s cubic-bezier(.25,.46,.45,.94), box-shadow 0.6s ease;
   opacity: 0;
   animation: lp-polaroid-drop 0.5s ease forwards;
 }
 .lp-polaroid:hover {
   z-index: 5;
-  transform: scale(1.08) rotate(0deg) !important;
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .lp-polaroid:nth-child(1) { transform: rotate(-4deg); animation-delay: 0.3s; }
