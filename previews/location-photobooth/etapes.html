@@ -18,47 +18,55 @@ img { max-width: 100%; height: auto; }
 .lp-etapes {
   position: relative;
   padding: 70px 5% 60px;
-  background: linear-gradient(135deg, #110e28 0%, #1c183d 40%, #1a1535 60%, #110e28 100%);
+  background: linear-gradient(160deg, #110e28 0%, #1c183d 35%, #1a1535 65%, #110e28 100%);
   font-family: 'Raleway', sans-serif;
   overflow: hidden;
   color: #fff;
 }
 
-/* Confettis CSS */
+/* Confettis */
 .lp-confetti {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
   pointer-events: none;
   opacity: 0;
-  animation: lp-confetti-fall linear infinite;
+  animation: lp-conf-fall linear infinite;
 }
-@keyframes lp-confetti-fall {
-  0% { opacity: 0.8; transform: translateY(-20px) rotate(0deg); }
+@keyframes lp-conf-fall {
+  0% { opacity: 0.7; transform: translateY(-20px) rotate(0deg); }
   100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
 }
-.lp-conf-1 { left: 5%; top: -10px; background: #E51981; animation-duration: 8s; animation-delay: 0s; width: 6px; height: 12px; }
-.lp-conf-2 { left: 15%; top: -10px; background: #fbbf24; animation-duration: 10s; animation-delay: 1.5s; width: 8px; height: 6px; border-radius: 50%; }
-.lp-conf-3 { left: 30%; top: -10px; background: #0250FF; animation-duration: 9s; animation-delay: 0.8s; width: 5px; height: 10px; }
-.lp-conf-4 { left: 50%; top: -10px; background: #7828C8; animation-duration: 11s; animation-delay: 2s; width: 7px; height: 7px; border-radius: 50%; }
-.lp-conf-5 { left: 65%; top: -10px; background: #ff3fac; animation-duration: 8.5s; animation-delay: 0.3s; width: 6px; height: 11px; }
-.lp-conf-6 { left: 80%; top: -10px; background: #22d3ee; animation-duration: 10.5s; animation-delay: 1.8s; width: 8px; height: 5px; }
-.lp-conf-7 { left: 92%; top: -10px; background: #fbbf24; animation-duration: 9.5s; animation-delay: 3s; width: 5px; height: 9px; }
-.lp-conf-8 { left: 40%; top: -10px; background: #E51981; animation-duration: 7.5s; animation-delay: 4s; width: 7px; height: 6px; border-radius: 50%; }
-.lp-conf-9 { left: 72%; top: -10px; background: #0250FF; animation-duration: 12s; animation-delay: 2.5s; width: 6px; height: 8px; }
-.lp-conf-10 { left: 22%; top: -10px; background: #FF7A00; animation-duration: 9s; animation-delay: 3.5s; width: 8px; height: 8px; border-radius: 50%; }
+.lp-cf1 { left: 4%; top: -8px; width: 6px; height: 12px; background: #E51981; border-radius: 1px; animation-duration: 9s; }
+.lp-cf2 { left: 14%; top: -8px; width: 8px; height: 6px; background: #fbbf24; border-radius: 50%; animation-duration: 11s; animation-delay: 1.5s; }
+.lp-cf3 { left: 28%; top: -8px; width: 5px; height: 10px; background: #0250FF; border-radius: 1px; animation-duration: 10s; animation-delay: 0.8s; }
+.lp-cf4 { left: 48%; top: -8px; width: 7px; height: 7px; background: #7828C8; border-radius: 50%; animation-duration: 12s; animation-delay: 2s; }
+.lp-cf5 { left: 63%; top: -8px; width: 6px; height: 11px; background: #ff3fac; border-radius: 1px; animation-duration: 9.5s; animation-delay: 0.3s; }
+.lp-cf6 { left: 78%; top: -8px; width: 8px; height: 5px; background: #22d3ee; border-radius: 1px; animation-duration: 11.5s; animation-delay: 1.8s; }
+.lp-cf7 { left: 91%; top: -8px; width: 5px; height: 9px; background: #fbbf24; border-radius: 1px; animation-duration: 10.5s; animation-delay: 3s; }
+.lp-cf8 { left: 38%; top: -8px; width: 7px; height: 6px; background: #E51981; border-radius: 50%; animation-duration: 8.5s; animation-delay: 4s; }
 
-/* Lueurs decoratives */
-.lp-glow {
+/* Lueurs */
+.lp-glow { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); }
+.lp-glow-1 { width: 300px; height: 300px; background: rgba(229,25,129,0.1); top: -80px; right: 10%; }
+.lp-glow-2 { width: 250px; height: 250px; background: rgba(2,80,255,0.08); bottom: -50px; left: 5%; }
+
+/* Sparkles decoratifs */
+.lp-spark {
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
-  filter: blur(60px);
+  width: 18px; height: 18px;
 }
-.lp-glow-1 { width: 300px; height: 300px; background: rgba(229,25,129,0.12); top: -80px; right: 10%; }
-.lp-glow-2 { width: 250px; height: 250px; background: rgba(2,80,255,0.1); bottom: -50px; left: 5%; }
-.lp-glow-3 { width: 200px; height: 200px; background: rgba(120,40,200,0.08); top: 40%; left: 40%; }
+.lp-spark::before, .lp-spark::after {
+  content: ''; position: absolute; border-radius: 40%;
+}
+.lp-spark::before { width: 100%; height: 30%; top: 35%; left: 0; background: currentColor; }
+.lp-spark::after { width: 30%; height: 100%; top: 0; left: 35%; background: currentColor; }
+.lp-sp1 { top: 6%; right: 15%; color: rgba(255,255,255,0.3); animation: lp-sp-tw 3s ease-in-out infinite; }
+.lp-sp2 { bottom: 15%; left: 8%; color: rgba(229,25,129,0.3); width: 14px; height: 14px; animation: lp-sp-tw 4s ease-in-out infinite 1s; }
+.lp-sp3 { top: 20%; left: 3%; color: rgba(251,191,36,0.3); width: 12px; height: 12px; animation: lp-sp-tw 3.5s ease-in-out infinite 0.5s; }
+@keyframes lp-sp-tw {
+  0%,100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
 
 .lp-etapes-inner {
   max-width: 1060px;
@@ -71,236 +79,212 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Badges */
-.lp-badges {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+.lp-badges { display: flex; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; justify-content: center; }
 .lp-badge {
-  background: rgba(62,50,136,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.85);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 6px 18px;
-  border-radius: 20px;
+  font-size: 14px; font-weight: 600;
+  padding: 7px 22px; border-radius: 22px;
 }
 
 /* Titre */
 .lp-etapes h2 {
-  font-size: 34px;
-  font-weight: 900;
-  font-style: italic;
-  color: #fff;
-  text-align: center;
-  margin: 0 0 14px;
-  line-height: 1.2;
+  font-size: 36px; font-weight: 900; font-style: italic;
+  color: #fff; text-align: center;
+  margin: 0 0 14px; line-height: 1.2;
 }
-.lp-etapes h2 .lp-accent { color: #E51981; }
-.lp-etapes h2 .lp-accent-blue { color: #4d8aff; }
+.lp-etapes h2 .lp-acc { color: #E51981; }
+.lp-etapes h2 .lp-acc-b { color: #4d8aff; }
 
-.lp-etapes-subtitle {
-  text-align: center;
-  font-size: 16px;
-  color: rgba(255,255,255,0.6);
-  margin: 0 0 50px;
-  max-width: 650px;
-  line-height: 1.6;
+.lp-etapes-sub {
+  text-align: center; font-size: 16px;
+  color: rgba(255,255,255,0.55);
+  margin: 0 0 48px; max-width: 620px; line-height: 1.65;
 }
 
-/* Container steps avec ligne arc-en-ciel */
+/* Steps wrapper avec ligne neon */
 .lp-steps-wrap {
   width: 100%;
   position: relative;
   margin-bottom: 44px;
 }
 
-/* Ligne arc-en-ciel derriere */
-.lp-steps-wrap::after {
+/* Ligne neon arc-en-ciel */
+.lp-neon-line {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%; height: 65%;
+  border: 2px solid transparent;
+  border-radius: 40px;
+  z-index: 0;
+  pointer-events: none;
+}
+.lp-neon-line::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 85%;
-  height: 55%;
-  background: conic-gradient(from 0deg, #E51981, #FF7A00, #fbbf24, #0250FF, #7828C8, #E51981);
-  border-radius: 50%;
-  opacity: 0.08;
-  filter: blur(40px);
-  z-index: 0;
+  inset: -3px;
+  border-radius: 42px;
+  background: conic-gradient(from 180deg, #E51981, #FF7A00, #fbbf24, #22d3ee, #0250FF, #7828C8, #E51981);
+  opacity: 0.35;
+  filter: blur(8px);
+  animation: lp-neon-rot 8s linear infinite;
+}
+.lp-neon-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  border: 2px solid transparent;
+  background: conic-gradient(from 180deg, #E51981, #FF7A00, #fbbf24, #22d3ee, #0250FF, #7828C8, #E51981) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.5;
+  animation: lp-neon-rot 8s linear infinite;
+}
+@keyframes lp-neon-rot {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
 }
 
-/* Grille row 1 : 3 cartes */
+/* Row 1 */
 .lp-row-top {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 24px;
-  position: relative;
-  z-index: 1;
+  gap: 22px;
+  margin-bottom: 22px;
+  position: relative; z-index: 1;
 }
 
-/* Grille row 2 : 2 cartes centrees */
-.lp-row-bottom {
+/* Row 2 */
+.lp-row-bot {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 700px;
+  gap: 22px;
+  max-width: 710px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  position: relative; z-index: 1;
 }
 
-/* Carte */
+/* Carte givre/claire */
 .lp-scard {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(62,50,136,0.6);
-  border-radius: 20px;
-  padding: 28px 22px 24px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 24px 20px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-shadow: 0 0 20px rgba(62,50,136,0.3);
-  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease, border-color 0.4s ease;
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease;
   opacity: 0;
   transform: translateY(25px);
   animation: lp-scard-in 0.5s ease forwards;
+  /* Bordure arc-en-ciel */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
+/* Bordure rainbow via pseudo */
+.lp-scard::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #E51981, #FF7A00, #fbbf24, #22d3ee, #0250FF, #7828C8);
+  z-index: -1;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.lp-scard:hover::before { opacity: 0.8; }
+.lp-scard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
 .lp-row-top .lp-scard:nth-child(1) { animation-delay: 0.1s; }
 .lp-row-top .lp-scard:nth-child(2) { animation-delay: 0.25s; }
 .lp-row-top .lp-scard:nth-child(3) { animation-delay: 0.4s; }
-.lp-row-bottom .lp-scard:nth-child(1) { animation-delay: 0.55s; }
-.lp-row-bottom .lp-scard:nth-child(2) { animation-delay: 0.7s; }
+.lp-row-bot .lp-scard:nth-child(1) { animation-delay: 0.55s; }
+.lp-row-bot .lp-scard:nth-child(2) { animation-delay: 0.7s; }
 
 @keyframes lp-scard-in {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Lueur au hover */
-.lp-scard::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: radial-gradient(circle at center, rgba(229,25,129,0.06) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.lp-scard:hover::before { opacity: 1; }
-.lp-scard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 30px rgba(229,25,129,0.2), 0 0 60px rgba(62,50,136,0.2);
-  border-color: rgba(229,25,129,0.3);
-}
-
-/* Header carte */
+/* Header carte : numero + titre */
 .lp-scard-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   width: 100%;
 }
 .lp-scard-num {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3e3288, #5a45b8);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 28px;
+  font-weight: 900;
+  font-style: italic;
+  color: #E51981;
+  line-height: 1;
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(90,69,184,0.4);
 }
 
 .lp-scard h3 {
   font-size: 15px;
-  font-weight: 700;
-  color: #a8d5f6;
+  font-weight: 800;
+  color: #1a1535;
   margin: 0;
   line-height: 1.3;
   text-align: left;
 }
 
-/* Icone illustration */
+/* Icone */
 .lp-scard-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin-bottom: 16px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 52px;
+  margin-bottom: 14px;
+  line-height: 1;
   transition: transform 0.3s ease;
 }
 .lp-scard:hover .lp-scard-icon {
-  transform: scale(1.08) rotate(-2deg);
+  transform: scale(1.1);
 }
 
 .lp-scard p {
-  font-size: 14px;
-  color: rgba(255,255,255,0.55);
+  font-size: 13.5px;
+  color: #555;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
 }
+.lp-scard p strong { color: #1a1535; }
 
-/* Carte 5 layout horizontal */
-.lp-scard-hz {
-  flex-direction: row;
-  text-align: left;
-  gap: 20px;
-}
-.lp-scard-hz .lp-scard-content { flex: 1; }
-.lp-scard-hz .lp-scard-icon { margin-bottom: 0; flex-shrink: 0; }
-
-/* CTA */
-.lp-etapes-cta {
-  margin-bottom: 24px;
-}
+/* CTA gris avec bordure pointillee */
+.lp-etapes-cta { margin-bottom: 22px; }
 .lp-etapes-cta a {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 16px 44px;
+  padding: 15px 48px;
   border-radius: 30px;
-  background: linear-gradient(135deg, #E51981, #ff3fac);
+  background: rgba(255,255,255,0.06);
+  border: 2px dashed rgba(255,255,255,0.3);
   color: #fff;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   font-family: 'Raleway', sans-serif;
-  box-shadow: 0 4px 28px rgba(229,25,129,0.4);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
 }
-.lp-etapes-cta a::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s ease;
-}
-.lp-etapes-cta a:hover::before { left: 100%; }
 .lp-etapes-cta a:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 8px 36px rgba(229,25,129,0.55);
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
 }
 
-/* Footer reassurance */
+/* Footer */
 .lp-etapes-foot {
   font-size: 14px;
   color: rgba(255,255,255,0.4);
@@ -311,46 +295,42 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 768px) {
   .lp-etapes { padding: 50px 16px 50px; }
   .lp-etapes h2 { font-size: 24px; }
-  .lp-etapes-subtitle { font-size: 14px; margin-bottom: 36px; }
-  .lp-row-top { grid-template-columns: 1fr; gap: 18px; }
-  .lp-row-bottom { grid-template-columns: 1fr; gap: 18px; max-width: 100%; }
-  .lp-scard { padding: 22px 18px 20px; }
+  .lp-etapes-sub { font-size: 14px; margin-bottom: 36px; }
+  .lp-row-top { grid-template-columns: 1fr; gap: 16px; }
+  .lp-row-bot { grid-template-columns: 1fr; gap: 16px; max-width: 100%; }
+  .lp-scard { padding: 20px 16px 18px; }
   .lp-scard h3 { font-size: 14px; }
   .lp-scard p { font-size: 13px; }
-  .lp-scard-icon { width: 64px; height: 64px; font-size: 32px; }
-  .lp-scard-hz { flex-direction: column; text-align: center; }
-  .lp-scard-hz .lp-scard-head { justify-content: center; }
-  .lp-scard-hz h3 { text-align: center; }
+  .lp-scard-icon { font-size: 42px; }
+  .lp-scard-num { font-size: 24px; }
+  .lp-neon-line { display: none; }
   .lp-badges { gap: 8px; }
-  .lp-badge { font-size: 12px; padding: 5px 14px; }
+  .lp-badge { font-size: 12px; padding: 5px 16px; }
   .lp-confetti { display: none; }
-  .lp-etapes-cta a { padding: 14px 36px; font-size: 15px; }
+  .lp-etapes-cta a { padding: 13px 36px; font-size: 15px; }
 }
 
 @media (max-width: 480px) {
   .lp-etapes { padding: 40px 14px 40px; }
-  .lp-etapes h2 { font-size: 22px; }
-  .lp-scard-icon { width: 56px; height: 56px; font-size: 28px; }
+  .lp-etapes h2 { font-size: 21px; }
+  .lp-scard-icon { font-size: 36px; }
 }
 </style>
 
 <section class="lp-etapes">
-  <!-- Lueurs -->
   <div class="lp-glow lp-glow-1"></div>
   <div class="lp-glow lp-glow-2"></div>
-  <div class="lp-glow lp-glow-3"></div>
-
-  <!-- Confettis -->
-  <div class="lp-confetti lp-conf-1"></div>
-  <div class="lp-confetti lp-conf-2"></div>
-  <div class="lp-confetti lp-conf-3"></div>
-  <div class="lp-confetti lp-conf-4"></div>
-  <div class="lp-confetti lp-conf-5"></div>
-  <div class="lp-confetti lp-conf-6"></div>
-  <div class="lp-confetti lp-conf-7"></div>
-  <div class="lp-confetti lp-conf-8"></div>
-  <div class="lp-confetti lp-conf-9"></div>
-  <div class="lp-confetti lp-conf-10"></div>
+  <div class="lp-spark lp-sp1"></div>
+  <div class="lp-spark lp-sp2"></div>
+  <div class="lp-spark lp-sp3"></div>
+  <div class="lp-confetti lp-cf1"></div>
+  <div class="lp-confetti lp-cf2"></div>
+  <div class="lp-confetti lp-cf3"></div>
+  <div class="lp-confetti lp-cf4"></div>
+  <div class="lp-confetti lp-cf5"></div>
+  <div class="lp-confetti lp-cf6"></div>
+  <div class="lp-confetti lp-cf7"></div>
+  <div class="lp-confetti lp-cf8"></div>
 
   <div class="lp-etapes-inner">
 
@@ -360,16 +340,17 @@ img { max-width: 100%; height: auto; }
       <span class="lp-badge">100% en ligne</span>
     </div>
 
-    <h2>Comment louer un photobooth facilement en <span class="lp-accent-blue">5 minutes</span><span class="lp-accent"> ?</span></h2>
+    <h2>Comment louer un photobooth facilement en <span class="lp-acc-b">5 minutes</span><span class="lp-acc"> ?</span></h2>
 
-    <p class="lp-etapes-subtitle">Un parcours clair, sans friction, pour reserver votre borne photo en quelques clics et preparer votre evenement en toute serenite.</p>
+    <p class="lp-etapes-sub">Un parcours clair, sans friction, pour reserver votre borne photo en quelques clics et preparer votre evenement en toute serenite.</p>
 
     <div class="lp-steps-wrap">
+      <div class="lp-neon-line"></div>
 
       <div class="lp-row-top">
         <div class="lp-scard">
           <div class="lp-scard-head">
-            <div class="lp-scard-num">1</div>
+            <span class="lp-scard-num">1.</span>
             <h3>Devis et reservation de votre photo booth en ligne</h3>
           </div>
           <div class="lp-scard-icon">&#128187;</div>
@@ -378,42 +359,40 @@ img { max-width: 100%; height: auto; }
 
         <div class="lp-scard">
           <div class="lp-scard-head">
-            <div class="lp-scard-num">2</div>
+            <span class="lp-scard-num">2.</span>
             <h3>Vous validez votre devis par mail</h3>
           </div>
-          <div class="lp-scard-icon">&#9993;</div>
+          <div class="lp-scard-icon">&#9993;&#65039;</div>
           <p>Un processus simple, transparent et rapide pour bloquer votre date en toute serenite.</p>
         </div>
 
         <div class="lp-scard">
           <div class="lp-scard-head">
-            <div class="lp-scard-num">3</div>
+            <span class="lp-scard-num">3.</span>
             <h3>Vous personnalisez vos cadres photos</h3>
           </div>
           <div class="lp-scard-icon">&#127912;</div>
-          <p>Vous adaptez le design (textes, couleurs, theme) pour qu'il s'integre parfaitement a la decoration de votre evenement.</p>
+          <p>Vous adaptez le design <strong>(textes, couleurs, theme)</strong> pour qu'il s'integre parfaitement a la decoration de votre evenement.</p>
         </div>
       </div>
 
-      <div class="lp-row-bottom">
+      <div class="lp-row-bot">
         <div class="lp-scard">
           <div class="lp-scard-head">
-            <div class="lp-scard-num">4</div>
+            <span class="lp-scard-num">4.</span>
             <h3>Vous retirez votre materiel ou vous vous faites livrer</h3>
           </div>
           <div class="lp-scard-icon">&#128666;</div>
           <p>Retrait gratuit dans l'un de nos showrooms ou livraison de la cabine photo directement chez vous.</p>
         </div>
 
-        <div class="lp-scard lp-scard-hz">
-          <div class="lp-scard-content">
-            <div class="lp-scard-head">
-              <div class="lp-scard-num">5</div>
-              <h3>Vous etes accompagne(e) de A a Z</h3>
-            </div>
-            <p>Une assistance technique telephonique 7j/7 est a votre disposition pour une tranquillite d'esprit totale.</p>
+        <div class="lp-scard">
+          <div class="lp-scard-head">
+            <span class="lp-scard-num">5.</span>
+            <h3>Vous etes accompagne(e) de A a Z</h3>
           </div>
           <div class="lp-scard-icon">&#128222;</div>
+          <p>Une assistance technique telephonique <strong>7j/7</strong> est a votre disposition pour une tranquillite d'esprit totale.</p>
         </div>
       </div>
 
