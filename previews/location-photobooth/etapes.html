@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Preview - etapes location-photobooth</title>
+<title>Preview - etapes v2 neumorphism</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
@@ -18,19 +18,30 @@ img { max-width: 100%; height: auto; }
 .lp-etapes {
   position: relative;
   padding: 70px 5% 60px;
-  background: linear-gradient(135deg, #fce8f4 0%, #f8eaff 40%, #eaf0ff 100%);
+  background: linear-gradient(160deg, #f0dff5, #e8d4f0, #f2e6f8);
   font-family: 'Raleway', sans-serif;
   overflow: hidden;
 }
 
+/* Outer neumorphism panel shadow */
+.lp-etapes::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 8px 8px 20px rgba(180,140,200,0.15), inset -6px -6px 16px rgba(255,255,255,0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* Blobs */
-.lp-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); }
-.lp-blob-1 { width: 500px; height: 500px; background: rgba(255,180,220,0.3); top: -150px; left: -150px; }
-.lp-blob-2 { width: 400px; height: 400px; background: rgba(200,180,255,0.25); bottom: -100px; right: -100px; }
-.lp-blob-3 { width: 300px; height: 300px; background: rgba(180,220,255,0.2); bottom: 100px; left: 100px; }
+.lp-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); z-index: 0; }
+.lp-blob-1 { width: 500px; height: 500px; background: rgba(229,25,129,0.12); top: -150px; left: -150px; animation: lpBlobPulse 6s ease-in-out infinite; }
+.lp-blob-2 { width: 400px; height: 400px; background: rgba(100,60,255,0.08); bottom: -100px; right: -100px; animation: lpBlobPulse 6s ease-in-out infinite 3s; }
+.lp-blob-3 { width: 300px; height: 300px; background: rgba(2,80,255,0.06); bottom: 100px; left: 100px; animation: lpBlobPulse 6s ease-in-out infinite 1.5s; }
+@keyframes lpBlobPulse { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.15);opacity:1} }
 
 .lp-etapes-inner {
-  max-width: 1060px;
+  max-width: 1100px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -53,7 +64,7 @@ img { max-width: 100%; height: auto; }
 /* Titre */
 .lp-etapes h2 {
   font-size: 34px; font-weight: 900; font-style: italic;
-  color: #323338; text-align: center;
+  color: #2a1540; text-align: center;
   margin: 0 0 12px; line-height: 1.2;
 }
 .lp-etapes h2 .lp-acc { color: #E51981; }
@@ -81,26 +92,94 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 40px;
 }
 
-/* Carte clay */
+/* Carte neumorphism */
 .lp-clay {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  background: linear-gradient(145deg, #ffffff, #f8f0fc, #f2e8f6);
   border-radius: 20px;
   padding: 16px 16px 18px;
-  border: 1px solid rgba(255,255,255,0.9);
-  box-shadow: 0 4px 24px rgba(200,140,200,0.12), 0 1px 0 rgba(255,255,255,1) inset;
+  box-shadow:
+    inset 4px 4px 8px rgba(180,140,200,0.15),
+    inset -3px -3px 6px rgba(255,255,255,0.7),
+    4px 4px 12px rgba(180,140,200,0.12),
+    -3px -3px 8px rgba(255,255,255,0.6);
   transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
   cursor: default;
   display: flex;
   flex-direction: column;
   align-items: center;
   will-change: transform;
+  overflow: hidden;
 }
-.lp-clay:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(180,100,180,0.18), 0 1px 0 rgba(255,255,255,1) inset;
+
+/* Neon borders per card */
+.lp-clay:nth-child(1) {
+  border: 1.5px solid rgba(229,25,129,0.4);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 4px 4px 12px rgba(180,140,200,0.12), -3px -3px 8px rgba(255,255,255,0.6), 0 0 12px rgba(229,25,129,0.15), 0 0 30px rgba(229,25,129,0.08);
 }
+.lp-clay:nth-child(2) {
+  border: 1.5px solid rgba(2,80,255,0.4);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 4px 4px 12px rgba(180,140,200,0.12), -3px -3px 8px rgba(255,255,255,0.6), 0 0 12px rgba(2,80,255,0.15), 0 0 30px rgba(2,80,255,0.08);
+}
+.lp-clay:nth-child(3) {
+  border: 1.5px solid rgba(168,85,247,0.4);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 4px 4px 12px rgba(180,140,200,0.12), -3px -3px 8px rgba(255,255,255,0.6), 0 0 12px rgba(168,85,247,0.15), 0 0 30px rgba(168,85,247,0.08);
+}
+/* Grid bot cards */
+.lp-grid-bot .lp-clay:nth-child(1) {
+  border: 1.5px solid rgba(255,122,0,0.4);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 4px 4px 12px rgba(180,140,200,0.12), -3px -3px 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,122,0,0.15), 0 0 30px rgba(255,122,0,0.08);
+}
+.lp-grid-bot .lp-clay:nth-child(2) {
+  border: 1.5px solid rgba(22,163,74,0.4);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 4px 4px 12px rgba(180,140,200,0.12), -3px -3px 8px rgba(255,255,255,0.6), 0 0 12px rgba(22,163,74,0.15), 0 0 30px rgba(22,163,74,0.08);
+}
+
+/* Hover glow per card */
+.lp-grid-top .lp-clay:nth-child(1):hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(229,25,129,0.7);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 0 0 18px rgba(229,25,129,0.3), 0 0 45px rgba(229,25,129,0.12);
+}
+.lp-grid-top .lp-clay:nth-child(2):hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(2,80,255,0.7);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 0 0 18px rgba(2,80,255,0.3), 0 0 45px rgba(2,80,255,0.12);
+}
+.lp-grid-top .lp-clay:nth-child(3):hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(168,85,247,0.7);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 0 0 18px rgba(168,85,247,0.3), 0 0 45px rgba(168,85,247,0.12);
+}
+.lp-grid-bot .lp-clay:nth-child(1):hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255,122,0,0.7);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 0 0 18px rgba(255,122,0,0.3), 0 0 45px rgba(255,122,0,0.12);
+}
+.lp-grid-bot .lp-clay:nth-child(2):hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(22,163,74,0.7);
+  box-shadow: inset 4px 4px 8px rgba(180,140,200,0.15), inset -3px -3px 6px rgba(255,255,255,0.7), 0 0 18px rgba(22,163,74,0.3), 0 0 45px rgba(22,163,74,0.12);
+}
+
+/* Number watermark */
+.lp-clay-watermark {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 58px;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+}
+.lp-grid-top .lp-clay:nth-child(1) .lp-clay-watermark { color: #E51981; }
+.lp-grid-top .lp-clay:nth-child(2) .lp-clay-watermark { color: #0250FF; }
+.lp-grid-top .lp-clay:nth-child(3) .lp-clay-watermark { color: #a855f7; }
+.lp-grid-bot .lp-clay:nth-child(1) .lp-clay-watermark { color: #FF7A00; }
+.lp-grid-bot .lp-clay:nth-child(2) .lp-clay-watermark { color: #16A34A; }
 
 /* Header carte */
 .lp-clay-head {
@@ -109,37 +188,38 @@ img { max-width: 100%; height: auto; }
   gap: 10px;
   width: 100%;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
 }
 
-/* Numero clay */
+/* Numero glossy icon */
 .lp-clay-num {
-  width: 30px; height: 30px;
-  border-radius: 50%;
+  width: 36px; height: 36px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font-size: 16px; font-weight: 900;
   color: #fff; flex-shrink: 0;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 -2px 0 rgba(0,0,0,0.1) inset;
 }
-.lp-clay-num::before {
+.lp-clay-num::after {
   content: '';
   position: absolute;
-  top: 5px; left: 7px;
-  width: 12px; height: 7px;
-  background: rgba(255,255,255,0.5);
-  border-radius: 50%;
-  transform: rotate(-30deg);
+  top: 3px; left: 4px; right: 4px;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45), transparent);
+  border-radius: 10px 10px 50% 50%;
+  pointer-events: none;
 }
-.lp-n1 { background: linear-gradient(145deg, #ff72b0, #e01870); }
-.lp-n2 { background: linear-gradient(145deg, #60b8ff, #1870e0); }
-.lp-n3 { background: linear-gradient(145deg, #c070ff, #7810e0); }
-.lp-n4 { background: linear-gradient(145deg, #ffaa50, #e05010); }
-.lp-n5 { background: linear-gradient(145deg, #40d8a8, #10a068); }
+.lp-n1 { background: linear-gradient(145deg, #ff6eb4, #E51981); box-shadow: 0 6px 18px rgba(229,25,129,0.35), inset 0 2px 4px rgba(255,255,255,0.3); }
+.lp-n2 { background: linear-gradient(145deg, #4d8bff, #0250FF); box-shadow: 0 6px 18px rgba(2,80,255,0.35), inset 0 2px 4px rgba(255,255,255,0.3); }
+.lp-n3 { background: linear-gradient(145deg, #c084fc, #a855f7); box-shadow: 0 6px 18px rgba(168,85,247,0.35), inset 0 2px 4px rgba(255,255,255,0.3); }
+.lp-n4 { background: linear-gradient(145deg, #ff9a3c, #FF7A00); box-shadow: 0 6px 18px rgba(255,122,0,0.35), inset 0 2px 4px rgba(255,255,255,0.3); }
+.lp-n5 { background: linear-gradient(145deg, #4ade80, #16A34A); box-shadow: 0 6px 18px rgba(22,163,74,0.35), inset 0 2px 4px rgba(255,255,255,0.3); }
 
 .lp-clay h3 {
-  font-size: 13px; font-weight: 700;
-  color: #2a1a3a; line-height: 1.4;
-  margin: 0; padding-top: 2px;
+  font-size: 14px; font-weight: 800;
+  color: #2a1540; line-height: 1.3;
+  margin: 0; padding-top: 6px;
 }
 
 /* Scene icone */
@@ -151,6 +231,7 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 14px;
   position: relative;
   height: 60px;
+  z-index: 1;
 }
 .lp-clay-scene svg { max-width: 100%; max-height: 52px; height: auto; }
 
@@ -185,8 +266,9 @@ img { max-width: 100%; height: auto; }
   font-size: 12px; color: #6a5a7a;
   line-height: 1.65; margin: 0;
   text-align: center;
+  position: relative; z-index: 1;
 }
-.lp-clay p strong { color: #3a2a4a; font-weight: 700; }
+.lp-clay p strong { color: #2a1540; font-weight: 700; }
 
 /* CTA */
 .lp-etapes-cta { margin-bottom: 22px; }
@@ -214,7 +296,7 @@ img { max-width: 100%; height: auto; }
 
 /* Footer */
 .lp-etapes-foot {
-  font-size: 13px; color: rgba(50,51,56,0.45);
+  font-size: 13px; color: rgba(42,21,64,0.4);
   text-align: center;
 }
 
@@ -263,6 +345,7 @@ img { max-width: 100%; height: auto; }
 
       <!-- CARD 1 : LAPTOP -->
       <div class="lp-clay">
+        <div class="lp-clay-watermark">01</div>
         <div class="lp-clay-head">
           <div class="lp-clay-num lp-n1">1</div>
           <h3>Devis et reservation de votre photo booth en ligne</h3>
@@ -278,6 +361,7 @@ img { max-width: 100%; height: auto; }
 
       <!-- CARD 2 : ENVELOPE -->
       <div class="lp-clay">
+        <div class="lp-clay-watermark">02</div>
         <div class="lp-clay-head">
           <div class="lp-clay-num lp-n2">2</div>
           <h3>Vous validez votre devis par mail</h3>
@@ -293,6 +377,7 @@ img { max-width: 100%; height: auto; }
 
       <!-- CARD 3 : PHOTOS -->
       <div class="lp-clay">
+        <div class="lp-clay-watermark">03</div>
         <div class="lp-clay-head">
           <div class="lp-clay-num lp-n3">3</div>
           <h3>Vous personnalisez vos cadres photos</h3>
@@ -312,6 +397,7 @@ img { max-width: 100%; height: auto; }
 
       <!-- CARD 4 : TRUCK + BUILDING -->
       <div class="lp-clay">
+        <div class="lp-clay-watermark">04</div>
         <div class="lp-clay-head">
           <div class="lp-clay-num lp-n4">4</div>
           <h3>Vous retirez votre materiel ou vous vous faites livrer</h3>
@@ -327,6 +413,7 @@ img { max-width: 100%; height: auto; }
 
       <!-- CARD 5 : AGENT -->
       <div class="lp-clay">
+        <div class="lp-clay-watermark">05</div>
         <div class="lp-clay-head">
           <div class="lp-clay-num lp-n5">5</div>
           <h3>Vous etes accompagne(e) de A a Z</h3>
@@ -357,7 +444,7 @@ document.querySelectorAll('.lp-clay').forEach(function(card) {
     var rect = card.getBoundingClientRect();
     var x = (e.clientX - rect.left) / rect.width - 0.5;
     var y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-10px) scale(1.02)';
+    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-8px) scale(1.02)';
     card.style.transition = 'transform 0.1s ease';
   });
   card.addEventListener('mouseleave', function() {
