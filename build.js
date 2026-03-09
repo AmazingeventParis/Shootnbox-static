@@ -32,7 +32,8 @@ const pages = [
     ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
     preloadImage: null, // will be set when hero is created
     sections: ['hero', 'intro', 'etapes'],
-    previewDir: path.join(previewsDir, 'location-photobooth')
+    previewDir: path.join(previewsDir, 'location-photobooth'),
+    inlineAllCSS: true
   }
 ];
 
@@ -249,12 +250,12 @@ function minifyCSS(css) {
     .trim();
 }
 
-function extractAndProcessCSS(html) {
+function extractAndProcessCSS(html, inlineAll) {
   const styleBlocks = [];
   let blockIdx = 0;
   html = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (match, css) => {
     blockIdx++;
-    const isCritical = blockIdx <= 3; // blocks 1-3 = global, header, hero
+    const isCritical = inlineAll || blockIdx <= 3; // blocks 1-3 = global, header, hero
     styleBlocks.push({ css, isCritical, index: blockIdx });
     if (isCritical) {
       return `<style>${minifyCSS(css)}</style>`;
@@ -357,7 +358,7 @@ ${sharedFooter}
   html = postProcess(html);
 
   // CSS extraction
-  const cssResult = extractAndProcessCSS(html);
+  const cssResult = extractAndProcessCSS(html, page.inlineAllCSS);
   html = cssResult.html;
 
   // Write page-specific CSS (or shared if home)
