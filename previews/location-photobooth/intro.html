@@ -252,6 +252,50 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   100% { opacity: 1; transform: scale(1); filter: brightness(1) saturate(1); }
 }
 
+/* Collage photos polaroid droite */
+.lp-polaroid-grid {
+  flex-shrink: 0;
+  width: 280px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  position: relative;
+}
+
+.lp-polaroid {
+  background: #fff;
+  padding: 6px 6px 22px;
+  border-radius: 3px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
+  transition: transform 0.4s cubic-bezier(.22,.68,0,1.2);
+  opacity: 0;
+  animation: lp-polaroid-drop 0.5s ease forwards;
+}
+.lp-polaroid:hover {
+  z-index: 5;
+  transform: scale(1.08) rotate(0deg) !important;
+}
+
+.lp-polaroid:nth-child(1) { transform: rotate(-4deg); animation-delay: 0.3s; }
+.lp-polaroid:nth-child(2) { transform: rotate(3deg); animation-delay: 0.5s; }
+.lp-polaroid:nth-child(3) { transform: rotate(2deg); animation-delay: 0.7s; }
+.lp-polaroid:nth-child(4) { transform: rotate(-3deg); animation-delay: 0.9s; }
+.lp-polaroid:nth-child(5) { transform: rotate(4deg); animation-delay: 1.1s; }
+.lp-polaroid:nth-child(6) { transform: rotate(-2deg); animation-delay: 1.3s; }
+
+@keyframes lp-polaroid-drop {
+  0% { opacity: 0; transform: scale(0.6) rotate(0deg) translateY(-30px); }
+  100% { opacity: 1; }
+}
+
+.lp-polaroid img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .lp-intro-inner { flex-direction: column; gap: 30px; align-items: center; text-align: center; }
@@ -261,13 +305,15 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   .lp-intro-mini-stats { justify-content: center; }
   .lp-intro-sep { margin: 18px auto; }
   .lp-intro-label { margin-bottom: 10px; }
+  .lp-polaroid-grid { width: 220px; gap: 8px; }
+  .lp-polaroid { padding: 4px 4px 16px; }
 }
 
 @media (max-width: 480px) {
   .lp-strip { width: 100px; padding: 6px 6px 12px; }
-  .lp-strip-frame .lp-sf-num { font-size: 32px; }
   .lp-intro-title { font-size: 21px; }
   .lp-intro-mini-stats { gap: 16px; }
+  .lp-polaroid-grid { width: 180px; gap: 6px; }
 }
 </style>
 
@@ -328,6 +374,28 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
         </div>
       </div>
 
+    </div>
+
+    <!-- Collage photos polaroid a droite -->
+    <div class="lp-polaroid-grid">
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-5.jpg" alt="Photobooth boas colores">
+      </div>
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-6.jpg" alt="Photobooth noir et blanc mariage">
+      </div>
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-7.jpg" alt="Photobooth soiree gatsby">
+      </div>
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-8.jpg" alt="Photobooth soiree chic">
+      </div>
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-9.jpg" alt="Photobooth soiree noeuds papillon">
+      </div>
+      <div class="lp-polaroid">
+        <img src="../../public/images/strip-photo-10.jpg" alt="Photobooth fete entre amis">
+      </div>
     </div>
 
   </div>
