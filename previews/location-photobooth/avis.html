@@ -23,6 +23,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 .snb-avis .avis-h2{font-size:36px;font-weight:900;font-style:italic;color:#1a0a22;text-align:center;margin:0 auto 36px;line-height:1.2;max-width:800px;}
 .snb-avis .avis-h2 span{background:linear-gradient(135deg,#E51981,#ff6eb4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 @media(max-width:768px){.snb-avis .avis-h2{font-size:26px;margin-bottom:28px;}}
+.snb-avis .avis-trust-wrap{position:relative;width:100%;overflow:hidden;margin-bottom:30px;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);}
+.snb-avis .avis-trust-track{display:flex;align-items:center;gap:30px;width:max-content;animation:avisTrustScroll 35s linear infinite;padding:10px 0;}
+.snb-avis .avis-trust-track:hover{animation-play-state:paused;}
+.snb-avis .avis-trust-track img{height:80px;width:auto;object-fit:contain;filter:grayscale(100%);opacity:0.4;transition:all 0.4s ease;flex-shrink:0;}
+.snb-avis .avis-trust-track img:hover{filter:grayscale(0%);opacity:1;transform:scale(1.1);}
+@keyframes avisTrustScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(max-width:900px){.snb-avis .avis-trust-track img{height:50px;}.snb-avis .avis-trust-track{gap:20px;animation-duration:22s;}}
 .snb-avis *{box-sizing:border-box;}
 .snb-avis .avis-inner{max-width:1100px;margin:0 auto;display:flex;gap:30px;align-items:center;}
 .snb-avis .avis-business{flex-shrink:0;width:240px;background:#fff;border-radius:20px;padding:28px 24px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.06);border:1.5px solid rgba(229,25,129,0.08);}
@@ -89,6 +96,48 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 <div class="snb-avis">
   <h2 class="avis-h2">Vous m&eacute;ritez le meilleur : d&eacute;couvrez les <span>avis sur nos photobooths</span></h2>
+  <div class="avis-trust-wrap">
+    <div class="avis-trust-track">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance_Plan de travail 1.webp" alt="Amazon">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-02.webp" alt="Chanel">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-03.webp" alt="Client 3">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-04.webp" alt="Client 4">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-05.webp" alt="La Banque Postale">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-06.webp" alt="Client 6">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-07.webp" alt="Client 7">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-08.webp" alt="Client 8">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-09.webp" alt="Client 9">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-10.webp" alt="Black Trombone">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-11.webp" alt="Client 11">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-12.webp" alt="Client 12">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-13.webp" alt="Client 13">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-14.webp" alt="Client 14">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-15.webp" alt="Client 15">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-16.webp" alt="Client 16">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-17.webp" alt="Client 17">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-18.webp" alt="Client 18">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-19.webp" alt="Client 19">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance_Plan de travail 1.webp" alt="Amazon">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-02.webp" alt="Chanel">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-03.webp" alt="Client 3">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-04.webp" alt="Client 4">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-05.webp" alt="La Banque Postale">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-06.webp" alt="Client 6">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-07.webp" alt="Client 7">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-08.webp" alt="Client 8">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-09.webp" alt="Client 9">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-10.webp" alt="Black Trombone">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-11.webp" alt="Client 11">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-12.webp" alt="Client 12">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-13.webp" alt="Client 13">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-14.webp" alt="Client 14">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-15.webp" alt="Client 15">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-16.webp" alt="Client 16">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-17.webp" alt="Client 17">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-18.webp" alt="Client 18">
+      <img loading="lazy" src="../../public/images/logos/logo ils nous font confiance-19.webp" alt="Client 19">
+    </div>
+  </div>
   <div class="avis-inner">
     <div class="avis-business">
       <div class="biz-icon">
