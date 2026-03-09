@@ -93,7 +93,7 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   display: flex;
   align-items: center;
   gap: 50px;
-  text-align: left;
+  text-align: center;
 }
 
 /* Photo strip gauche */
@@ -151,7 +151,7 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
 /* Colonne texte droite */
 .lp-intro-content {
   flex: 1;
-  text-align: left;
+  text-align: center;
 }
 
 .lp-intro-label {
@@ -187,14 +187,16 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   color: #5a4a6a;
   margin: 0 0 18px;
   max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .lp-intro-p strong { color: #1a0a22; font-weight: 700; }
 
 .lp-intro-sep {
   width: 50px; height: 2px;
-  background: linear-gradient(90deg, #E51981, transparent);
+  background: linear-gradient(90deg, transparent, #E51981, transparent);
   border-radius: 2px;
-  margin: 22px 0;
+  margin: 22px auto;
 }
 
 /* Mini stats inline */
@@ -203,6 +205,7 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   gap: 24px;
   flex-wrap: wrap;
   margin-top: 28px;
+  justify-content: center;
 }
 .lp-intro-ms {
   display: flex;
