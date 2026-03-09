@@ -248,31 +248,31 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   100% { opacity: 1; transform: scale(1); filter: brightness(1) saturate(1); }
 }
 
-/* Collage photos polaroid droite */
+/* Collage photos polaroid droite - style pile desordonnee */
 .lp-polaroid-grid {
   flex-shrink: 0;
-  width: 280px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  width: 220px;
+  height: 380px;
   position: relative;
 }
 
 .lp-polaroid {
   background: #fff;
-  padding: 6px 6px 22px;
+  padding: 5px 5px 20px;
   border-radius: 3px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.06);
+  position: absolute;
+  width: 120px;
   opacity: 0;
   animation: lp-polaroid-drop 0.5s ease forwards;
 }
 
-.lp-polaroid:nth-child(1) { transform: rotate(-4deg); animation-delay: 0.3s; }
-.lp-polaroid:nth-child(2) { transform: rotate(3deg); animation-delay: 0.5s; }
-.lp-polaroid:nth-child(3) { transform: rotate(2deg); animation-delay: 0.7s; }
-.lp-polaroid:nth-child(4) { transform: rotate(-3deg); animation-delay: 0.9s; }
-.lp-polaroid:nth-child(5) { transform: rotate(4deg); animation-delay: 1.1s; }
-.lp-polaroid:nth-child(6) { transform: rotate(-2deg); animation-delay: 1.3s; }
+.lp-polaroid:nth-child(1) { top: 0; left: 10px; transform: rotate(-6deg); animation-delay: 0.3s; z-index: 1; }
+.lp-polaroid:nth-child(2) { top: 15px; right: 0; transform: rotate(4deg); animation-delay: 0.5s; z-index: 2; }
+.lp-polaroid:nth-child(3) { top: 120px; left: 0; transform: rotate(3deg); animation-delay: 0.7s; z-index: 3; }
+.lp-polaroid:nth-child(4) { top: 140px; right: 10px; transform: rotate(-5deg); animation-delay: 0.9s; z-index: 4; }
+.lp-polaroid:nth-child(5) { top: 245px; left: 15px; transform: rotate(5deg); animation-delay: 1.1s; z-index: 5; }
+.lp-polaroid:nth-child(6) { top: 260px; right: 5px; transform: rotate(-3deg); animation-delay: 1.3s; z-index: 6; }
 
 @keyframes lp-polaroid-drop {
   0% { opacity: 0; transform: scale(0.6) rotate(0deg) translateY(-30px); }
@@ -296,15 +296,26 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   .lp-intro-mini-stats { justify-content: center; }
   .lp-intro-sep { margin: 18px auto; }
   .lp-intro-label { margin-bottom: 10px; }
-  .lp-polaroid-grid { width: 220px; gap: 8px; }
-  .lp-polaroid { padding: 4px 4px 16px; }
+  .lp-polaroid-grid { width: 180px; height: 320px; }
+  .lp-polaroid { width: 100px; padding: 4px 4px 16px; }
+  .lp-polaroid:nth-child(1) { top: 0; left: 5px; }
+  .lp-polaroid:nth-child(2) { top: 10px; right: 0; }
+  .lp-polaroid:nth-child(3) { top: 100px; left: 0; }
+  .lp-polaroid:nth-child(4) { top: 115px; right: 5px; }
+  .lp-polaroid:nth-child(5) { top: 205px; left: 10px; }
+  .lp-polaroid:nth-child(6) { top: 215px; right: 0; }
 }
 
 @media (max-width: 480px) {
   .lp-strip { width: 100px; padding: 6px 6px 12px; }
   .lp-intro-title { font-size: 26px; }
   .lp-intro-mini-stats { gap: 16px; }
-  .lp-polaroid-grid { width: 180px; gap: 6px; }
+  .lp-polaroid-grid { width: 150px; height: 280px; }
+  .lp-polaroid { width: 85px; }
+  .lp-polaroid:nth-child(3) { top: 85px; }
+  .lp-polaroid:nth-child(4) { top: 95px; }
+  .lp-polaroid:nth-child(5) { top: 175px; }
+  .lp-polaroid:nth-child(6) { top: 185px; }
 }
 </style>
 
