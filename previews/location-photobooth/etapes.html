@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview - etapes location-photobooth</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; line-height: 1.6; background: #fff; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<style>
+.lp-etapes {
+  position: relative;
+  padding: 70px 5% 80px;
+  background: #f8f8fa;
+  font-family: 'Raleway', sans-serif;
+  overflow: hidden;
+}
+
+.lp-etapes-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.lp-etapes h2 {
+  font-size: 36px;
+  font-weight: 900;
+  font-style: italic;
+  color: #323338;
+  text-align: center;
+  margin: 0 0 50px;
+  line-height: 1.2;
+}
+
+.lp-etapes h2 .lp-accent {
+  color: #E51981;
+}
+
+.lp-etapes h2 .lp-accent-blue {
+  color: #0250FF;
+}
+
+/* Timeline */
+.lp-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Ligne verticale */
+.lp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, #E51981 0%, #0250FF 50%, #E51981 100%);
+  opacity: 0.2;
+  border-radius: 2px;
+}
+
+.lp-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px 0;
+  position: relative;
+}
+
+/* Numero */
+.lp-step-num {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.lp-step:nth-child(1) .lp-step-num { background: linear-gradient(135deg, #E51981, #ff3fac); }
+.lp-step:nth-child(2) .lp-step-num { background: linear-gradient(135deg, #0250FF, #4d8aff); }
+.lp-step:nth-child(3) .lp-step-num { background: linear-gradient(135deg, #7828C8, #a855f7); }
+.lp-step:nth-child(4) .lp-step-num { background: linear-gradient(135deg, #FF7A00, #fbbf24); }
+.lp-step:nth-child(5) .lp-step-num { background: linear-gradient(135deg, #0891B2, #22d3ee); }
+
+.lp-step-content {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.lp-step-content h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #323338;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.lp-step-content p {
+  font-size: 15px;
+  font-weight: 400;
+  color: #6b6b6b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Icone decorative */
+.lp-step-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lp-etapes { padding: 50px 20px 60px; }
+  .lp-etapes h2 { font-size: 26px; margin-bottom: 36px; }
+  .lp-timeline::before { left: 24px; }
+  .lp-step { gap: 18px; padding: 16px 0; }
+  .lp-step-num { width: 48px; height: 48px; font-size: 19px; border-radius: 14px; }
+  .lp-step-content h3 { font-size: 16px; }
+  .lp-step-content p { font-size: 14px; }
+  .lp-step-icon { display: none; }
+}
+
+@media (max-width: 480px) {
+  .lp-etapes { padding: 40px 16px 50px; }
+  .lp-etapes h2 { font-size: 23px; }
+  .lp-step-num { width: 42px; height: 42px; font-size: 17px; border-radius: 12px; }
+  .lp-timeline::before { left: 20px; }
+}
+</style>
+
+<section class="lp-etapes">
+  <div class="lp-etapes-inner">
+
+    <h2>Comment louer un photobooth facilement en <span class="lp-accent-blue">5 minutes</span><span class="lp-accent"> ?</span></h2>
+
+    <div class="lp-timeline">
+
+      <div class="lp-step">
+        <div class="lp-step-num">1</div>
+        <div class="lp-step-content">
+          <h3>Devis et reservation de votre photo booth en ligne</h3>
+          <p>Vous choisissez en quelques clics le modele qui correspond a l'esprit de votre fete.</p>
+        </div>
+        <div class="lp-step-icon">&#128240;</div>
+      </div>
+
+      <div class="lp-step">
+        <div class="lp-step-num">2</div>
+        <div class="lp-step-content">
+          <h3>Vous validez votre devis par mail</h3>
+          <p>Un processus simple, transparent et rapide pour bloquer votre date en toute serenite.</p>
+        </div>
+        <div class="lp-step-icon">&#9989;</div>
+      </div>
+
+      <div class="lp-step">
+        <div class="lp-step-num">3</div>
+        <div class="lp-step-content">
+          <h3>Vous personnalisez vos cadres photos</h3>
+          <p>Vous adaptez le design (textes, couleurs, theme) pour qu'il s'integre parfaitement a la decoration de votre evenement.</p>
+        </div>
+        <div class="lp-step-icon">&#127912;</div>
+      </div>
+
+      <div class="lp-step">
+        <div class="lp-step-num">4</div>
+        <div class="lp-step-content">
+          <h3>Vous retirez votre materiel ou vous vous faites livrer</h3>
+          <p>Retrait gratuit dans l'un de nos showrooms ou livraison de la cabine photo directement chez vous.</p>
+        </div>
+        <div class="lp-step-icon">&#128666;</div>
+      </div>
+
+      <div class="lp-step">
+        <div class="lp-step-num">5</div>
+        <div class="lp-step-content">
+          <h3>Vous etes accompagne(e) de A a Z</h3>
+          <p>Une assistance technique telephonique 7j/7 est a votre disposition pour une tranquillite d'esprit totale.</p>
+        </div>
+        <div class="lp-step-icon">&#128222;</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
