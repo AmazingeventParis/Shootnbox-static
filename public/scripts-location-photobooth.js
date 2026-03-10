@@ -9,34 +9,6 @@ var header = document.getElementById('snbHeader');
 window.addEventListener('scroll', function() {
   header.classList.toggle('scrolled', window.scrollY > 20);
 });
-function snbSwitchUsage(id) {
-  // Switch tabs
-  document.querySelectorAll('.snb-usage-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.snb-usage-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector('.snb-usage-tab[data-tab="'+id+'"]').classList.add('active');
-  document.querySelector('.snb-usage-panel[data-panel="'+id+'"]').classList.add('active');
-
-  // Switch showcase neon border color
-  var showcase = document.querySelector('.snb-usage-showcase');
-  showcase.className = 'snb-usage-showcase';
-  var colorMap = { mariage: 'snb-showcase--rose', entreprise: 'snb-showcase--bleu', anniversaire: 'snb-showcase--violet' };
-  showcase.classList.add(colorMap[id]);
-}
-
-// 3D tilt on tabs
-document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
-  tab.addEventListener('mousemove', function(e) {
-    var rect = tab.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
-    tab.style.transition = 'transform 0.1s ease';
-  });
-  tab.addEventListener('mouseleave', function() {
-    tab.style.transform = '';
-    tab.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
-  });
-});
 (function(){
   var carousel = document.querySelector(".avis-carousel");
   if (!carousel) return;
@@ -139,5 +111,33 @@ document.querySelectorAll('.lp-clay').forEach(function(card) {
   card.addEventListener('mouseleave', function() {
     card.style.transform = '';
     card.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
+  });
+});
+function snbSwitchUsage(id) {
+  // Switch tabs
+  document.querySelectorAll('.snb-usage-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.snb-usage-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.snb-usage-tab[data-tab="'+id+'"]').classList.add('active');
+  document.querySelector('.snb-usage-panel[data-panel="'+id+'"]').classList.add('active');
+
+  // Switch showcase neon border color
+  var showcase = document.querySelector('.snb-usage-showcase');
+  showcase.className = 'snb-usage-showcase';
+  var colorMap = { mariage: 'snb-showcase--rose', entreprise: 'snb-showcase--bleu', anniversaire: 'snb-showcase--violet' };
+  showcase.classList.add(colorMap[id]);
+}
+
+// 3D tilt on tabs
+document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
+  tab.addEventListener('mousemove', function(e) {
+    var rect = tab.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
+    tab.style.transition = 'transform 0.1s ease';
+  });
+  tab.addEventListener('mouseleave', function() {
+    tab.style.transform = '';
+    tab.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
   });
 });
