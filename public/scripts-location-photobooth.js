@@ -56,7 +56,8 @@ window.addEventListener('scroll', function() {
 
   document.addEventListener("touchstart", function(e) {
     var t = e.target;
-    dbg.textContent = "TOUCH: <" + t.tagName + "> class=" + (t.className||"none") + " inside=" + isInsideCarousel(t);
+    var p = t.parentElement;
+    dbg.textContent = "TOUCH: <" + t.tagName + "> id=" + (t.id||"-") + " class=" + (t.className||"-") + " parent=<" + (p?p.tagName:"-") + "> pClass=" + (p?(p.className||"-"):"-") + " inside=" + isInsideCarousel(t);
     if (!isInsideCarousel(e.target)) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
