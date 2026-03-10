@@ -19,7 +19,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 <style>
 /* === SNB AVIS v3 - Clean rebuild === */
-.snb-avis{padding:50px 20px;background:linear-gradient(135deg,#FFF8EE 0%,#fff0f8 40%,#FFF8EE 70%,#f0f0ff 100%);font-family:"Raleway",sans-serif;position:relative;z-index:2;}
+.snb-avis{padding:50px 20px;background:linear-gradient(135deg,#FFF8EE 0%,#fff0f8 40%,#FFF8EE 70%,#f0f0ff 100%);font-family:"Raleway",sans-serif;position:relative;}
 .snb-avis .avis-h2{font-size:36px;font-weight:900;font-style:italic;color:#1a0a22;text-align:center;margin:0 auto 36px;line-height:1.2;max-width:800px;}
 .snb-avis .avis-h2 span{background:linear-gradient(135deg,#E51981,#ff6eb4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 @media(max-width:768px){.snb-avis .avis-h2{font-size:26px;margin-bottom:28px;}}
@@ -486,13 +486,8 @@ ul { list-style: none; padding: 0; margin: 0; }
     return false;
   }
 
-  function isTouchInCarousel(touch) {
-    var rect = carousel.getBoundingClientRect();
-    return touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom;
-  }
-
   document.addEventListener("touchstart", function(e) {
-    if (!isTouchInCarousel(e.touches[0])) return;
+    if (!isInsideCarousel(e.target)) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     dx = 0;

@@ -34,6 +34,12 @@ img { max-width: 100%; height: auto; }
   z-index: 0;
 }
 
+/* Blobs */
+.snb-fab-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); z-index: 0; }
+.snb-fab-blob-1 { width: 400px; height: 400px; background: rgba(2,80,255,0.08); top: -100px; right: -100px; animation: snbFabBlob 6s ease-in-out infinite; }
+.snb-fab-blob-2 { width: 350px; height: 350px; background: rgba(229,25,129,0.07); bottom: -80px; left: -80px; animation: snbFabBlob 6s ease-in-out infinite 3s; }
+@keyframes snbFabBlob { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.15);opacity:1} }
+
 .snb-fab-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -90,9 +96,25 @@ img { max-width: 100%; height: auto; }
   background: rgba(229,25,129,0.04);
   border: 1.5px solid rgba(229,25,129,0.08);
 }
+/* Shimmer subtil */
+.snb-fab-visual::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+  transform: translateX(-150%);
+  animation: snbFabShimmer 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes snbFabShimmer {
+  0%, 70%, 100% { transform: translateX(-150%); }
+  40% { transform: translateX(150%); }
+}
+
 .snb-fab-img-wrap {
   position: relative;
   display: inline-block;
+  animation: snbFabFloat 4s ease-in-out infinite;
 }
 .snb-fab-img {
   max-width: 220px;
@@ -124,6 +146,7 @@ img { max-width: 100%; height: auto; }
   left: -18%;
   width: 110px;
   height: 110px;
+  animation: snbFabBadgeFloat 3.5s ease-in-out infinite;
   opacity: 0.15;
 }
 @keyframes snbFabBadgeFloat {
@@ -166,7 +189,7 @@ img { max-width: 100%; height: auto; }
 .snb-fab-fc1 {
   top: 2%; left: -8%;
   border: 1.5px solid rgba(2,80,255,0.25);
-  transform: rotate(-2deg);
+  animation: snbFcFloat1 4s ease-in-out infinite;
 }
 .snb-fab-fc1 .snb-fab-fc-icon {
   background: linear-gradient(145deg, #4d8bff, #0250FF);
@@ -176,7 +199,7 @@ img { max-width: 100%; height: auto; }
 .snb-fab-fc2 {
   bottom: 28%; left: -12%;
   border: 1.5px solid rgba(229,25,129,0.25);
-  transform: rotate(1deg);
+  animation: snbFcFloat2 4.5s ease-in-out infinite 0.5s;
 }
 .snb-fab-fc2 .snb-fab-fc-icon {
   background: linear-gradient(145deg, #ff6eb4, #E51981);
@@ -186,7 +209,7 @@ img { max-width: 100%; height: auto; }
 .snb-fab-fc3 {
   top: 35%; right: -5%;
   border: 1.5px solid rgba(168,85,247,0.25);
-  transform: rotate(2deg);
+  animation: snbFcFloat3 3.8s ease-in-out infinite 1s;
 }
 .snb-fab-fc3 .snb-fab-fc-icon {
   background: linear-gradient(145deg, #c084fc, #a855f7);
@@ -369,6 +392,9 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <section class="snb-fab">
+  <div class="snb-fab-blob snb-fab-blob-1"></div>
+  <div class="snb-fab-blob snb-fab-blob-2"></div>
+
   <div class="snb-fab-inner">
 
     <!-- GAUCHE : Photo borne -->

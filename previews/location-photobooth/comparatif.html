@@ -24,6 +24,13 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
 }
 
+/* Blobs */
+.snb-comp-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(70px); z-index: 0; }
+.snb-comp-blob-1 { width: 450px; height: 450px; background: rgba(229,25,129,0.07); top: -120px; left: -100px; animation: snbCompBlob 7s ease-in-out infinite; }
+.snb-comp-blob-2 { width: 400px; height: 400px; background: rgba(2,80,255,0.06); bottom: -100px; right: -80px; animation: snbCompBlob 7s ease-in-out infinite 3.5s; }
+.snb-comp-blob-3 { width: 300px; height: 300px; background: rgba(168,85,247,0.05); top: 40%; left: 50%; transform: translateX(-50%); animation: snbCompBlob 8s ease-in-out infinite 2s; }
+@keyframes snbCompBlob { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.15);opacity:1} }
+
 .snb-comp-inner {
   max-width: 1280px;
   margin: 0 auto;
@@ -36,6 +43,8 @@ img { max-width: 100%; height: auto; }
   border-radius: 34px;
   border: 1.5px solid rgba(255,255,255,0.7);
   background: rgba(210,180,225,0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 70px rgba(214,118,180,0.22);
   padding: 40px 36px;
 }
@@ -228,6 +237,60 @@ img { max-width: 100%; height: auto; }
     8px 16px 40px rgba(229,25,129,0.2),
     -4px -4px 12px rgba(255,255,255,0.6),
     0 0 50px rgba(229,25,129,0.12);
+}
+
+/* Shimmer glissant sur highlight - sur le header seulement */
+.snb-comp-card--highlight .snb-comp-card-head::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.25) 55%, transparent 60%);
+  transform: translateX(-150%);
+  animation: snbCompShimmer 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes snbCompShimmer {
+  0%, 65%, 100% { transform: translateX(-150%); }
+  35% { transform: translateX(150%); }
+}
+
+/* Glow neon pulse sur highlight - via box-shadow sur le head */
+
+/* Sparkles sur highlight */
+.snb-comp-sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px #E51981, 0 0 12px rgba(229,25,129,0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+.snb-comp-sparkle:nth-child(1) { top: 12%; right: 8%; animation: snbCompSparkle 2.5s ease-in-out infinite 0s; }
+.snb-comp-sparkle:nth-child(2) { top: 35%; left: 5%; animation: snbCompSparkle 3s ease-in-out infinite 0.8s; width: 4px; height: 4px; }
+.snb-comp-sparkle:nth-child(3) { bottom: 20%; right: 12%; animation: snbCompSparkle 2.8s ease-in-out infinite 1.5s; width: 5px; height: 5px; }
+.snb-comp-sparkle:nth-child(4) { top: 60%; left: 10%; animation: snbCompSparkle 3.2s ease-in-out infinite 0.4s; width: 3px; height: 3px; }
+@keyframes snbCompSparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Ground shadow 3D */
+.snb-comp-card-shadow {
+  width: 80%;
+  height: 16px;
+  margin: -4px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(60,20,80,0.1) 0%, transparent 70%);
+  filter: blur(4px);
+  transition: all 0.4s ease;
+}
+.snb-comp-card-wrap:hover .snb-comp-card-shadow {
+  width: 75%;
+  opacity: 0.7;
+}
+.snb-comp-card-wrap--highlight .snb-comp-card-shadow {
+  background: radial-gradient(ellipse, rgba(229,25,129,0.12) 0%, transparent 70%);
 }
 
 /* Header carte */
@@ -492,11 +555,15 @@ img { max-width: 100%; height: auto; }
   .snb-comp-benefits { gap: 8px; padding: 12px; }
   .snb-comp-benefit { font-size: 11px; padding: 6px 12px; }
   .snb-comp-intro p { font-size: 13px; text-align: left; }
-
+  .snb-comp-card-shadow { display: none; }
 }
 </style>
 
 <section class="snb-comp">
+  <div class="snb-comp-blob snb-comp-blob-1"></div>
+  <div class="snb-comp-blob snb-comp-blob-2"></div>
+  <div class="snb-comp-blob snb-comp-blob-3"></div>
+
   <div class="snb-comp-inner">
     <div class="snb-comp-panel">
 
@@ -536,6 +603,10 @@ img { max-width: 100%; height: auto; }
         <!-- Shootnbox (highlight) -->
         <div class="snb-comp-card-wrap snb-comp-card-wrap--highlight" data-comp-tilt>
           <div class="snb-comp-card snb-comp-card--highlight">
+            <span class="snb-comp-sparkle"></span>
+            <span class="snb-comp-sparkle"></span>
+            <span class="snb-comp-sparkle"></span>
+            <span class="snb-comp-sparkle"></span>
             <div class="snb-comp-card-head">
               <h3 class="snb-comp-card-name">Shootnbox</h3>
               <p class="snb-comp-card-sub">4,8 &#9733; + de 1000 avis positifs</p>
@@ -552,7 +623,7 @@ img { max-width: 100%; height: auto; }
               <a href="https://shootnbox.fr/reservation/" class="snb-comp-card-btn">Devis gratuit en ligne</a>
             </div>
           </div>
-
+          <div class="snb-comp-card-shadow"></div>
         </div>
 
         <!-- Josepho -->
@@ -574,7 +645,7 @@ img { max-width: 100%; height: auto; }
               <a href="https://www.josepho.io/" target="_blank" rel="noopener" class="snb-comp-card-btn">Josepho</a>
             </div>
           </div>
-
+          <div class="snb-comp-card-shadow"></div>
         </div>
 
         <!-- Cheerz -->
@@ -596,7 +667,7 @@ img { max-width: 100%; height: auto; }
               <a href="https://www.cheerz.com/" target="_blank" rel="noopener" class="snb-comp-card-btn">Cheerz</a>
             </div>
           </div>
-
+          <div class="snb-comp-card-shadow"></div>
         </div>
 
         <!-- Kruu -->
@@ -618,7 +689,7 @@ img { max-width: 100%; height: auto; }
               <a href="https://kruu.com/fr/" target="_blank" rel="noopener" class="snb-comp-card-btn">Kruu</a>
             </div>
           </div>
-
+          <div class="snb-comp-card-shadow"></div>
         </div>
 
       </div>
@@ -639,21 +710,15 @@ img { max-width: 100%; height: auto; }
   var wraps = document.querySelectorAll('[data-comp-tilt]');
   if (!wraps.length || window.innerWidth < 768) return;
   wraps.forEach(function(wrap) {
-    var ticking = false;
     wrap.addEventListener('mousemove', function(e) {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function() {
-        var rect = wrap.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        var cx = rect.width / 2;
-        var cy = rect.height / 2;
-        var rotateY = ((x - cx) / cx) * 10;
-        var rotateX = ((cy - y) / cy) * 6;
-        wrap.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
-        ticking = false;
-      });
+      var rect = wrap.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var rotateY = ((x - cx) / cx) * 10;
+      var rotateX = ((cy - y) / cy) * 6;
+      wrap.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
     });
     wrap.addEventListener('mouseleave', function() {
       wrap.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';

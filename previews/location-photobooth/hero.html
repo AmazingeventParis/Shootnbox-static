@@ -25,33 +25,125 @@ img { max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
 }
-.lp-hero-bg {
+.lp-hero::before {
+  content: '';
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  background: url('../../public/images/location-hero-party.webp') center center / cover no-repeat;
   z-index: 0;
-}
-.lp-hero-overlay {
-  display: none;
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: linear-gradient(to bottom, rgba(26,10,34,0.6) 0%, rgba(26,10,34,0.3) 50%, rgba(26,10,34,0.6) 100%);
-  z-index: 0;
-}
-.lp-hero-borne {
-  position: absolute;
-  right: 25%;
-  bottom: 0;
-  transform: translateX(50%);
-  height: 70%;
-  max-height: 400px;
-  z-index: 2;
-  filter: drop-shadow(0 0 20px rgba(229,25,129,0.2));
-  pointer-events: none;
 }
 
+/* Flash effect - couvre toute la zone gens+borne */
+.lp-flash {
+  position: absolute;
+  right: -5%;
+  top: 10%;
+  width: 55%;
+  height: 80%;
+  background: radial-gradient(ellipse at 55% 45%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.05) 45%, transparent 65%);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  animation: flash-burst 5s ease-in-out infinite;
+}
+.lp-flash:nth-child(2) {
+  animation-delay: 1.8s;
+}
+.lp-flash:nth-child(3) {
+  animation-delay: 3.5s;
+}
+@keyframes flash-burst {
+  0% { opacity: 0; }
+  1% { opacity: 1; }
+  3% { opacity: 0; }
+  5% { opacity: 0.7; }
+  6.5% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .lp-flash {
+    width: 100%;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background: radial-gradient(ellipse at 50% 60%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  }
+}
+
+/* Graffiti / paint splashes */
+.lp-graffiti {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.15;
+  filter: blur(2px);
+}
+.lp-graf-1 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #E51981 0%, transparent 70%);
+  top: -40px; right: 15%;
+  opacity: 0.2;
+  filter: blur(30px);
+}
+.lp-graf-2 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, #0250FF 0%, transparent 70%);
+  top: 10%; right: 35%;
+  opacity: 0.18;
+  filter: blur(25px);
+}
+.lp-graf-3 {
+  width: 320px; height: 180px;
+  background: radial-gradient(ellipse, #FF7A00 0%, transparent 70%);
+  bottom: 10%; right: 20%;
+  border-radius: 60% 40% 50% 40%;
+  opacity: 0.15;
+  filter: blur(20px);
+}
+.lp-graf-4 {
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, #7828C8 0%, transparent 70%);
+  top: 20%; right: 5%;
+  opacity: 0.2;
+  filter: blur(20px);
+}
+.lp-graf-5 {
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, #E51981 0%, transparent 70%);
+  bottom: 20%; right: 8%;
+  opacity: 0.25;
+  filter: blur(15px);
+}
+/* Spray dots */
+.lp-spray {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.lp-spray::before, .lp-spray::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+.lp-spray-1 { top: 8%; right: 25%; }
+.lp-spray-1::before { width: 6px; height: 6px; background: #E51981; opacity: 0.3; }
+.lp-spray-1::after { width: 4px; height: 4px; background: #ff3fac; opacity: 0.25; top: 15px; left: -20px; }
+.lp-spray-2 { top: 5%; right: 40%; }
+.lp-spray-2::before { width: 5px; height: 5px; background: #0250FF; opacity: 0.3; }
+.lp-spray-2::after { width: 3px; height: 3px; background: #4d8aff; opacity: 0.2; top: -10px; left: 15px; }
+.lp-spray-3 { bottom: 30%; right: 12%; }
+.lp-spray-3::before { width: 5px; height: 5px; background: #FF7A00; opacity: 0.35; }
+.lp-spray-3::after { width: 4px; height: 4px; background: #fbbf24; opacity: 0.25; top: 12px; left: -8px; }
+.lp-spray-4 { top: 15%; right: 10%; }
+.lp-spray-4::before { width: 4px; height: 4px; background: #7828C8; opacity: 0.3; }
+.lp-spray-4::after { width: 6px; height: 6px; background: #E51981; opacity: 0.2; top: -18px; left: 10px; }
+
+@media (max-width: 768px) {
+  .lp-graffiti, .lp-spray { display: none; }
+}
 
 .lp-hero::after {
   content: '';
@@ -71,6 +163,7 @@ img { max-width: 100%; height: auto; }
   text-align: left;
 }
 
+/* H1 avec animation wave comme la home */
 .lp-hero h1 {
   font-family: 'Raleway', sans-serif;
   font-size: 50px;
@@ -79,6 +172,16 @@ img { max-width: 100%; height: auto; }
   line-height: 1.08;
   margin: 0 0 12px;
   color: #fff;
+}
+.lp-hero .hero-wave {
+  display: inline;
+  animation: hero-color-wave 4s ease-in-out infinite;
+}
+@keyframes hero-color-wave {
+  0%,100% { color: #fff; }
+  30% { color: #E51981; }
+  60% { color: #4d8aff; }
+  85% { color: #fff; }
 }
 
 .lp-hero-sub {
@@ -114,6 +217,19 @@ img { max-width: 100%; height: auto; }
   line-height: 1;
   text-shadow: 0 0 40px rgba(229,25,129,0.4), 0 0 80px rgba(229,25,129,0.15);
   min-height: 68px;
+}
+.lp-price-oups {
+  font-size: 18px;
+  font-weight: 600;
+  font-style: normal;
+  color: rgba(255,255,255,0.5);
+  min-height: 24px;
+}
+.lp-price-strikethrough {
+  text-decoration: line-through;
+  color: rgba(255,255,255,0.3);
+  font-size: 36px;
+  margin-right: 12px;
 }
 .lp-price-weekend {
   font-size: 16px;
@@ -242,14 +358,15 @@ img { max-width: 100%; height: auto; }
   transform: translateY(-3px);
 }
 
-/* Borne mobile - hidden on desktop */
-.lp-borne-mobile { display: none; }
 
 /* Responsive */
 @media (max-width: 768px) {
   .lp-hero { min-height: 60vh; }
-  .lp-hero-bg { object-position: 90% center; }
-  .lp-hero-overlay { display: block; }
+  .lp-hero::before {
+    background:
+      linear-gradient(to bottom, rgba(26,10,34,0.6) 0%, rgba(26,10,34,0.3) 50%, rgba(26,10,34,0.6) 100%),
+      url('../../public/images/location-hero-party.webp') 90% center / cover no-repeat;
+  }
   .lp-hero { align-items: flex-start; }
   .lp-hero-inner { padding: 5vh 16px 40px; margin: 0 auto !important; text-align: center !important; max-width: 100%; }
   .lp-hero h1 { font-size: 34px; text-align: center; margin-bottom: 5px; }
@@ -266,52 +383,54 @@ img { max-width: 100%; height: auto; }
   .lp-price-block {
     margin-top: auto;
     background: rgba(0,0,0,0.4);
-    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 16px;
     padding: 12px 20px 12px !important;
     gap: 0px !important;
     margin-bottom: 10px;
   }
-  .lp-price-amount { font-size: 40px !important; }
-  .lp-price-amount .lp-euro { font-size: 28px !important; }
-  .lp-price-from { font-size: 14px !important; }
+  .lp-price-amount { font-size: 54px !important; }
+  .lp-price-amount .lp-euro { font-size: 36px !important; }
+  .lp-price-from { font-size: 18px !important; }
   .lp-price-weekend { color: #fff !important; }
   .lp-hero-inner { display: flex; flex-direction: column; min-height: 65vh; padding-bottom: 10px !important; }
-  .lp-price-block { position: relative; padding-top: 12px !important; padding-bottom: 6px !important; }
-  .lp-hero-borne { display: none; }
-  .lp-borne-mobile {
-    display: block;
-    position: absolute;
-    top: -90px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 160px;
-    z-index: -1;
-    filter: drop-shadow(0 0 10px rgba(229,25,129,0.3));
-  }
+  .lp-price-block { position: relative; padding-top: 12px !important; padding-bottom: 8px !important; }
 }
 @media (max-width: 480px) {
   .lp-hero h1 { font-size: 32px; }
   .lp-price-amount { font-size: 36px; }
   .lp-price-amount .lp-euro { font-size: 24px; }
   .lp-hero-inner { padding: 5vh 12px 16px; }
-  .lp-hero-borne { display: none; }
 }
 </style>
 
 <section class="lp-hero">
-  <img src="../../public/images/location-hero-party.webp" alt="Soirée photobooth avec invités" class="lp-hero-bg" loading="eager" fetchpriority="high" width="1200" height="800">
-  <div class="lp-hero-overlay"></div>
-  <img src="../../public/images/borne-ring-detoure.webp" alt="Borne photo Ring Shootnbox" class="lp-hero-borne" loading="lazy">
+  <!-- Graffiti splashes -->
+  <div class="lp-graffiti lp-graf-1"></div>
+  <div class="lp-graffiti lp-graf-2"></div>
+  <div class="lp-graffiti lp-graf-3"></div>
+  <div class="lp-graffiti lp-graf-4"></div>
+  <div class="lp-graffiti lp-graf-5"></div>
+  <div class="lp-spray lp-spray-1"></div>
+  <div class="lp-spray lp-spray-2"></div>
+  <div class="lp-spray lp-spray-3"></div>
+  <div class="lp-spray lp-spray-4"></div>
+
+  <div class="lp-flash"></div>
+  <div class="lp-flash"></div>
+  <div class="lp-flash"></div>
   <div class="lp-hero-inner">
 
-    <h1>Location Photobooth<br>pour vos evenements.</h1>
+    <h1>
+      <span class="hero-wave" style="animation-delay:0s">Location</span> <span class="hero-wave" style="animation-delay:0.4s">Photobooth</span><br>
+      <span class="hero-wave" style="animation-delay:0.8s">pour</span> <span class="hero-wave" style="animation-delay:1.2s">vos</span> <span class="hero-wave" style="animation-delay:1.6s">evenements.</span>
+    </h1>
 
     <p class="lp-hero-sub">Borne photo <strong>haut de gamme</strong>, livree et installee en 5 minutes.<br>Mariages, soirees d'entreprise, salons — des souvenirs <strong>instantanes</strong> pour vos invites.</p>
 
     <div class="lp-price-block">
-      <img src="../../public/images/borne-ring-detoure.webp" alt="" class="lp-borne-mobile">
       <span class="lp-price-from">A PARTIR DE</span>
       <span class="lp-price-amount">149&euro; <span class="lp-price-weekend">prix week-end</span></span>
       <span class="lp-price-period">par evenement</span>
