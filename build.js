@@ -113,6 +113,14 @@ const imageDimensions = {
   '/images/bornes/spinner-1.webp': [1200, 800],
   '/images/couverture/bureau-bis.webp': [1200, 800],
   '/images/agence/bureau-bis.webp': [1200, 800],
+  '/images/couverture/paris-51.webp': [1200, 900],
+  '/images/couverture/paris-52.webp': [900, 1200],
+  '/images/couverture/paris-53.webp': [900, 1200],
+  '/images/couverture/paris-54.webp': [900, 1200],
+  '/images/couverture/paris-55.webp': [1200, 900],
+  '/images/couverture/team-021.webp': [1200, 796],
+  '/images/couverture/team-028.webp': [1200, 800],
+  '/images/couverture/team-128.webp': [1200, 800],
 };
 // Logos all 417x417
 for (let i = 2; i <= 19; i++) {

@@ -17,38 +17,10 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   position: relative;
   padding: 60px 5% 50px;
   background: linear-gradient(135deg, #fce8f4 0%, #f8eaff 40%, #eaf0ff 80%, #fce8f4 100%);
-  background-size: 300% 300%;
   overflow: hidden;
   font-family: 'Raleway', sans-serif;
   color: #1a0a22;
 }
-
-/* Blobs decoratifs statiques */
-.lp-intro-blob {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.5;
-}
-.lp-ib1 {
-  width: 350px; height: 350px;
-  background: rgba(229,25,129,0.2);
-  top: -100px; left: -80px;
-}
-.lp-ib2 {
-  width: 300px; height: 300px;
-  background: rgba(2,80,255,0.12);
-  bottom: -80px; right: -60px;
-}
-.lp-ib3 {
-  width: 200px; height: 200px;
-  background: rgba(120,40,200,0.15);
-  top: 50%; left: 60%;
-}
-
-/* Flash masque */
-.lp-intro-flash { display: none; }
 
 .lp-intro-inner {
   max-width: 1100px;
@@ -263,26 +235,21 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
 </style>
 
 <section class="lp-intro">
-  <div class="lp-intro-blob lp-ib1"></div>
-  <div class="lp-intro-blob lp-ib2"></div>
-  <div class="lp-intro-blob lp-ib3"></div>
-  <div class="lp-intro-flash"></div>
-
   <div class="lp-intro-inner">
 
     <!-- Photo strip a gauche -->
     <div class="lp-strip">
       <div class="lp-strip-frame">
-        <img loading="eager" src="../../public/images/strip-photo-1.webp" alt="Soiree photobooth entre amis">
+        <img loading="lazy" src="../../public/images/strip-photo-1.webp" alt="Soiree photobooth entre amis">
       </div>
       <div class="lp-strip-frame">
-        <img loading="eager" src="../../public/images/strip-photo-2.webp" alt="Photo de groupe mariage photobooth">
+        <img loading="lazy" src="../../public/images/strip-photo-2.webp" alt="Photo de groupe mariage photobooth">
       </div>
       <div class="lp-strip-frame">
-        <img loading="eager" src="../../public/images/strip-photo-3.webp" alt="Ambiance fete photobooth">
+        <img loading="lazy" src="../../public/images/strip-photo-3.webp" alt="Ambiance fete photobooth">
       </div>
       <div class="lp-strip-frame">
-        <img loading="eager" src="../../public/images/strip-photo-4.webp" alt="Photobooth soiree deguisements">
+        <img loading="lazy" src="../../public/images/strip-photo-4.webp" alt="Photobooth soiree deguisements">
       </div>
       <div class="lp-strip-watermark">shootnbox</div>
     </div>

@@ -4,5 +4,6 @@ reviews-data.json
 reviews-cards.html
 client_secret_*.json
 wp-page.json
-lighthouse.json
+lighthouse*.json
 parse-lh.js
+node_modules/

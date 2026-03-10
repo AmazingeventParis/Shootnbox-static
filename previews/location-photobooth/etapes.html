@@ -33,13 +33,6 @@ img { max-width: 100%; height: auto; }
   z-index: 0;
 }
 
-/* Blobs */
-.lp-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(60px); z-index: 0; }
-.lp-blob-1 { width: 500px; height: 500px; background: rgba(229,25,129,0.12); top: -150px; left: -150px; animation: lpBlobPulse 6s ease-in-out infinite; }
-.lp-blob-2 { width: 400px; height: 400px; background: rgba(100,60,255,0.08); bottom: -100px; right: -100px; animation: lpBlobPulse 6s ease-in-out infinite 3s; }
-.lp-blob-3 { width: 300px; height: 300px; background: rgba(2,80,255,0.06); bottom: 100px; left: 100px; animation: lpBlobPulse 6s ease-in-out infinite 1.5s; }
-@keyframes lpBlobPulse { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.15);opacity:1} }
-
 .lp-etapes-inner {
   max-width: 1100px;
   margin: 0 auto;
@@ -325,10 +318,6 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <section class="lp-etapes">
-  <div class="lp-blob lp-blob-1"></div>
-  <div class="lp-blob lp-blob-2"></div>
-  <div class="lp-blob lp-blob-3"></div>
-
   <div class="lp-etapes-inner">
 
     <div class="lp-badges">

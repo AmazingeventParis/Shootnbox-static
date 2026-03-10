@@ -34,9 +34,6 @@ img { max-width: 100%; height: auto; }
   z-index: 0;
 }
 
-/* Blobs masques pour perf */
-.snb-fab-blob { display: none; }
-
 .snb-fab-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -93,17 +90,6 @@ img { max-width: 100%; height: auto; }
   background: rgba(229,25,129,0.04);
   border: 1.5px solid rgba(229,25,129,0.08);
 }
-/* Shimmer subtil */
-.snb-fab-visual::after {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 24px;
-  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
-  transform: translateX(-150%);
-  pointer-events: none;
-  display: none;
-}
-
 .snb-fab-img-wrap {
   position: relative;
   display: inline-block;
@@ -383,9 +369,6 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <section class="snb-fab">
-  <div class="snb-fab-blob snb-fab-blob-1"></div>
-  <div class="snb-fab-blob snb-fab-blob-2"></div>
-
   <div class="snb-fab-inner">
 
     <!-- GAUCHE : Photo borne -->
