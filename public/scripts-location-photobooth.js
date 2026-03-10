@@ -10,6 +10,25 @@ window.addEventListener('scroll', function() {
   header.classList.toggle('scrolled', window.scrollY > 20);
 });
 (function(){
+  var wraps = document.querySelectorAll('[data-comp-tilt]');
+  if (!wraps.length || window.innerWidth < 768) return;
+  wraps.forEach(function(wrap) {
+    wrap.addEventListener('mousemove', function(e) {
+      var rect = wrap.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var rotateY = ((x - cx) / cx) * 10;
+      var rotateX = ((cy - y) / cy) * 6;
+      wrap.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+    wrap.addEventListener('mouseleave', function() {
+      wrap.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+    });
+  });
+})();
+(function(){
   var carousel = document.querySelector(".avis-carousel");
   if (!carousel) return;
   var track = document.getElementById("snbAvisTrack");
@@ -100,19 +119,6 @@ window.addEventListener('scroll', function() {
     slideTo(pos, false);
   });
 })();
-document.querySelectorAll('.lp-clay').forEach(function(card) {
-  card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-8px) scale(1.02)';
-    card.style.transition = 'transform 0.1s ease';
-  });
-  card.addEventListener('mouseleave', function() {
-    card.style.transform = '';
-    card.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
-  });
-});
 function snbSwitchUsage(id) {
   // Switch tabs
   document.querySelectorAll('.snb-usage-tab').forEach(t => t.classList.remove('active'));
@@ -139,5 +145,18 @@ document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
   tab.addEventListener('mouseleave', function() {
     tab.style.transform = '';
     tab.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
+  });
+});
+document.querySelectorAll('.snb-svc2-step-card').forEach(function(card) {
+  card.addEventListener('mousemove', function(e) {
+    var rect = card.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px) scale(1.02)';
+    card.style.transition = 'transform 0.1s ease';
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
   });
 });
