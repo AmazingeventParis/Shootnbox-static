@@ -533,14 +533,20 @@ function snbSwitchUsage(id) {
   showcase.classList.add(colorMap[id]);
 }
 
-// 3D tilt on tabs
+// 3D tilt on tabs (throttled)
 document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
+  var ticking = false;
   tab.addEventListener('mousemove', function(e) {
-    var rect = tab.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
-    tab.style.transition = 'transform 0.1s ease';
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = tab.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
+      tab.style.transition = 'transform 0.1s ease';
+      ticking = false;
+    });
   });
   tab.addEventListener('mouseleave', function() {
     tab.style.transform = '';

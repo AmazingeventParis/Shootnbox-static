@@ -673,12 +673,18 @@ a { text-decoration: none; color: inherit; }
 
 <script>
 document.querySelectorAll('.snb-svc2-step-card').forEach(function(card) {
+  var ticking = false;
   card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px) scale(1.02)';
-    card.style.transition = 'transform 0.1s ease';
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px) scale(1.02)';
+      card.style.transition = 'transform 0.1s ease';
+      ticking = false;
+    });
   });
   card.addEventListener('mouseleave', function() {
     card.style.transform = '';

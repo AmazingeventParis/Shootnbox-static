@@ -114,14 +114,20 @@ function snbSwitchUsage(id) {
   showcase.classList.add(colorMap[id]);
 }
 
-// 3D tilt on tabs
+// 3D tilt on tabs (throttled)
 document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
+  var ticking = false;
   tab.addEventListener('mousemove', function(e) {
-    var rect = tab.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
-    tab.style.transition = 'transform 0.1s ease';
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = tab.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      tab.style.transform = 'perspective(800px) rotateX(' + (-y * 8) + 'deg) rotateY(' + (x * 8) + 'deg) translateY(-4px) scale(1.02)';
+      tab.style.transition = 'transform 0.1s ease';
+      ticking = false;
+    });
   });
   tab.addEventListener('mouseleave', function() {
     tab.style.transform = '';
@@ -129,12 +135,18 @@ document.querySelectorAll('.snb-usage-tab').forEach(function(tab) {
   });
 });
 document.querySelectorAll('.snb-svc2-step-card').forEach(function(card) {
+  var ticking = false;
   card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px) scale(1.02)';
-    card.style.transition = 'transform 0.1s ease';
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px) scale(1.02)';
+      card.style.transition = 'transform 0.1s ease';
+      ticking = false;
+    });
   });
   card.addEventListener('mouseleave', function() {
     card.style.transform = '';
@@ -145,15 +157,21 @@ document.querySelectorAll('.snb-svc2-step-card').forEach(function(card) {
   var wraps = document.querySelectorAll('[data-comp-tilt]');
   if (!wraps.length || window.innerWidth < 768) return;
   wraps.forEach(function(wrap) {
+    var ticking = false;
     wrap.addEventListener('mousemove', function(e) {
-      var rect = wrap.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      var cx = rect.width / 2;
-      var cy = rect.height / 2;
-      var rotateY = ((x - cx) / cx) * 10;
-      var rotateX = ((cy - y) / cy) * 6;
-      wrap.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var rect = wrap.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotateY = ((x - cx) / cx) * 10;
+        var rotateX = ((cy - y) / cy) * 6;
+        wrap.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+        ticking = false;
+      });
     });
     wrap.addEventListener('mouseleave', function() {
       wrap.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
