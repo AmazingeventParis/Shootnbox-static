@@ -324,7 +324,7 @@ app.use((req, res, next) => {
 
 // Static files with cache headers
 app.use(express.static('public', {
-  maxAge: '7d',          // cache images/css/js for 7 days
+  maxAge: '365d',        // cache assets for 1 year (Lighthouse requirement)
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache'); // always revalidate HTML
