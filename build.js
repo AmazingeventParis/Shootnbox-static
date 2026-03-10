@@ -31,7 +31,7 @@ const pages = [
     ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
     ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
     preloadImage: null, // will be set when hero is created
-    sections: ['hero', 'intro', 'bornes', 'comparatif', 'avis', 'usages', 'service-v2', 'fabrication'],
+    sections: ['hero', 'intro', 'bornes', 'comparatif', 'avis', 'usages', 'service-v2', 'fabrication', 'couverture'],
     previewDir: path.join(previewsDir, 'location-photobooth'),
     inlineAllCSS: true
   }
