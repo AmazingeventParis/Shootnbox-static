@@ -30,7 +30,7 @@ const pages = [
     ogDescription: 'Louez un photobooth professionnel pour vos \u00e9v\u00e9nements. 4 bornes au choix, livraison partout en France.',
     ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
     ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
-    preloadImage: '/images/vegas-hero-group.webp',
+    preloadImage: '/images/location-hero-party.webp',
     sections: ['hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog'],
     previewDir: path.join(previewsDir, 'location-photobooth')
   }

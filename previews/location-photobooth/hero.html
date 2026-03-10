@@ -30,7 +30,7 @@ img { max-width: 100%; height: auto; }
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: url('../../public/images/location-hero-party.jpg') center center / cover no-repeat;
+  background: url('../../public/images/location-hero-party.webp') center center / cover no-repeat;
   z-index: 0;
 }
 .lp-hero-borne {
@@ -46,36 +46,11 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Flash effect - couvre toute la zone gens+borne */
-.lp-flash {
-  position: absolute;
-  right: -5%;
-  top: 10%;
-  width: 55%;
-  height: 80%;
-  background: radial-gradient(ellipse at 55% 45%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.05) 45%, transparent 65%);
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  animation: flash-burst 5s ease-in-out infinite;
-}
-.lp-flash:nth-child(2) {
-  animation-delay: 1.8s;
-}
-.lp-flash:nth-child(3) {
-  animation-delay: 3.5s;
-}
-@keyframes flash-burst {
-  0% { opacity: 0; }
-  1% { opacity: 1; }
-  3% { opacity: 0; }
-  5% { opacity: 0.7; }
-  6.5% { opacity: 0; }
-  100% { opacity: 0; }
-}
+.lp-flash { display: none; }
 
 @media (max-width: 768px) {
   .lp-flash {
-    width: 100%;
+    display: none;
     height: 100%;
     right: 0;
     top: 0;
@@ -186,13 +161,7 @@ img { max-width: 100%; height: auto; }
 }
 .lp-hero .hero-wave {
   display: inline;
-  animation: hero-color-wave 4s ease-in-out infinite;
-}
-@keyframes hero-color-wave {
-  0%,100% { color: #fff; }
-  30% { color: #E51981; }
-  60% { color: #4d8aff; }
-  85% { color: #fff; }
+  color: #fff;
 }
 
 .lp-hero-sub {
@@ -378,7 +347,7 @@ img { max-width: 100%; height: auto; }
   .lp-hero::before {
     background:
       linear-gradient(to bottom, rgba(26,10,34,0.6) 0%, rgba(26,10,34,0.3) 50%, rgba(26,10,34,0.6) 100%),
-      url('../../public/images/location-hero-party.jpg') 90% center / cover no-repeat;
+      url('../../public/images/location-hero-party.webp') 90% center / cover no-repeat;
   }
   .lp-hero { align-items: flex-start; }
   .lp-hero-inner { padding: 5vh 16px 40px; margin: 0 auto !important; text-align: center !important; max-width: 100%; }
@@ -446,7 +415,7 @@ img { max-width: 100%; height: auto; }
   <div class="lp-flash"></div>
   <div class="lp-flash"></div>
   <div class="lp-flash"></div>
-  <img src="../../public/images/borne-ring-detoure.png" alt="Borne photo Ring Shootnbox" class="lp-hero-borne">
+  <img src="../../public/images/borne-ring-detoure.webp" alt="Borne photo Ring Shootnbox" class="lp-hero-borne">
   <div class="lp-hero-inner">
 
     <h1>
@@ -457,7 +426,7 @@ img { max-width: 100%; height: auto; }
     <p class="lp-hero-sub">Borne photo <strong>haut de gamme</strong>, livree et installee en 5 minutes.<br>Mariages, soirees d'entreprise, salons — des souvenirs <strong>instantanes</strong> pour vos invites.</p>
 
     <div class="lp-price-block">
-      <img src="../../public/images/borne-ring-detoure.png" alt="" class="lp-borne-mobile">
+      <img src="../../public/images/borne-ring-detoure.webp" alt="" class="lp-borne-mobile">
       <span class="lp-price-from">A PARTIR DE</span>
       <span class="lp-price-amount">149&euro; <span class="lp-price-weekend">prix week-end</span></span>
       <span class="lp-price-period">par evenement</span>
