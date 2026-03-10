@@ -48,17 +48,13 @@ window.addEventListener('scroll', function() {
     return false;
   }
 
-  // DEBUG: banner visible pour voir le touch target
-  var dbg = document.createElement("div");
-  dbg.style.cssText = "position:fixed;top:0;left:0;right:0;background:red;color:#fff;font-size:14px;padding:8px;z-index:99999;text-align:center;";
-  dbg.textContent = "DEBUG touch ready";
-  document.body.appendChild(dbg);
+  function isTouchInCarousel(touch) {
+    var rect = carousel.getBoundingClientRect();
+    return touch.clientX >= rect.left && touch.clientX <= rect.right && touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+  }
 
   document.addEventListener("touchstart", function(e) {
-    var t = e.target;
-    var p = t.parentElement;
-    dbg.textContent = "TOUCH: <" + t.tagName + "> id=" + (t.id||"-") + " class=" + (t.className||"-") + " parent=<" + (p?p.tagName:"-") + "> pClass=" + (p?(p.className||"-"):"-") + " inside=" + isInsideCarousel(t);
-    if (!isInsideCarousel(e.target)) return;
+    if (!isTouchInCarousel(e.touches[0])) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     dx = 0;
@@ -104,3 +100,16 @@ window.addEventListener('scroll', function() {
     slideTo(pos, false);
   });
 })();
+document.querySelectorAll('.lp-clay').forEach(function(card) {
+  card.addEventListener('mousemove', function(e) {
+    var rect = card.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-8px) scale(1.02)';
+    card.style.transition = 'transform 0.1s ease';
+  });
+  card.addEventListener('mouseleave', function() {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
+  });
+});
