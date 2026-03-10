@@ -408,9 +408,10 @@ ${sharedFooter}
   const cssFileName = page.slug === 'home' ? 'styles.css' : `styles-${page.slug}.css`;
   fs.writeFileSync(path.join(__dirname, 'public', cssFileName), cssResult.minifiedCSS, 'utf8');
 
-  // Add deferred CSS link
+  // Add deferred CSS link with cache-busting
+  const cssCacheBust = Date.now();
   html = html.replace('</head>',
-    `<link rel="preload" as="style" href="/${cssFileName}" onload="this.onload=null;this.rel='stylesheet'">\n<noscript><link rel="stylesheet" href="/${cssFileName}"></noscript>\n</head>`
+    `<link rel="preload" as="style" href="/${cssFileName}?v=${cssCacheBust}" onload="this.onload=null;this.rel='stylesheet'">\n<noscript><link rel="stylesheet" href="/${cssFileName}?v=${cssCacheBust}"></noscript>\n</head>`
   );
 
   // Script extraction
