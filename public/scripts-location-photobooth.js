@@ -34,12 +34,8 @@ window.addEventListener('scroll', function() {
   // Desktop arrows
   var prevBtn = document.getElementById("snbAvisPrev");
   var nextBtn = document.getElementById("snbAvisNext");
-  console.log("[AVIS DEBUG] carousel:", carousel, "offsetWidth:", carousel.offsetWidth);
-  console.log("[AVIS DEBUG] track:", track, "cards:", cards.length);
-  console.log("[AVIS DEBUG] prevBtn:", prevBtn, "nextBtn:", nextBtn);
-  console.log("[AVIS DEBUG] cardW:", getCardW(), "visible:", getVisible(), "maxPos:", getMaxPos());
-  if (prevBtn) prevBtn.addEventListener("click", function(e) { e.preventDefault(); console.log("[AVIS DEBUG] PREV clicked, pos:", pos, "->", pos-1); slideTo(pos - 1, true); });
-  if (nextBtn) nextBtn.addEventListener("click", function(e) { e.preventDefault(); console.log("[AVIS DEBUG] NEXT clicked, pos:", pos, "->", pos+1, "maxPos:", getMaxPos(), "cardW:", getCardW()); slideTo(pos + 1, true); });
+  if (prevBtn) prevBtn.addEventListener("click", function(e) { e.preventDefault(); slideTo(pos - 1, true); });
+  if (nextBtn) nextBtn.addEventListener("click", function(e) { e.preventDefault(); slideTo(pos + 1, true); });
 
   // Touch swipe — listeners on document to avoid any interception
   var startX = 0, startY = 0, dx = 0, isDragging = false, isScrolling = false;
@@ -99,16 +95,3 @@ window.addEventListener('scroll', function() {
     slideTo(pos, false);
   });
 })();
-document.querySelectorAll('.lp-clay').forEach(function(card) {
-  card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = (e.clientX - rect.left) / rect.width - 0.5;
-    var y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = 'perspective(800px) rotateX(' + (-y * 12) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-8px) scale(1.02)';
-    card.style.transition = 'transform 0.1s ease';
-  });
-  card.addEventListener('mouseleave', function() {
-    card.style.transform = '';
-    card.style.transition = 'transform 0.5s cubic-bezier(.22,.68,0,1.2)';
-  });
-});
