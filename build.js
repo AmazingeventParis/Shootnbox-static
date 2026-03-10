@@ -31,7 +31,7 @@ const pages = [
     ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
     ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
     preloadImage: null, // will be set when hero is created
-    sections: ['hero', 'intro', 'bornes', 'avis', 'etapes'],
+    sections: ['intro', 'avis'],
     previewDir: path.join(previewsDir, 'location-photobooth'),
     inlineAllCSS: true
   }
@@ -378,7 +378,8 @@ ${sharedFooter}
   if (jsResult.scriptBlocks.length > 0) {
     const allScripts = jsResult.scriptBlocks.join('\n');
     fs.writeFileSync(path.join(__dirname, 'public', jsFileName), allScripts, 'utf8');
-    html = html.replace('</body>', `<script src="/${jsFileName}" defer></script>\n</body>`);
+    const cacheBust = Date.now();
+    html = html.replace('</body>', `<script src="/${jsFileName}?v=${cacheBust}" defer></script>\n</body>`);
     console.log(`  Scripts: ${jsResult.scriptBlocks.length} blocks → ${jsFileName} (${(allScripts.length/1024).toFixed(1)} KB)`);
   }
 
