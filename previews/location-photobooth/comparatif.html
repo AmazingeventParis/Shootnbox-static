@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview - Comparatif Shootnbox</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; line-height: 1.6; background: #fff; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<style>
+.snb-comp {
+  font-family: 'Raleway', sans-serif;
+  width: 100%;
+  background: linear-gradient(180deg, #f8f0f7, #f5ebf8, #f1e9f9);
+  padding: 60px 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Blobs */
+.snb-comp-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(70px); z-index: 0; }
+.snb-comp-blob-1 { width: 450px; height: 450px; background: rgba(229,25,129,0.07); top: -120px; left: -100px; animation: snbCompBlob 7s ease-in-out infinite; }
+.snb-comp-blob-2 { width: 400px; height: 400px; background: rgba(2,80,255,0.06); bottom: -100px; right: -80px; animation: snbCompBlob 7s ease-in-out infinite 3.5s; }
+@keyframes snbCompBlob { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.15);opacity:1} }
+
+.snb-comp-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Panel glassmorphism global */
+.snb-comp-panel {
+  border-radius: 34px;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 70px rgba(214,118,180,0.18);
+  padding: 40px 36px;
+}
+
+/* Header */
+.snb-comp h2 {
+  font-size: 38px;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: #2b1730;
+  text-align: center;
+  margin: 0;
+}
+.snb-comp h2 .snb-comp-acc { color: #E51981; }
+
+.snb-comp-subtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6f5a72;
+  text-align: center;
+  max-width: 800px;
+  margin: 16px auto 0;
+}
+
+/* Badges header */
+.snb-comp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.snb-comp-badge {
+  border-radius: 50px;
+  border: 1px solid rgba(229,25,129,0.12);
+  background: rgba(255,255,255,0.8);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #5a445f;
+  box-shadow: 0 2px 8px rgba(180,140,200,0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Texte introduction */
+.snb-comp-intro {
+  max-width: 960px;
+  margin: 28px auto 0;
+  text-align: center;
+}
+.snb-comp-intro p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #4a3a5a;
+  margin: 0 0 12px;
+}
+.snb-comp-intro p:last-child { margin-bottom: 0; }
+.snb-comp-intro strong { color: #2a1540; font-weight: 700; }
+.snb-comp-intro em { color: #E51981; font-style: normal; font-weight: 700; }
+
+/* Grille cartes */
+.snb-comp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 36px;
+}
+
+/* Carte */
+.snb-comp-card {
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 12px 28px rgba(50,20,50,0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.snb-comp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(50,20,50,0.12);
+}
+
+/* Carte highlight Shootnbox */
+.snb-comp-card--highlight {
+  border: 2px solid rgba(229,25,129,0.4);
+  box-shadow: 0 12px 28px rgba(229,25,129,0.12), 0 0 20px rgba(229,25,129,0.06);
+  transform: translateY(-8px);
+}
+.snb-comp-card--highlight:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 16px 36px rgba(229,25,129,0.18), 0 0 30px rgba(229,25,129,0.1);
+}
+
+/* Header carte */
+.snb-comp-card-head {
+  padding: 20px 18px;
+  text-align: center;
+}
+.snb-comp-card--highlight .snb-comp-card-head {
+  background: linear-gradient(180deg, #ff4fa9, #E51981, #d41472);
+  color: #fff;
+}
+.snb-comp-card--default .snb-comp-card-head {
+  background: linear-gradient(180deg, #1a4a56, #103d47, #0c3540);
+  color: #fff;
+}
+
+.snb-comp-card-name {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0;
+}
+.snb-comp-card-sub {
+  font-size: 12px;
+  margin: 6px 0 0;
+  opacity: 0.88;
+  font-weight: 600;
+}
+
+/* Body carte */
+.snb-comp-card-body {
+  padding: 20px 18px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Prix */
+.snb-comp-price {
+  text-align: center;
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.snb-comp-card--highlight .snb-comp-price { color: #E51981; }
+.snb-comp-card--default .snb-comp-price { color: #103d47; }
+
+/* Features list */
+.snb-comp-features {
+  margin-top: 18px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #faf7fa, #f5f0f5);
+  overflow: hidden;
+  flex: 1;
+}
+.snb-comp-feat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e9dfe8;
+  font-size: 13px;
+  font-weight: 600;
+  color: #433247;
+  line-height: 1.4;
+}
+.snb-comp-feat:last-child { border-bottom: none; }
+.snb-comp-feat-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Bouton carte */
+.snb-comp-card-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.snb-comp-card-btn:hover {
+  transform: scale(1.03);
+}
+.snb-comp-card--highlight .snb-comp-card-btn {
+  background: linear-gradient(180deg, #ff59b0, #E51981, #d41472);
+  box-shadow: 0 4px 16px rgba(229,25,129,0.3);
+}
+.snb-comp-card--highlight .snb-comp-card-btn:hover {
+  box-shadow: 0 6px 24px rgba(229,25,129,0.4);
+}
+.snb-comp-card--default .snb-comp-card-btn {
+  background: linear-gradient(180deg, #1a4a56, #103d47);
+  box-shadow: 0 4px 12px rgba(16,61,71,0.2);
+}
+.snb-comp-card--default .snb-comp-card-btn:hover {
+  box-shadow: 0 6px 20px rgba(16,61,71,0.3);
+}
+
+/* Shine effect sur btn highlight */
+.snb-comp-card--highlight .snb-comp-card-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.5s ease;
+}
+.snb-comp-card--highlight .snb-comp-card-btn:hover::before { left: 100%; }
+
+/* Barre avantages */
+.snb-comp-benefits {
+  margin-top: 28px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 10px 24px rgba(50,20,50,0.06);
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.snb-comp-benefit {
+  border-radius: 50px;
+  border: 1px solid rgba(229,25,129,0.1);
+  background: rgba(255,255,255,0.9);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #5f4a62;
+  box-shadow: 0 2px 8px rgba(180,140,200,0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* CTA final */
+.snb-comp-cta {
+  margin-top: 28px;
+  text-align: center;
+}
+.snb-comp-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Raleway', sans-serif;
+  box-shadow: 0 8px 30px rgba(229,25,129,0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.snb-comp-cta a::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+.snb-comp-cta a:hover::before { left: 100%; }
+.snb-comp-cta a:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 40px rgba(229,25,129,0.4);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .snb-comp-grid { grid-template-columns: repeat(2, 1fr); }
+  .snb-comp-card--highlight { transform: translateY(0); }
+  .snb-comp-card--highlight:hover { transform: translateY(-4px); }
+}
+@media (max-width: 640px) {
+  .snb-comp { padding: 40px 12px; }
+  .snb-comp-panel { padding: 24px 16px; border-radius: 24px; }
+  .snb-comp h2 { font-size: 26px; }
+  .snb-comp-grid { grid-template-columns: 1fr; gap: 14px; }
+  .snb-comp-card { border-radius: 22px; }
+  .snb-comp-card--highlight { transform: translateY(0); }
+  .snb-comp-card--highlight:hover { transform: translateY(-4px); }
+  .snb-comp-price { font-size: 36px; }
+  .snb-comp-card-name { font-size: 18px; }
+  .snb-comp-benefits { gap: 8px; padding: 12px; }
+  .snb-comp-benefit { font-size: 11px; padding: 6px 12px; }
+  .snb-comp-intro p { font-size: 13px; text-align: left; }
+}
+</style>
+
+<section class="snb-comp">
+  <div class="snb-comp-blob snb-comp-blob-1"></div>
+  <div class="snb-comp-blob snb-comp-blob-2"></div>
+
+  <div class="snb-comp-inner">
+    <div class="snb-comp-panel">
+
+      <!-- Header -->
+      <h2>
+        Pourquoi choisir <span class="snb-comp-acc">Shootnbox</span>&nbsp;?
+        <br>Comparatif pour louer au meilleur prix
+      </h2>
+
+      <p class="snb-comp-subtitle">
+        Comparez d&rsquo;un coup d&rsquo;&oelig;il nos solutions et celles de nos concurrents pour choisir le meilleur &eacute;quilibre entre qualit&eacute; photo, service, livraison et prix.
+      </p>
+
+      <div class="snb-comp-badges">
+        <span class="snb-comp-badge">&#128247; Reflex Canon int&eacute;gr&eacute;</span>
+        <span class="snb-comp-badge">&#128205; Livraison partout</span>
+        <span class="snb-comp-badge">&#9989; Prix transparents</span>
+      </div>
+
+      <!-- Texte intro SEO -->
+      <div class="snb-comp-intro">
+        <p>
+          Le march&eacute; de l&rsquo;animation photo est vaste. Entre la location de photobooth pas cher par envoi postal basique et les prestations tr&egrave;s luxueuses, il est parfois difficile de s&rsquo;y retrouver. Parce que votre &eacute;v&eacute;nement n&rsquo;aura lieu qu&rsquo;une fois, vous m&eacute;ritez une <strong>transparence absolue</strong> pour choisir le partenaire qui va immortaliser vos sourires face &agrave; nos concurrents.
+        </p>
+        <p>
+          Gr&acirc;ce &agrave; notre comparatif d&eacute;taill&eacute;, vous y voyez plus clair et vous faites le bon choix. L&agrave; o&ugrave; certaines solutions se contentent d&rsquo;utiliser la simple webcam d&rsquo;une tablette, vous b&eacute;n&eacute;ficiez chez nous de la puissance et de la luminosit&eacute; d&rsquo;un v&eacute;ritable <em>appareil photo Reflex Canon</em> int&eacute;gr&eacute;. Vous offrez &agrave; vos convives un rendu photo professionnel des plus flatteurs.
+        </p>
+        <p>
+          Que vous organisiez votre f&ecirc;te au c&oelig;ur d&rsquo;une grande m&eacute;tropole ou dans le calme d&rsquo;un village recul&eacute;, vous b&eacute;n&eacute;ficiez de notre <strong>r&eacute;seau de livraison nationale</strong>. Vous recevez votre borne photo par envoi s&eacute;curis&eacute; ou transporteur, partout en France, sans stress.
+        </p>
+      </div>
+
+      <!-- Grille 4 cartes -->
+      <div class="snb-comp-grid">
+
+        <!-- Shootnbox (highlight) -->
+        <div class="snb-comp-card snb-comp-card--highlight">
+          <div class="snb-comp-card-head">
+            <h3 class="snb-comp-card-name">Shootnbox</h3>
+            <p class="snb-comp-card-sub">4,8 &#9733; + de 1000 avis positifs</p>
+          </div>
+          <div class="snb-comp-card-body">
+            <div class="snb-comp-price">299&euro;</div>
+            <div class="snb-comp-features">
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128247;</span> Appareil photo r&eacute;flex</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128424;&#65039;</span> Impression en 9 secondes</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128444;&#65039;</span> 600 tirages photos 10x15</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#129523;</span> 1 valise &agrave; roulettes</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128737;&#65039;</span> Assurance &agrave; 39&euro;</div>
+            </div>
+            <a href="https://shootnbox.fr/reservation/" class="snb-comp-card-btn">Devis gratuit en ligne</a>
+          </div>
+        </div>
+
+        <!-- Josepho -->
+        <div class="snb-comp-card snb-comp-card--default">
+          <div class="snb-comp-card-head">
+            <h3 class="snb-comp-card-name">Photobooth Josepho</h3>
+            <p class="snb-comp-card-sub">borne formule Magic Smile</p>
+          </div>
+          <div class="snb-comp-card-body">
+            <div class="snb-comp-price">490&euro;</div>
+            <div class="snb-comp-features">
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128247;</span> Cam&eacute;ra selfie de tablette</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128424;&#65039;</span> Impression 20 secondes</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128444;&#65039;</span> 300 tirages photos 10x15</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#129523;</span> 3 gros colis</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128737;&#65039;</span> Assurance comprise</div>
+            </div>
+            <span class="snb-comp-card-btn">Josepho</span>
+          </div>
+        </div>
+
+        <!-- Cheerz -->
+        <div class="snb-comp-card snb-comp-card--default">
+          <div class="snb-comp-card-head">
+            <h3 class="snb-comp-card-name">Photobooth Cheerz</h3>
+            <p class="snb-comp-card-sub">borne photo avec impression</p>
+          </div>
+          <div class="snb-comp-card-body">
+            <div class="snb-comp-price">490&euro;</div>
+            <div class="snb-comp-features">
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128247;</span> Cam&eacute;ra selfie de tablette</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128424;&#65039;</span> Impression 20 secondes</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128444;&#65039;</span> 600 tirages photos</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#129523;</span> 1 &eacute;norme colis</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128737;&#65039;</span> Assurance comprise</div>
+            </div>
+            <span class="snb-comp-card-btn">Cheerz</span>
+          </div>
+        </div>
+
+        <!-- Kruu -->
+        <div class="snb-comp-card snb-comp-card--default">
+          <div class="snb-comp-card-head">
+            <h3 class="snb-comp-card-name">Kruu Photobooth</h3>
+            <p class="snb-comp-card-sub">borne formule Premium</p>
+          </div>
+          <div class="snb-comp-card-body">
+            <div class="snb-comp-price">379&euro;</div>
+            <div class="snb-comp-features">
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128247;</span> Appareil photo r&eacute;flex</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128424;&#65039;</span> Impression 25 secondes</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128444;&#65039;</span> 400 tirages photos</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#129523;</span> 1 colis</div>
+              <div class="snb-comp-feat"><span class="snb-comp-feat-icon">&#128737;&#65039;</span> Assurance &agrave; 20&euro;</div>
+            </div>
+            <span class="snb-comp-card-btn">Kruu</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Avantages -->
+      <div class="snb-comp-benefits">
+        <span class="snb-comp-benefit">&#10024; Rendu photo professionnel</span>
+        <span class="snb-comp-benefit">&#128666; R&eacute;seau de livraison nationale</span>
+        <span class="snb-comp-benefit">&#128176; Tarifs lisibles</span>
+        <span class="snb-comp-benefit">&#128222; Support d&eacute;di&eacute; 7j/7</span>
+      </div>
+
+      <!-- CTA -->
+      <div class="snb-comp-cta">
+        <a href="https://shootnbox.fr/reservation/">Obtenir mon devis &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
