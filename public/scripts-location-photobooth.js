@@ -48,7 +48,15 @@ window.addEventListener('scroll', function() {
     return false;
   }
 
+  // DEBUG: banner visible pour voir le touch target
+  var dbg = document.createElement("div");
+  dbg.style.cssText = "position:fixed;top:0;left:0;right:0;background:red;color:#fff;font-size:14px;padding:8px;z-index:99999;text-align:center;";
+  dbg.textContent = "DEBUG touch ready";
+  document.body.appendChild(dbg);
+
   document.addEventListener("touchstart", function(e) {
+    var t = e.target;
+    dbg.textContent = "TOUCH: <" + t.tagName + "> class=" + (t.className||"none") + " inside=" + isInsideCarousel(t);
     if (!isInsideCarousel(e.target)) return;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
