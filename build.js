@@ -30,10 +30,9 @@ const pages = [
     ogDescription: 'Louez un photobooth professionnel pour vos \u00e9v\u00e9nements. 4 bornes au choix, livraison partout en France.',
     ogImage: 'https://shootnbox.swipego.app/images/vegas-hero-group.webp',
     ogUrl: 'https://shootnbox.swipego.app/location-photobooth/',
-    preloadImage: null, // will be set when hero is created
+    preloadImage: '/images/vegas-hero-group.webp',
     sections: ['hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog'],
-    previewDir: path.join(previewsDir, 'location-photobooth'),
-    inlineAllCSS: true
+    previewDir: path.join(previewsDir, 'location-photobooth')
   }
 ];
 
@@ -313,7 +312,7 @@ for (const page of pages) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>${page.title}</title>
 <meta name="description" content="${page.description}">
 <meta property="og:type" content="website">

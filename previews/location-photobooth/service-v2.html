@@ -28,7 +28,6 @@ a { text-decoration: none; color: inherit; }
   border-radius: 28px;
   border: 1px solid rgba(255,255,255,0.6);
   background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 16px 60px rgba(220,120,190,0.18);
   padding: 20px 12px;
 }
@@ -161,14 +160,9 @@ a { text-decoration: none; color: inherit; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Pulse subtil en boucle apres le pop */
+/* Bubble pop sans pulse infini */
 .snb-svc2-bubble {
-  animation: snbBubPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-             snbBubPulse 2.5s ease-in-out 2s infinite;
-}
-@keyframes snbBubPulse {
-  0%, 100% { box-shadow: 0 5px 16px currentColor; transform: scale(1); }
-  50% { box-shadow: 0 8px 24px currentColor; transform: scale(1.08); }
+  animation: snbBubPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 .snb-svc2-step:nth-child(1) .snb-svc2-bubble { background: linear-gradient(150deg, #ff7a7a, #ef4444); box-shadow: 0 5px 16px rgba(239,68,68,0.35); }
 .snb-svc2-step:nth-child(2) .snb-svc2-bubble { background: linear-gradient(150deg, #FF9A3C, #FF7A00); box-shadow: 0 5px 16px rgba(255,122,0,0.35); }
@@ -219,21 +213,7 @@ a { text-decoration: none; color: inherit; }
   width: 55%; height: 6px;
   background: radial-gradient(ellipse, rgba(180,120,200,0.18) 0%, transparent 70%);
   border-radius: 50%;
-  animation: snbShPulse 3.5s ease-in-out infinite;
-}
-@keyframes snbShPulse {
-  0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.7; }
-  50% { transform: translateX(-50%) scaleX(0.65); opacity: 0.35; }
-}
-/* Float animations */
-.snb-svc2-float1 { animation: snbFloat 3.5s ease-in-out infinite; }
-.snb-svc2-float2 { animation: snbFloat 4s ease-in-out infinite 0.5s; }
-.snb-svc2-float3 { animation: snbFloat 3.8s ease-in-out infinite 1s; }
-.snb-svc2-float4 { animation: snbFloat 4.2s ease-in-out infinite 0.2s; }
-.snb-svc2-float5 { animation: snbFloat 3.6s ease-in-out infinite 0.8s; }
-@keyframes snbFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
 }
 
 .snb-svc2-step-card h3 {

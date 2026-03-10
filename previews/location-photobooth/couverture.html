@@ -24,11 +24,8 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
 }
 
-/* Blobs */
-.snb-couv-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(70px); z-index: 0; }
-.snb-couv-blob-1 { width: 400px; height: 400px; background: rgba(229,25,129,0.06); top: -100px; right: -80px; animation: snbCouvBlob 7s ease-in-out infinite; }
-.snb-couv-blob-2 { width: 350px; height: 350px; background: rgba(168,85,247,0.05); bottom: -80px; left: -60px; animation: snbCouvBlob 7s ease-in-out infinite 3s; }
-@keyframes snbCouvBlob { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.15);opacity:1} }
+/* Blobs masques pour perf */
+.snb-couv-blob { display: none; }
 
 .snb-couv-inner {
   max-width: 1280px;
@@ -42,8 +39,6 @@ img { max-width: 100%; height: auto; }
   border-radius: 34px;
   border: 1.5px solid rgba(255,255,255,0.7);
   background: rgba(210,180,225,0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 70px rgba(214,118,180,0.22);
   padding: 40px 36px;
 }

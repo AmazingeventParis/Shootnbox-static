@@ -18,19 +18,12 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   padding: 60px 5% 50px;
   background: linear-gradient(135deg, #fce8f4 0%, #f8eaff 40%, #eaf0ff 80%, #fce8f4 100%);
   background-size: 300% 300%;
-  animation: lp-intro-gradient 12s ease infinite;
   overflow: hidden;
   font-family: 'Raleway', sans-serif;
   color: #1a0a22;
 }
 
-@keyframes lp-intro-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Blobs decoratifs animes */
+/* Blobs decoratifs statiques */
 .lp-intro-blob {
   position: absolute;
   border-radius: 50%;
@@ -42,48 +35,20 @@ body { margin: 0; padding: 0; font-family: "Raleway", sans-serif; color: #333; l
   width: 350px; height: 350px;
   background: rgba(229,25,129,0.2);
   top: -100px; left: -80px;
-  animation: lp-blob-float1 8s ease-in-out infinite;
 }
 .lp-ib2 {
   width: 300px; height: 300px;
   background: rgba(2,80,255,0.12);
   bottom: -80px; right: -60px;
-  animation: lp-blob-float2 10s ease-in-out infinite;
 }
 .lp-ib3 {
   width: 200px; height: 200px;
   background: rgba(120,40,200,0.15);
   top: 50%; left: 60%;
-  animation: lp-blob-float3 9s ease-in-out infinite;
 }
 
-@keyframes lp-blob-float1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(40px, 30px) scale(1.1); }
-}
-@keyframes lp-blob-float2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-30px, -40px) scale(1.15); }
-}
-@keyframes lp-blob-float3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-20px, 20px) scale(0.9); }
-}
-
-/* Flash qui se declenche au chargement */
-.lp-intro-flash {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  z-index: 10;
-  pointer-events: none;
-  animation: lp-flash-pop 1.2s ease-out forwards;
-}
-@keyframes lp-flash-pop {
-  0% { opacity: 0.9; }
-  15% { opacity: 0; }
-  100% { opacity: 0; }
-}
+/* Flash masque */
+.lp-intro-flash { display: none; }
 
 .lp-intro-inner {
   max-width: 1100px;
