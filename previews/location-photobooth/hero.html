@@ -25,12 +25,20 @@ img { max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
 }
-.lp-hero::before {
-  content: '';
+.lp-hero-bg {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: url('../../public/images/location-hero-party.webp') center center / cover no-repeat;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+}
+.lp-hero-bg-overlay {
+  display: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(26,10,34,0.6) 0%, rgba(26,10,34,0.3) 50%, rgba(26,10,34,0.6) 100%);
   z-index: 0;
 }
 
@@ -362,11 +370,8 @@ img { max-width: 100%; height: auto; }
 /* Responsive */
 @media (max-width: 768px) {
   .lp-hero { min-height: 60vh; }
-  .lp-hero::before {
-    background:
-      linear-gradient(to bottom, rgba(26,10,34,0.6) 0%, rgba(26,10,34,0.3) 50%, rgba(26,10,34,0.6) 100%),
-      url('../../public/images/location-hero-party.webp') 90% center / cover no-repeat;
-  }
+  .lp-hero-bg { object-position: 90% center; }
+  .lp-hero-bg-overlay { display: block; }
   .lp-hero { align-items: flex-start; }
   .lp-hero-inner { padding: 5vh 16px 40px; margin: 0 auto !important; text-align: center !important; max-width: 100%; }
   .lp-hero h1 { font-size: 34px; text-align: center; margin-bottom: 5px; }
@@ -407,6 +412,8 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <section class="lp-hero">
+  <img class="lp-hero-bg" src="../../public/images/location-hero-party.webp" alt="Soiree photobooth evenement" loading="eager" fetchpriority="high">
+  <div class="lp-hero-bg-overlay"></div>
   <!-- Graffiti splashes -->
   <div class="lp-graffiti lp-graf-1"></div>
   <div class="lp-graffiti lp-graf-2"></div>
