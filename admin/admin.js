@@ -381,13 +381,15 @@
       if (!activeEl) return;
 
       const isImg = activeEl.hasAttribute('data-snb-img');
-      const data = activeEl.getAttribute(isImg ? 'data-snb-img' : 'data-snb-bg');
-      const src = data.split(':').slice(2).join(':');
+      const attrData = activeEl.getAttribute(isImg ? 'data-snb-img' : 'data-snb-bg');
+      const src = attrData.split(':').slice(2).join(':');
 
+      console.log('[SNB] Saving position:', { slug: currentSlug, src, posX: posX.value, posY: posY.value });
       posSave.textContent = '...';
       try {
         const res = await fetch('/api/image-position', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             slug: currentSlug,
@@ -396,11 +398,12 @@
             posY: posY.value
           })
         });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || 'Erreur ' + res.status);
+        const resData = await res.json().catch(() => ({}));
+        console.log('[SNB] Position response:', res.status, resData);
+        if (!res.ok) throw new Error(resData.error || 'Erreur ' + res.status);
         imageChanges++;
         updateChangesCount();
-        showToast('Position sauvegardee (' + posX.value + '% ' + posY.value + '%)', 'success');
+        showToast('Position sauvegardee !', 'success');
       } catch (err) {
         showToast('Erreur: ' + err.message, 'error');
         console.error('[SNB] Position save error:', err);
@@ -438,7 +441,7 @@
         formData.append('maxWidth', maxWidth);
         formData.append('maxHeight', maxHeight);
 
-        const res = await fetch('/api/upload-image', { method: 'POST', body: formData });
+        const res = await fetch('/api/upload-image', { method: 'POST', credentials: 'same-origin', body: formData });
         if (!res.ok) {
           const errData = await res.json().catch(()=>({}));
           throw new Error(errData.error || 'Erreur ' + res.status);

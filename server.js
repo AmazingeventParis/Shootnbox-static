@@ -9,9 +9,13 @@ const cheerio = require('cheerio');
 const multer = require('multer');
 const sharp = require('sharp');
 
+// Ensure uploads_tmp dir exists (multer doesn't create it)
+const uploadDir = path.join(__dirname, 'uploads_tmp');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
 // Multer config - temp upload
 const upload = multer({
-  dest: path.join(__dirname, 'uploads_tmp'),
+  dest: uploadDir,
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) cb(null, true);
