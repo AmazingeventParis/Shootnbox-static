@@ -304,6 +304,31 @@ function postProcess(html) {
     });
   });
 
+  // 4. Add data-snb-img attributes for admin image editing
+  let imgIdx = 0;
+  $('img').each((i, el) => {
+    const $el = $(el);
+    if ($el.closest('#snb-admin-bar, #snb-seo-panel').length) return;
+    const src = $el.attr('src');
+    if (!src) return;
+    // Skip external images (WordPress blog thumbnails), SVG inline, and tiny icons
+    if (src.startsWith('http') || src.startsWith('data:')) return;
+    // Skip logo and header nav images
+    if (src.includes('/logo/')) return;
+    if ($el.closest('.snb-header, .snb-nav, nav, header').length) return;
+    let section = 'unknown';
+    for (const [cls, name] of Object.entries(sectionMap)) {
+      if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
+        section = name;
+        break;
+      }
+    }
+    // Skip images not in any known section
+    if (section === 'unknown') return;
+    $el.attr('data-snb-img', `${section}:${imgIdx}:${src}`);
+    imgIdx++;
+  });
+
   html = $.html();
   return html;
 }

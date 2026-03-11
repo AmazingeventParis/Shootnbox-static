@@ -6,6 +6,7 @@
   let originalTexts = {};
   let currentSlug = 'home';
   let seoData = {};
+  let imageChanges = 0;
 
   // ===== BUILD ADMIN BAR =====
   function buildAdminBar() {
@@ -109,6 +110,8 @@
       loadSEO();
       // Init editable elements
       initEditableElements();
+      // Init editable images
+      initEditableImages();
     } catch (err) {
       showToast('Erreur de chargement', 'error');
     }
@@ -215,6 +218,106 @@
           }
         });
       });
+    });
+  }
+
+  // ===== INIT EDITABLE IMAGES =====
+  function initEditableImages() {
+    const images = document.querySelectorAll('[data-snb-img]');
+    console.log('[SNB Admin] Found', images.length, 'editable images');
+
+    images.forEach(img => {
+      const wrapper = img.parentElement;
+      if (!wrapper) return;
+
+      // Make wrapper positioned for overlay
+      const wrapperPos = window.getComputedStyle(wrapper).position;
+      if (wrapperPos === 'static') wrapper.style.position = 'relative';
+
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'snb-img-overlay';
+      overlay.innerHTML = `
+        <div class="snb-img-overlay-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Changer l'image
+        </div>
+      `;
+
+      // File input (hidden)
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'image/*';
+      fileInput.style.display = 'none';
+
+      overlay.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', async () => {
+        if (!fileInput.files.length) return;
+        const file = fileInput.files[0];
+        const data = img.getAttribute('data-snb-img');
+        const parts = data.split(':');
+        const section = parts[0];
+        const originalSrc = parts.slice(2).join(':');
+
+        // Show loading state
+        overlay.classList.add('snb-img-uploading');
+        overlay.querySelector('.snb-img-overlay-btn').textContent = 'Upload...';
+
+        try {
+          // Calculate target size based on rendered size (2x for retina)
+          const renderedW = img.offsetWidth || img.naturalWidth;
+          const renderedH = img.offsetHeight || img.naturalHeight;
+          const maxWidth = Math.max(renderedW * 2, 400);
+          const maxHeight = Math.max(renderedH * 2, 400);
+
+          const formData = new FormData();
+          formData.append('image', file);
+          formData.append('originalSrc', originalSrc);
+          formData.append('section', section);
+          formData.append('slug', currentSlug);
+          formData.append('maxWidth', maxWidth);
+          formData.append('maxHeight', maxHeight);
+
+          const res = await fetch('/api/upload-image', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || 'Erreur upload');
+          }
+
+          const result = await res.json();
+
+          // Update image src with cache-busting
+          img.src = result.newSrc + '?v=' + Date.now();
+          imageChanges++;
+          showToast('Image mise a jour !', 'success');
+
+        } catch (err) {
+          showToast('Erreur: ' + err.message, 'error');
+        }
+
+        // Reset overlay
+        overlay.classList.remove('snb-img-uploading');
+        overlay.querySelector('.snb-img-overlay-btn').innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Changer l'image
+        `;
+        fileInput.value = '';
+      });
+
+      // Insert overlay positioned on top of the image
+      img.style.position = 'relative';
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(overlay);
+      wrapper.appendChild(fileInput);
     });
   }
 

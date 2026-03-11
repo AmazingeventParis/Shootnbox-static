@@ -278,3 +278,61 @@ body.snb-admin-mode .snb-page-content {
   background: rgba(255,255,255,0.15);
   color: #fff;
 }
+
+/* ===== EDITABLE IMAGES ===== */
+.snb-img-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 37, 0.0);
+  border-radius: inherit;
+  cursor: pointer;
+  transition: background 0.25s, outline-color 0.25s;
+  outline: 2px dashed transparent;
+  outline-offset: 2px;
+  z-index: 10;
+}
+.snb-img-overlay:hover {
+  background: rgba(20, 20, 37, 0.6);
+  outline-color: rgba(229, 25, 129, 0.7);
+}
+.snb-img-overlay .snb-img-overlay-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  box-shadow: 0 4px 16px rgba(229,25,129,0.4);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+.snb-img-overlay:hover .snb-img-overlay-btn {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.snb-img-overlay.snb-img-uploading {
+  background: rgba(20, 20, 37, 0.7);
+}
+.snb-img-overlay.snb-img-uploading .snb-img-overlay-btn {
+  opacity: 1;
+  transform: scale(1);
+  background: #FF7A00;
+  animation: snb-pulse-upload 1s infinite;
+}
+@keyframes snb-pulse-upload {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}

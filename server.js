@@ -6,6 +6,18 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const cheerio = require('cheerio');
+const multer = require('multer');
+const sharp = require('sharp');
+
+// Multer config - temp upload
+const upload = multer({
+  dest: path.join(__dirname, 'uploads_tmp'),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) cb(null, true);
+    else cb(new Error('Seules les images sont acceptées'));
+  }
+});
 
 const app = express();
 const PORT = process.env.PORT || 80;
@@ -283,6 +295,81 @@ function updateBuildSEO(seo) {
   }
 
   fs.writeFileSync(buildPath, buildContent, 'utf8');
+}
+
+// ===== IMAGE UPLOAD =====
+app.post('/api/upload-image', requireAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Aucune image envoyée' });
+
+    const { originalSrc, section, slug } = req.body;
+    if (!originalSrc) return res.status(400).json({ error: 'originalSrc manquant' });
+
+    // Determine output path - keep same path, convert to webp
+    let outputPath = originalSrc;
+    const ext = path.extname(outputPath);
+    if (ext !== '.webp') {
+      outputPath = outputPath.replace(ext, '.webp');
+    }
+
+    // Full filesystem path
+    const fullPath = path.join(__dirname, 'public', outputPath);
+
+    // Ensure directory exists
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+
+    // Resize to fit target dimensions + convert to WebP
+    const maxW = parseInt(req.body.maxWidth) || 1200;
+    const maxH = parseInt(req.body.maxHeight) || 1200;
+    await sharp(req.file.path)
+      .resize(maxW, maxH, { fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 85 })
+      .toFile(fullPath);
+
+    // Clean up temp file
+    fs.unlinkSync(req.file.path);
+
+    // Also update the preview file if the src changed (e.g. jpg -> webp)
+    if (outputPath !== originalSrc) {
+      updatePreviewImageSrc(slug, originalSrc, outputPath);
+    }
+
+    // Rebuild
+    try {
+      execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
+    } catch (buildErr) {
+      console.error('Build error after image upload:', buildErr.message);
+    }
+
+    res.json({ success: true, newSrc: outputPath });
+  } catch (err) {
+    // Clean up temp file on error
+    if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    console.error('Upload error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+function updatePreviewImageSrc(slug, oldSrc, newSrc) {
+  // Find and update the preview file that contains this image
+  const previewDir = slug === 'home'
+    ? path.join(__dirname, 'previews')
+    : path.join(__dirname, 'previews', slug);
+
+  if (!fs.existsSync(previewDir)) return;
+
+  const files = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+  for (const file of files) {
+    const filePath = path.join(previewDir, file);
+    let content = fs.readFileSync(filePath, 'utf8');
+    // In previews, paths use relative ../../public/images/ or ../public/images/
+    const imgPath = oldSrc.replace(/^\/images\//, '');
+    const newImgPath = newSrc.replace(/^\/images\//, '');
+    if (content.includes(imgPath)) {
+      content = content.split(imgPath).join(newImgPath);
+      fs.writeFileSync(filePath, content, 'utf8');
+    }
+  }
 }
 
 // ===== SERVE SITE =====
