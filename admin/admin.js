@@ -227,12 +227,11 @@
     console.log('[SNB Admin] Found', images.length, 'editable images');
 
     images.forEach(img => {
-      const wrapper = img.parentElement;
-      if (!wrapper) return;
-
-      // Make wrapper positioned for overlay
-      const wrapperPos = window.getComputedStyle(wrapper).position;
-      if (wrapperPos === 'static') wrapper.style.position = 'relative';
+      // Wrap each image in its own container for independent overlay
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'snb-img-wrap';
+      img.parentNode.insertBefore(imgWrap, img);
+      imgWrap.appendChild(img);
 
       // Create overlay
       const overlay = document.createElement('div');
@@ -313,11 +312,8 @@
         fileInput.value = '';
       });
 
-      // Insert overlay positioned on top of the image
-      img.style.position = 'relative';
-      wrapper.style.position = 'relative';
-      wrapper.appendChild(overlay);
-      wrapper.appendChild(fileInput);
+      imgWrap.appendChild(overlay);
+      imgWrap.appendChild(fileInput);
     });
   }
 

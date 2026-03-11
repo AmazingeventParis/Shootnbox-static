@@ -280,6 +280,16 @@ body.snb-admin-mode .snb-page-content {
 }
 
 /* ===== EDITABLE IMAGES ===== */
+.snb-img-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.snb-img-wrap > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .snb-img-overlay {
   position: absolute;
   top: 0;
