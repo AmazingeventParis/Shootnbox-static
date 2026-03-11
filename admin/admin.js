@@ -226,94 +226,107 @@
     const images = document.querySelectorAll('[data-snb-img]');
     console.log('[SNB Admin] Found', images.length, 'editable images');
 
+    // Hidden file input shared by all images
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    // Floating button that follows hovered image
+    const btn = document.createElement('div');
+    btn.className = 'snb-img-btn';
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Changer`;
+    btn.style.display = 'none';
+    document.body.appendChild(btn);
+
+    let activeImg = null;
+
     images.forEach(img => {
-      // Wrap each image in its own container for independent overlay
-      const imgWrap = document.createElement('div');
-      imgWrap.className = 'snb-img-wrap';
-      img.parentNode.insertBefore(imgWrap, img);
-      imgWrap.appendChild(img);
-
-      // Create overlay
-      const overlay = document.createElement('div');
-      overlay.className = 'snb-img-overlay';
-      overlay.innerHTML = `
-        <div class="snb-img-overlay-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Changer l'image
-        </div>
-      `;
-
-      // File input (hidden)
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/*';
-      fileInput.style.display = 'none';
-
-      overlay.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        fileInput.click();
+      img.addEventListener('mouseenter', () => {
+        const rect = img.getBoundingClientRect();
+        btn.style.display = 'flex';
+        btn.style.top = (rect.top + window.scrollY + rect.height / 2 - 16) + 'px';
+        btn.style.left = (rect.left + window.scrollX + rect.width / 2 - 50) + 'px';
+        activeImg = img;
+        img.classList.add('snb-img-hover');
       });
 
-      fileInput.addEventListener('change', async () => {
-        if (!fileInput.files.length) return;
-        const file = fileInput.files[0];
-        const data = img.getAttribute('data-snb-img');
-        const parts = data.split(':');
-        const section = parts[0];
-        const originalSrc = parts.slice(2).join(':');
+      img.addEventListener('mouseleave', (e) => {
+        // Don't hide if moving to the button
+        if (e.relatedTarget === btn || (e.relatedTarget && btn.contains(e.relatedTarget))) return;
+        btn.style.display = 'none';
+        img.classList.remove('snb-img-hover');
+        activeImg = null;
+      });
+    });
 
-        // Show loading state
-        overlay.classList.add('snb-img-uploading');
-        overlay.querySelector('.snb-img-overlay-btn').textContent = 'Upload...';
+    btn.addEventListener('mouseleave', (e) => {
+      // Don't hide if moving back to the image
+      if (e.relatedTarget === activeImg) return;
+      btn.style.display = 'none';
+      if (activeImg) activeImg.classList.remove('snb-img-hover');
+      activeImg = null;
+    });
 
-        try {
-          // Calculate target size based on rendered size (2x for retina)
-          const renderedW = img.offsetWidth || img.naturalWidth;
-          const renderedH = img.offsetHeight || img.naturalHeight;
-          const maxWidth = Math.max(renderedW * 2, 400);
-          const maxHeight = Math.max(renderedH * 2, 400);
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (activeImg) fileInput.click();
+    });
 
-          const formData = new FormData();
-          formData.append('image', file);
-          formData.append('originalSrc', originalSrc);
-          formData.append('section', section);
-          formData.append('slug', currentSlug);
-          formData.append('maxWidth', maxWidth);
-          formData.append('maxHeight', maxHeight);
+    fileInput.addEventListener('change', async () => {
+      if (!fileInput.files.length || !activeImg) return;
+      const img = activeImg;
+      const file = fileInput.files[0];
+      const data = img.getAttribute('data-snb-img');
+      const parts = data.split(':');
+      const section = parts[0];
+      const originalSrc = parts.slice(2).join(':');
 
-          const res = await fetch('/api/upload-image', {
-            method: 'POST',
-            body: formData
-          });
+      // Show loading
+      btn.innerHTML = 'Upload...';
+      btn.classList.add('snb-img-btn-loading');
 
-          if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error || 'Erreur upload');
-          }
+      try {
+        const renderedW = img.offsetWidth || img.naturalWidth;
+        const renderedH = img.offsetHeight || img.naturalHeight;
+        const maxWidth = Math.max(renderedW * 2, 400);
+        const maxHeight = Math.max(renderedH * 2, 400);
 
-          const result = await res.json();
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('originalSrc', originalSrc);
+        formData.append('section', section);
+        formData.append('slug', currentSlug);
+        formData.append('maxWidth', maxWidth);
+        formData.append('maxHeight', maxHeight);
 
-          // Update image src with cache-busting
-          img.src = result.newSrc + '?v=' + Date.now();
-          imageChanges++;
-          showToast('Image mise a jour !', 'success');
+        const res = await fetch('/api/upload-image', {
+          method: 'POST',
+          body: formData
+        });
 
-        } catch (err) {
-          showToast('Erreur: ' + err.message, 'error');
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'Erreur upload');
         }
 
-        // Reset overlay
-        overlay.classList.remove('snb-img-uploading');
-        overlay.querySelector('.snb-img-overlay-btn').innerHTML = `
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Changer l'image
-        `;
-        fileInput.value = '';
-      });
+        const result = await res.json();
+        img.src = result.newSrc + '?v=' + Date.now();
+        imageChanges++;
+        showToast('Image mise a jour !', 'success');
+      } catch (err) {
+        showToast('Erreur: ' + err.message, 'error');
+      }
 
-      imgWrap.appendChild(overlay);
-      imgWrap.appendChild(fileInput);
+      // Reset
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Changer`;
+      btn.classList.remove('snb-img-btn-loading');
+      btn.style.display = 'none';
+      if (activeImg) activeImg.classList.remove('snb-img-hover');
+      activeImg = null;
+      fileInput.value = '';
     });
   }
 
