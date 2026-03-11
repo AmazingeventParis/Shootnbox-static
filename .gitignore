@@ -7,3 +7,5 @@ wp-page.json
 lighthouse*.json
 parse-lh.js
 node_modules/
+.sessions.json
+uploads_tmp/

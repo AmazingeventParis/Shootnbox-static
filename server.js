@@ -23,8 +23,25 @@ const app = express();
 const PORT = process.env.PORT || 80;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ShootnboxSEO2026';
 
-// Active sessions (in-memory, reset on restart)
+// Persistent sessions (survives restarts)
+const SESSIONS_FILE = path.join(__dirname, '.sessions.json');
 const sessions = new Map();
+function loadSessions() {
+  try {
+    if (fs.existsSync(SESSIONS_FILE)) {
+      const data = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
+      for (const [k, v] of Object.entries(data)) sessions.set(k, v);
+    }
+  } catch (e) { /* ignore */ }
+}
+function saveSessions() {
+  try {
+    const obj = {};
+    for (const [k, v] of sessions) obj[k] = v;
+    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(obj), 'utf8');
+  } catch (e) { /* ignore */ }
+}
+loadSessions();
 
 // Gzip/Brotli compression for all responses
 app.use(compression());
@@ -53,9 +70,10 @@ app.post('/api/login', (req, res) => {
   if (req.body.password === ADMIN_PASSWORD) {
     const token = crypto.randomBytes(32).toString('hex');
     sessions.set(token, { created: Date.now() });
+    saveSessions();
     res.cookie('snb_session', token, {
       httpOnly: true,
-      maxAge: 8 * 60 * 60 * 1000, // 8h
+      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 an
       sameSite: 'lax'
     });
     res.json({ success: true });
@@ -68,6 +86,7 @@ app.post('/api/login', (req, res) => {
 app.post('/api/logout', (req, res) => {
   const token = req.cookies.snb_session;
   if (token) sessions.delete(token);
+  saveSessions();
   res.clearCookie('snb_session');
   res.json({ success: true });
 });
@@ -437,15 +456,7 @@ app.get('*', (req, res) => {
   }
 });
 
-// Clean expired sessions every hour
-setInterval(() => {
-  const now = Date.now();
-  for (const [token, data] of sessions) {
-    if (now - data.created > 8 * 60 * 60 * 1000) {
-      sessions.delete(token);
-    }
-  }
-}, 60 * 60 * 1000);
+// Sessions never expire — user must logout manually
 
 app.listen(PORT, () => {
   console.log(`Shootnbox server running on port ${PORT}`);
