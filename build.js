@@ -201,6 +201,7 @@ function postProcess(html) {
 
   // 3. Add data-snb-edit attributes for admin inline editing
   const sectionMap = {
+    // Home
     'snb-hero': 'hero',
     'snb-bento': 'bento',
     'trust': 'trust',
@@ -212,7 +213,19 @@ function postProcess(html) {
     'snb-cf': 'carte-france',
     'snb-bl': 'blog',
     'snb-footer': 'footer',
-    'snb-ft': 'footer'
+    'snb-ft': 'footer',
+    // Location-photobooth
+    'snb-bornes': 'bornes',
+    'snb-b': 'bornes',
+    'snb-tarifs': 'tarifs',
+    'snb-usages': 'usages',
+    'snb-usage': 'usages',
+    'snb-svc2': 'service-v2',
+    'snb-service': 'service-v2',
+    'snb-fab': 'fabrication',
+    'snb-comp': 'comparatif',
+    'snb-couv': 'couverture',
+    'snb-faq': 'faq'
   };
 
   const cheerio = require('cheerio');
@@ -240,6 +253,7 @@ function postProcess(html) {
   });
 
   const editableClasses = [
+    // Home
     '.hero-subtitle', '.hero-tagline',
     '.card-sub',
     '.trust-title',
@@ -252,7 +266,18 @@ function postProcess(html) {
     '.sm-subtitle', '.sm-cta-sub',
     '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
     '.snb-bl-title', '.snb-bl-subtitle',
-    '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc'
+    '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc',
+    // Location-photobooth
+    '.snb-b-name', '.snb-b-tagline', '.snb-b-feat-text',
+    '.snb-tarifs-h2', '.snb-tarifs-desc', '.snb-tarifs-arg-title', '.snb-tarifs-arg-text',
+    '.snb-tarifs-check-text',
+    '.snb-svc2-step-title', '.snb-svc2-step-desc', '.snb-svc2-subtitle',
+    '.snb-fab-text', '.snb-fab-quote',
+    '.snb-comp-subtitle', '.snb-comp-card-name', '.snb-comp-card-sub',
+    '.snb-comp-intro-card',
+    '.snb-couv-subtitle', '.snb-couv-map-title', '.snb-couv-map-desc',
+    '.snb-couv-highlight-label',
+    '.snb-faq-q', '.snb-faq-ans', '.snb-faq-subtitle'
   ];
   editableClasses.forEach(sel => {
     $(sel).each((i, el) => {
