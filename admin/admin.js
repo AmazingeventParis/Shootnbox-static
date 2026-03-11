@@ -681,6 +681,8 @@
           }
         }
 
+        imageChanges += files.length;
+        updateChangesCount();
         showToast(files.length + ' photo(s) ajoutee(s)', 'success');
         // Reload panel
         const res2 = await fetch('/api/mur-photos');
@@ -701,6 +703,8 @@
             body: JSON.stringify({ src })
           });
           if (!res.ok) throw new Error('Erreur suppression');
+          imageChanges++;
+          updateChangesCount();
           showToast('Photo supprimee', 'success');
           const res2 = await fetch('/api/mur-photos');
           renderMurPhotos(await res2.json());
