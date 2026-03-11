@@ -103,19 +103,19 @@ a { text-decoration: none; color: inherit; }
 
 /* Bulles - chacune sa couleur */
 .snb-svc2-bubble {
-  width: 44px; height: 44px;
+  width: 38px; height: 38px;
   margin: 0 auto 10px;
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 900; color: #fff;
+  font-size: 16px; font-weight: 800; color: #fff;
   position: relative; z-index: 2;
 }
 .snb-svc2-bubble::after {
   content: '';
   position: absolute;
-  top: 3px; left: 8px; right: 8px; height: 36%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
-  border-radius: 50%;
+  top: 2px; left: 5px; right: 5px; height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
+  border-radius: 8px 8px 50% 50%;
   pointer-events: none;
 }
 /* Animation bulles : pop-in successif */
@@ -167,14 +167,14 @@ a { text-decoration: none; color: inherit; }
              snbBubPulse 2.5s ease-in-out 2s infinite;
 }
 @keyframes snbBubPulse {
-  0%, 100% { box-shadow: 0 5px 16px currentColor; transform: scale(1); }
-  50% { box-shadow: 0 8px 24px currentColor; transform: scale(1.08); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
-.snb-svc2-step:nth-child(1) .snb-svc2-bubble { background: linear-gradient(150deg, #ff7a7a, #ef4444); box-shadow: 0 5px 16px rgba(239,68,68,0.35); }
-.snb-svc2-step:nth-child(2) .snb-svc2-bubble { background: linear-gradient(150deg, #FF9A3C, #FF7A00); box-shadow: 0 5px 16px rgba(255,122,0,0.35); }
-.snb-svc2-step:nth-child(3) .snb-svc2-bubble { background: linear-gradient(150deg, #c084fc, #a855f7); box-shadow: 0 5px 16px rgba(168,85,247,0.35); }
-.snb-svc2-step:nth-child(4) .snb-svc2-bubble { background: linear-gradient(150deg, #7dacff, #0250FF); box-shadow: 0 5px 16px rgba(2,80,255,0.3); }
-.snb-svc2-step:nth-child(5) .snb-svc2-bubble { background: linear-gradient(150deg, #ff6eb4, #E51981); box-shadow: 0 5px 16px rgba(229,25,129,0.35); }
+.snb-svc2-step:nth-child(1) .snb-svc2-bubble { background: linear-gradient(145deg, #E51981, #c91473); box-shadow: 0 4px 12px rgba(229,25,129,0.3); }
+.snb-svc2-step:nth-child(2) .snb-svc2-bubble { background: linear-gradient(145deg, #a855f7, #8b3fd4); box-shadow: 0 4px 12px rgba(168,85,247,0.3); }
+.snb-svc2-step:nth-child(3) .snb-svc2-bubble { background: linear-gradient(145deg, #0250FF, #0040d6); box-shadow: 0 4px 12px rgba(2,80,255,0.3); }
+.snb-svc2-step:nth-child(4) .snb-svc2-bubble { background: linear-gradient(145deg, #FF7A00, #e06800); box-shadow: 0 4px 12px rgba(255,122,0,0.3); }
+.snb-svc2-step:nth-child(5) .snb-svc2-bubble { background: linear-gradient(145deg, #16A34A, #128a3e); box-shadow: 0 4px 12px rgba(22,163,74,0.3); }
 
 /* Cartes neumorphism */
 .snb-svc2-step-card {
@@ -272,24 +272,24 @@ a { text-decoration: none; color: inherit; }
   display: flex; flex-direction: column; align-items: center;
 }
 .snb-svc2-mob-bubble {
-  width: 34px; height: 34px;
+  width: 30px; height: 30px;
   flex-shrink: 0;
-  border-radius: 50%;
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 900; color: #fff;
+  font-size: 13px; font-weight: 800; color: #fff;
   position: relative;
 }
-.snb-svc2-mob-step:nth-child(1) .snb-svc2-mob-bubble { background: linear-gradient(150deg, #ff7a7a, #ef4444); box-shadow: 0 4px 10px rgba(239,68,68,0.3); }
-.snb-svc2-mob-step:nth-child(2) .snb-svc2-mob-bubble { background: linear-gradient(150deg, #FF9A3C, #FF7A00); box-shadow: 0 4px 10px rgba(255,122,0,0.3); }
-.snb-svc2-mob-step:nth-child(3) .snb-svc2-mob-bubble { background: linear-gradient(150deg, #c084fc, #a855f7); box-shadow: 0 4px 10px rgba(168,85,247,0.3); }
-.snb-svc2-mob-step:nth-child(4) .snb-svc2-mob-bubble { background: linear-gradient(150deg, #7dacff, #0250FF); box-shadow: 0 4px 10px rgba(2,80,255,0.25); }
-.snb-svc2-mob-step:nth-child(5) .snb-svc2-mob-bubble { background: linear-gradient(150deg, #ff6eb4, #E51981); box-shadow: 0 4px 10px rgba(229,25,129,0.3); }
+.snb-svc2-mob-step:nth-child(1) .snb-svc2-mob-bubble { background: linear-gradient(145deg, #E51981, #c91473); box-shadow: 0 3px 8px rgba(229,25,129,0.25); }
+.snb-svc2-mob-step:nth-child(2) .snb-svc2-mob-bubble { background: linear-gradient(145deg, #a855f7, #8b3fd4); box-shadow: 0 3px 8px rgba(168,85,247,0.25); }
+.snb-svc2-mob-step:nth-child(3) .snb-svc2-mob-bubble { background: linear-gradient(145deg, #0250FF, #0040d6); box-shadow: 0 3px 8px rgba(2,80,255,0.25); }
+.snb-svc2-mob-step:nth-child(4) .snb-svc2-mob-bubble { background: linear-gradient(145deg, #FF7A00, #e06800); box-shadow: 0 3px 8px rgba(255,122,0,0.25); }
+.snb-svc2-mob-step:nth-child(5) .snb-svc2-mob-bubble { background: linear-gradient(145deg, #16A34A, #128a3e); box-shadow: 0 3px 8px rgba(22,163,74,0.25); }
 .snb-svc2-mob-bubble::after {
   content: '';
   position: absolute;
-  top: 3px; left: 7px; right: 7px; height: 36%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
-  border-radius: 50%;
+  top: 2px; left: 5px; right: 5px; height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
+  border-radius: 6px 6px 50% 50%;
 }
 .snb-svc2-mob-line {
   width: 2px; flex: 1;
