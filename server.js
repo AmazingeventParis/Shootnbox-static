@@ -344,7 +344,7 @@ app.post('/api/upload-image', requireAuth, upload.single('image'), async (req, r
     // Clean up temp file
     fs.unlinkSync(req.file.path);
 
-    // Also update the preview file if the src changed (e.g. jpg -> webp)
+    // Update preview file if format changed (e.g. jpg -> webp)
     if (outputPath !== originalSrc) {
       updatePreviewImageSrc(slug, originalSrc, outputPath);
     }
@@ -356,8 +356,28 @@ app.post('/api/upload-image', requireAuth, upload.single('image'), async (req, r
       console.error('Build error after image upload:', buildErr.message);
     }
 
-    console.log('[Upload] Success:', outputPath, maxW + 'x' + maxH);
-    res.json({ success: true, newSrc: outputPath });
+    // After rebuild, add cache-busting ?v= to this image in all HTML outputs
+    const cacheBust = Date.now();
+    const imgPathForBust = outputPath.replace(/^\//, ''); // images/savoirfaire/sf-borne-perso.webp
+    const publicDir = path.join(__dirname, 'public');
+    const htmlFiles = ['index.html', 'location-photobooth/index.html'];
+    for (const hf of htmlFiles) {
+      const htmlPath = path.join(publicDir, hf);
+      if (!fs.existsSync(htmlPath)) continue;
+      let html = fs.readFileSync(htmlPath, 'utf8');
+      // Add ?v= to all occurrences of this image (src, srcset, url())
+      const escaped = imgPathForBust.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp('(/' + escaped + ')(["\'\\s\\)])', 'g');
+      const newHtml = html.replace(re, '$1?v=' + cacheBust + '$2');
+      if (newHtml !== html) {
+        fs.writeFileSync(htmlPath, newHtml, 'utf8');
+        console.log('[Upload] Cache-bust added in', hf);
+      }
+    }
+
+    const newSrcWithBust = outputPath + '?v=' + cacheBust;
+    console.log('[Upload] Success:', newSrcWithBust, maxW + 'x' + maxH);
+    res.json({ success: true, newSrc: newSrcWithBust });
   } catch (err) {
     // Clean up temp file on error
     if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
@@ -688,9 +708,14 @@ app.use((req, res, next) => {
 // Static files with cache headers
 app.use(express.static('public', {
   maxAge: '365d',        // cache assets for 1 year (Lighthouse requirement)
+  etag: true,            // enable ETag for revalidation
+  lastModified: true,
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache'); // always revalidate HTML
+    } else if (filePath.match(/\.(webp|jpg|jpeg|png|gif|svg)$/i)) {
+      // Images: cache 1 year but revalidate (allows cache-busting via ?v=)
+      res.setHeader('Cache-Control', 'public, max-age=31536000, must-revalidate');
     }
   }
 }));
