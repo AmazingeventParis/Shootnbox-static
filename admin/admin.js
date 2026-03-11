@@ -223,74 +223,96 @@
 
   // ===== INIT EDITABLE IMAGES =====
   function initEditableImages() {
-    const images = document.querySelectorAll('[data-snb-img]');
-    console.log('[SNB Admin] Found', images.length, 'editable images');
+    const imgEls = document.querySelectorAll('[data-snb-img]');
+    const bgEls = document.querySelectorAll('[data-snb-bg]');
+    console.log('[SNB Admin] Found', imgEls.length, 'editable images +', bgEls.length, 'editable backgrounds');
 
-    // Hidden file input shared by all images
+    // Hidden file input
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
     fileInput.style.display = 'none';
     document.body.appendChild(fileInput);
 
-    // Floating button that follows hovered image
+    // Floating button
     const btn = document.createElement('div');
     btn.className = 'snb-img-btn';
     btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Changer`;
     btn.style.display = 'none';
     document.body.appendChild(btn);
 
-    let activeImg = null;
+    let activeEl = null;
+    let hideTimer = null;
 
-    images.forEach(img => {
-      img.addEventListener('mouseenter', () => {
-        const rect = img.getBoundingClientRect();
+    // Use document-level mousemove + elementsFromPoint to detect images
+    // even behind overlays, gradients, ::before/::after
+    document.addEventListener('mousemove', (e) => {
+      // Don't process if over the button itself
+      if (btn.contains(e.target)) return;
+
+      const els = document.elementsFromPoint(e.clientX, e.clientY);
+      let found = null;
+      for (const el of els) {
+        if (el.hasAttribute('data-snb-img') || el.hasAttribute('data-snb-bg')) {
+          found = el;
+          break;
+        }
+      }
+
+      if (found && found !== activeEl) {
+        clearTimeout(hideTimer);
+        if (activeEl) activeEl.classList.remove('snb-img-hover');
+        activeEl = found;
+        activeEl.classList.add('snb-img-hover');
+        const rect = found.getBoundingClientRect();
         btn.style.display = 'flex';
         btn.style.top = (rect.top + window.scrollY + rect.height / 2 - 16) + 'px';
         btn.style.left = (rect.left + window.scrollX + rect.width / 2 - 50) + 'px';
-        activeImg = img;
-        img.classList.add('snb-img-hover');
-      });
-
-      img.addEventListener('mouseleave', (e) => {
-        // Don't hide if moving to the button
-        if (e.relatedTarget === btn || (e.relatedTarget && btn.contains(e.relatedTarget))) return;
-        btn.style.display = 'none';
-        img.classList.remove('snb-img-hover');
-        activeImg = null;
-      });
+      } else if (!found && activeEl) {
+        // Delay hiding so user can reach the button
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
+          if (activeEl) activeEl.classList.remove('snb-img-hover');
+          activeEl = null;
+          btn.style.display = 'none';
+        }, 300);
+      }
     });
 
-    btn.addEventListener('mouseleave', (e) => {
-      // Don't hide if moving back to the image
-      if (e.relatedTarget === activeImg) return;
-      btn.style.display = 'none';
-      if (activeImg) activeImg.classList.remove('snb-img-hover');
-      activeImg = null;
+    // Keep button visible while hovering it
+    btn.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+    btn.addEventListener('mouseleave', () => {
+      hideTimer = setTimeout(() => {
+        if (activeEl) activeEl.classList.remove('snb-img-hover');
+        activeEl = null;
+        btn.style.display = 'none';
+      }, 200);
     });
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (activeImg) fileInput.click();
+      if (activeEl) fileInput.click();
     });
 
     fileInput.addEventListener('change', async () => {
-      if (!fileInput.files.length || !activeImg) return;
-      const img = activeImg;
+      if (!fileInput.files.length || !activeEl) return;
+      const el = activeEl;
       const file = fileInput.files[0];
-      const data = img.getAttribute('data-snb-img');
+
+      // Detect if it's an img or background
+      const isImg = el.hasAttribute('data-snb-img');
+      const data = el.getAttribute(isImg ? 'data-snb-img' : 'data-snb-bg');
       const parts = data.split(':');
       const section = parts[0];
       const originalSrc = parts.slice(2).join(':');
 
-      // Show loading
       btn.innerHTML = 'Upload...';
       btn.classList.add('snb-img-btn-loading');
 
       try {
-        const renderedW = img.offsetWidth || img.naturalWidth;
-        const renderedH = img.offsetHeight || img.naturalHeight;
+        const renderedW = el.offsetWidth || 800;
+        const renderedH = el.offsetHeight || 600;
         const maxWidth = Math.max(renderedW * 2, 400);
         const maxHeight = Math.max(renderedH * 2, 400);
 
@@ -313,19 +335,26 @@
         }
 
         const result = await res.json();
-        img.src = result.newSrc + '?v=' + Date.now();
+
+        if (isImg) {
+          el.src = result.newSrc + '?v=' + Date.now();
+        } else {
+          // Update background-image
+          const currentStyle = el.getAttribute('style') || '';
+          const newStyle = currentStyle.replace(/url\([^)]+\)/, 'url(' + result.newSrc + '?v=' + Date.now() + ')');
+          el.setAttribute('style', newStyle);
+        }
         imageChanges++;
         showToast('Image mise a jour !', 'success');
       } catch (err) {
         showToast('Erreur: ' + err.message, 'error');
       }
 
-      // Reset
       btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Changer`;
       btn.classList.remove('snb-img-btn-loading');
       btn.style.display = 'none';
-      if (activeImg) activeImg.classList.remove('snb-img-hover');
-      activeImg = null;
+      if (activeEl) activeEl.classList.remove('snb-img-hover');
+      activeEl = null;
       fileInput.value = '';
     });
   }

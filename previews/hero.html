@@ -19,13 +19,15 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 <style>
 .snb-hero { position:relative; overflow:hidden; background:#2d0535; color:#fff; padding:0; font-family:'Raleway',sans-serif; }
-.snb-hero::before {
+.snb-hero-bg {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  object-fit:cover; object-position:center center; z-index:0;
+}
+.snb-hero-bg-overlay {
   content:''; position:absolute; top:0; left:0; width:100%; height:100%;
-  background:
-    linear-gradient(to right,#2d0535 0%,#2d0535 20%,rgba(45,5,53,0.93) 28%,rgba(45,5,53,0.80) 35%,
+  background:linear-gradient(to right,#2d0535 0%,#2d0535 20%,rgba(45,5,53,0.93) 28%,rgba(45,5,53,0.80) 35%,
     rgba(45,5,53,0.60) 42%,rgba(45,5,53,0.40) 50%,rgba(45,5,53,0.22) 58%,
-    rgba(45,5,53,0.10) 68%,rgba(45,5,53,0.04) 78%,transparent 88%),
-    url('../public/images/vegas-hero-group.webp') center center / cover no-repeat;
+    rgba(45,5,53,0.10) 68%,rgba(45,5,53,0.04) 78%,transparent 88%);
   z-index:0;
 }
 .snb-hero::after {
@@ -106,9 +108,9 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .snb-hero .btn-outline:hover { background:rgba(255,255,255,0.15); transform:translateY(-3px) scale(1.05); }
 @media (max-width:900px) {
-  .snb-hero::before {
-    background: linear-gradient(to bottom,rgba(45,5,53,0.75) 0%,rgba(45,5,53,0.6) 40%,rgba(45,5,53,0.5) 70%,rgba(45,5,53,0.7) 100%),
-      url('../public/images/vegas-hero-group.webp') 35% center / cover no-repeat;
+  .snb-hero-bg { object-position:35% center; }
+  .snb-hero-bg-overlay {
+    background:linear-gradient(to bottom,rgba(45,5,53,0.75) 0%,rgba(45,5,53,0.6) 40%,rgba(45,5,53,0.5) 70%,rgba(45,5,53,0.7) 100%);
   }
   .snb-hero::after { display:none; }
   .snb-hero-inner { padding:40px 20px 50px; min-height:0; max-width:100%; text-align:center; }
@@ -131,6 +133,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 </style>
 
 <section class="snb-hero">
+  <img class="snb-hero-bg" src="../public/images/vegas-hero-group.webp" alt="Soiree photobooth groupe" loading="eager" fetchpriority="high">
+  <div class="snb-hero-bg-overlay"></div>
   <div class="snb-hero-inner">
     <h2>
       <span class="hero-wave" style="animation-delay:0s">Des</span> <span class="hero-wave" style="animation-delay:0.3s">sourires.</span><br>

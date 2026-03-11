@@ -304,7 +304,7 @@ function postProcess(html) {
     });
   });
 
-  // 4. Add data-snb-img attributes for admin image editing
+  // 4. Add data-snb-img attributes for admin image editing (img tags)
   let imgIdx = 0;
   $('img').each((i, el) => {
     const $el = $(el);
@@ -327,6 +327,30 @@ function postProcess(html) {
     if (section === 'unknown') return;
     $el.attr('data-snb-img', `${section}:${imgIdx}:${src}`);
     imgIdx++;
+  });
+
+  // 5. Add data-snb-bg attributes for elements with inline background-image
+  let bgIdx = 0;
+  $('[style]').each((i, el) => {
+    const $el = $(el);
+    const style = $el.attr('style') || '';
+    const bgMatch = style.match(/background(?:-image)?:\s*(?:[^;]*?)url\(([^)]+)\)/);
+    if (!bgMatch) return;
+    let bgUrl = bgMatch[1].replace(/['"]/g, '');
+    // Normalize path
+    if (bgUrl.startsWith('../public/')) bgUrl = bgUrl.replace(/^\.\.\/public/, '');
+    if (bgUrl.startsWith('../../public/')) bgUrl = bgUrl.replace(/^\.\.\/\.\.\/public/, '');
+    if (!bgUrl.startsWith('/images/')) return;
+    let section = 'unknown';
+    for (const [cls, name] of Object.entries(sectionMap)) {
+      if ($el.closest('.' + cls).length || $el.closest('[class*="' + cls + '"]').length) {
+        section = name;
+        break;
+      }
+    }
+    if (section === 'unknown') return;
+    $el.attr('data-snb-bg', `${section}:${bgIdx}:${bgUrl}`);
+    bgIdx++;
   });
 
   html = $.html();

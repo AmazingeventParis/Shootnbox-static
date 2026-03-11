@@ -280,7 +280,8 @@ body.snb-admin-mode .snb-page-content {
 }
 
 /* ===== EDITABLE IMAGES ===== */
-[data-snb-img].snb-img-hover {
+[data-snb-img].snb-img-hover,
+[data-snb-bg].snb-img-hover {
   outline: 3px dashed rgba(229,25,129,0.7) !important;
   outline-offset: 3px;
 }
