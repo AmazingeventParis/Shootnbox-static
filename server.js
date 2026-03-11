@@ -313,6 +313,7 @@ function updateBuildSEO(seo) {
 
 // ===== IMAGE UPLOAD =====
 app.post('/api/upload-image', requireAuth, upload.single('image'), async (req, res) => {
+  console.log('[Upload] Request received:', req.body?.originalSrc, 'file:', req.file?.originalname, req.file?.size, 'bytes');
   try {
     if (!req.file) return res.status(400).json({ error: 'Aucune image envoyée' });
 
@@ -355,13 +356,26 @@ app.post('/api/upload-image', requireAuth, upload.single('image'), async (req, r
       console.error('Build error after image upload:', buildErr.message);
     }
 
+    console.log('[Upload] Success:', outputPath, maxW + 'x' + maxH);
     res.json({ success: true, newSrc: outputPath });
   } catch (err) {
     // Clean up temp file on error
     if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
-    console.error('Upload error:', err);
+    console.error('[Upload] Error:', err);
     res.status(500).json({ error: err.message });
   }
+});
+
+// Catch multer errors (file too large, wrong type, etc.)
+app.use((err, req, res, next) => {
+  if (err && err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(413).json({ error: 'Fichier trop volumineux (max 10 Mo)' });
+  }
+  if (err && err.message) {
+    console.error('[Multer] Error:', err.message);
+    return res.status(400).json({ error: err.message });
+  }
+  next(err);
 });
 
 function updatePreviewImageSrc(slug, oldSrc, newSrc) {

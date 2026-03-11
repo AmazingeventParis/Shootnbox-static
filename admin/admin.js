@@ -430,10 +430,16 @@
 
       const isImg = el.hasAttribute('data-snb-img');
       const data = el.getAttribute(isImg ? 'data-snb-img' : 'data-snb-bg');
+      if (!data) {
+        console.error('[SNB] Upload: element has no data-snb-img/bg attribute');
+        showToast('Erreur: image non editable', 'error');
+        return;
+      }
       const parts = data.split(':');
       const section = parts[0];
       const originalSrc = parts.slice(2).join(':');
 
+      console.log('[SNB] Upload starting:', { section, originalSrc, file: file.name, size: file.size });
       changeBtn.textContent = 'Upload...';
 
       try {
@@ -450,12 +456,15 @@
         formData.append('maxWidth', maxWidth);
         formData.append('maxHeight', maxHeight);
 
+        console.log('[SNB] Upload sending...', originalSrc);
         const res = await fetch('/api/upload-image', { method: 'POST', credentials: 'same-origin', body: formData });
+        console.log('[SNB] Upload response:', res.status);
         if (!res.ok) {
           const errData = await res.json().catch(()=>({}));
           throw new Error(errData.error || 'Erreur ' + res.status);
         }
         const result = await res.json();
+        console.log('[SNB] Upload result:', result);
 
         if (isImg) {
           el.src = result.newSrc + '?v=' + Date.now();
