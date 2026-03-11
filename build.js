@@ -33,6 +33,19 @@ const pages = [
     preloadImage: '/images/location-hero-party.webp',
     sections: ['hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog'],
     previewDir: path.join(previewsDir, 'location-photobooth')
+  },
+  {
+    slug: 'location-photobooth-entreprise',
+    output: 'public/location-photobooth-entreprise/index.html',
+    title: 'Location Photobooth Entreprise | Borne Photo S\u00e9minaire & Team Building - Shootnbox',
+    description: 'Louez un photobooth pour vos \u00e9v\u00e9nements d\'entreprise : s\u00e9minaires, team buildings, soir\u00e9es corporate, salons. Borne photo premium livr\u00e9e partout en France.',
+    ogTitle: 'Location Photobooth Entreprise - Shootnbox',
+    ogDescription: 'Borne photo pour s\u00e9minaires, team buildings et soir\u00e9es d\'entreprise. Livraison partout en France.',
+    ogImage: 'https://shootnbox.swipego.app/images/location-hero-party.webp',
+    ogUrl: 'https://shootnbox.swipego.app/location-photobooth-entreprise/',
+    preloadImage: '/images/location-hero-party.webp',
+    sections: ['hero'],
+    previewDir: path.join(previewsDir, 'location-photobooth-entreprise')
   }
 ];
 
@@ -227,7 +240,9 @@ function postProcess(html) {
     'snb-fab': 'fabrication',
     'snb-comp': 'comparatif',
     'snb-couv': 'couverture',
-    'snb-faq': 'faq'
+    'snb-faq': 'faq',
+    // Location-photobooth-entreprise
+    'lpe-hero': 'hero'
   };
 
   const cheerio = require('cheerio');

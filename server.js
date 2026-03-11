@@ -431,7 +431,8 @@ function updatePreviewImageSrc(slug, oldSrc, newSrc) {
 // Active sections per page (must match build.js pages config)
 const pageSections = {
   'home': ['header', 'hero', 'trust', 'bento', 'stats', 'avis', 'equipe', 'savoirfaire', 'mur', 'carte-france', 'blog', 'footer', 'bornes'],
-  'location-photobooth': ['header', 'hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog', 'footer']
+  'location-photobooth': ['header', 'hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog', 'footer'],
+  'location-photobooth-entreprise': ['header', 'hero', 'footer']
 };
 
 // ===== IMAGE POSITION =====
