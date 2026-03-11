@@ -331,11 +331,12 @@ body.snb-admin-mode .snb-page-content {
 
 /* Position sliders */
 .snb-img-sliders {
-  background: #141425;
+  background: rgba(20, 20, 37, 0.92);
+  backdrop-filter: blur(8px);
   border-radius: 10px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   margin-top: 6px;
-  min-width: 220px;
+  min-width: 200px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 .snb-img-slider-row {

@@ -313,7 +313,7 @@
     function showToolbar(el) {
       const rect = el.getBoundingClientRect();
       toolbar.style.display = 'block';
-      toolbar.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+      toolbar.style.top = (rect.top + window.scrollY + rect.height / 2 - 20) + 'px';
       toolbar.style.left = (rect.left + window.scrollX + rect.width / 2 - 110) + 'px';
       slidersPanel.style.display = 'none';
       posOpen = false;
