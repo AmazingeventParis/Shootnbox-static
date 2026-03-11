@@ -215,6 +215,8 @@ function postProcess(html) {
     'snb-footer': 'footer',
     'snb-ft': 'footer',
     // Location-photobooth
+    'lp-hero': 'hero',
+    'lp-intro': 'intro',
     'snb-bornes': 'bornes',
     'snb-b': 'bornes',
     'snb-tarifs': 'tarifs',
@@ -267,7 +269,10 @@ function postProcess(html) {
     '.snb-cf-title', '.snb-cf-info-title', '.snb-cf-info-text',
     '.snb-bl-title', '.snb-bl-subtitle',
     '.snb-ft-cta-title', '.snb-ft-cta-text', '.snb-ft-cta-subtitle', '.snb-ft-desc',
-    // Location-photobooth
+    // Location-photobooth - hero & intro
+    '.lp-hero-sub', '.lp-price-amount', '.lp-price-from', '.lp-price-period', '.lp-price-weekend',
+    '.lp-proof-item', '.lp-intro-label', '.lp-intro-p', '.lp-intro-title',
+    // Location-photobooth - modules
     '.snb-b-name', '.snb-b-tagline', '.snb-b-feat-text',
     '.snb-tarifs-h2', '.snb-tarifs-desc', '.snb-tarifs-arg-title', '.snb-tarifs-arg-text',
     '.snb-tarifs-check-text',
