@@ -23,25 +23,8 @@ const app = express();
 const PORT = process.env.PORT || 80;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ShootnboxSEO2026';
 
-// Persistent sessions (survives restarts)
-const SESSIONS_FILE = path.join(__dirname, '.sessions.json');
-const sessions = new Map();
-function loadSessions() {
-  try {
-    if (fs.existsSync(SESSIONS_FILE)) {
-      const data = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8'));
-      for (const [k, v] of Object.entries(data)) sessions.set(k, v);
-    }
-  } catch (e) { /* ignore */ }
-}
-function saveSessions() {
-  try {
-    const obj = {};
-    for (const [k, v] of sessions) obj[k] = v;
-    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(obj), 'utf8');
-  } catch (e) { /* ignore */ }
-}
-loadSessions();
+// Signed cookie auth (no server-side sessions = survives deploys)
+const COOKIE_SECRET = 'snb_' + ADMIN_PASSWORD; // deterministic secret
 
 // Gzip/Brotli compression for all responses
 app.use(compression());
@@ -50,9 +33,22 @@ app.use(cookieParser());
 
 // ===== AUTH =====
 
+function signToken(data) {
+  const payload = Buffer.from(JSON.stringify(data)).toString('base64url');
+  const sig = crypto.createHmac('sha256', COOKIE_SECRET).update(payload).digest('base64url');
+  return payload + '.' + sig;
+}
+
+function verifyToken(token) {
+  if (!token || !token.includes('.')) return null;
+  const [payload, sig] = token.split('.');
+  const expected = crypto.createHmac('sha256', COOKIE_SECRET).update(payload).digest('base64url');
+  if (sig !== expected) return null;
+  try { return JSON.parse(Buffer.from(payload, 'base64url').toString()); } catch { return null; }
+}
+
 function isAuthenticated(req) {
-  const token = req.cookies.snb_session;
-  return token && sessions.has(token);
+  return !!verifyToken(req.cookies.snb_session);
 }
 
 function requireAuth(req, res, next) {
@@ -68,9 +64,7 @@ app.get('/edition-shootnbox', (req, res) => {
 // Login API
 app.post('/api/login', (req, res) => {
   if (req.body.password === ADMIN_PASSWORD) {
-    const token = crypto.randomBytes(32).toString('hex');
-    sessions.set(token, { created: Date.now() });
-    saveSessions();
+    const token = signToken({ role: 'admin', created: Date.now() });
     res.cookie('snb_session', token, {
       httpOnly: true,
       maxAge: 365 * 24 * 60 * 60 * 1000, // 1 an
@@ -84,9 +78,6 @@ app.post('/api/login', (req, res) => {
 
 // Logout
 app.post('/api/logout', (req, res) => {
-  const token = req.cookies.snb_session;
-  if (token) sessions.delete(token);
-  saveSessions();
   res.clearCookie('snb_session');
   res.json({ success: true });
 });
@@ -456,7 +447,7 @@ app.get('*', (req, res) => {
   }
 });
 
-// Sessions never expire — user must logout manually
+// No session cleanup needed — auth is cookie-based
 
 app.listen(PORT, () => {
   console.log(`Shootnbox server running on port ${PORT}`);

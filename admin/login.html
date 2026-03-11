@@ -118,7 +118,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       body: JSON.stringify({ password: document.getElementById('password').value })
     });
     if (res.ok) {
-      window.location.href = '/';
+      window.location.href = '/location-photobooth/';
     } else {
       error.classList.add('show');
     }
