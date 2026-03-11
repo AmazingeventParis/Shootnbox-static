@@ -403,25 +403,35 @@ const pageSections = {
 // ===== IMAGE POSITION =====
 app.post('/api/image-position', requireAuth, (req, res) => {
   try {
-    const { slug, src, posX, posY } = req.body;
+    const { slug, section, src, posX, posY } = req.body;
     if (!src) return res.status(400).json({ error: 'src manquant' });
 
     const previewDir = slug === 'home'
       ? path.join(__dirname, 'previews')
       : path.join(__dirname, 'previews', slug);
 
-    // Only search in active section files (not old versions like intro-v3.html)
+    // If section is provided, target the exact file first
+    // This prevents modifying the wrong file when the same image appears in multiple sections
     const activeSections = pageSections[slug] || [];
     const activeFiles = activeSections.map(s => s + '.html');
-    // Also check shared sections from previews root for sub-pages
-    const sharedDir = path.join(__dirname, 'previews');
-
     const allFiles = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
-    const files = activeFiles.length > 0
-      ? allFiles.filter(f => activeFiles.includes(f))
-      : allFiles;
+
+    let files;
+    if (section) {
+      // Try the section file first, then fall back to all active files
+      const sectionFile = section + '.html';
+      const otherFiles = (activeFiles.length > 0
+        ? allFiles.filter(f => activeFiles.includes(f))
+        : allFiles).filter(f => f !== sectionFile);
+      files = [sectionFile, ...otherFiles].filter(f => allFiles.includes(f));
+    } else {
+      files = activeFiles.length > 0
+        ? allFiles.filter(f => activeFiles.includes(f))
+        : allFiles;
+    }
+
     const imgPath = src.replace(/^\/images\//, '');
-    console.log('[Position] Searching in files:', files.join(', '), 'for', imgPath);
+    console.log('[Position] Section:', section, '| Searching in:', files.join(', '), 'for', imgPath);
     let found = false;
 
     for (const file of files) {

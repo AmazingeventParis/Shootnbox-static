@@ -382,9 +382,10 @@
 
       const isImg = activeEl.hasAttribute('data-snb-img');
       const attrData = activeEl.getAttribute(isImg ? 'data-snb-img' : 'data-snb-bg');
+      const section = attrData.split(':')[0];
       const src = attrData.split(':').slice(2).join(':');
 
-      console.log('[SNB] Saving position:', { slug: currentSlug, src, posX: posX.value, posY: posY.value });
+      console.log('[SNB] Saving position:', { slug: currentSlug, section, src, posX: posX.value, posY: posY.value });
       posSave.textContent = '...';
       try {
         const res = await fetch('/api/image-position', {
@@ -393,6 +394,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             slug: currentSlug,
+            section: section,
             src: src,
             posX: posX.value,
             posY: posY.value
