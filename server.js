@@ -392,7 +392,6 @@ app.post('/api/image-position', requireAuth, (req, res) => {
       ? path.join(__dirname, 'previews')
       : path.join(__dirname, 'previews', slug);
 
-    // Find the preview file containing this image
     const files = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
     const imgPath = src.replace(/^\/images\//, '');
     let found = false;
@@ -402,59 +401,72 @@ app.post('/api/image-position', requireAuth, (req, res) => {
       let content = fs.readFileSync(filePath, 'utf8');
       if (!content.includes(imgPath)) continue;
 
-      const $ = cheerio.load(content, { decodeEntities: false });
-      $('img').each((i, el) => {
-        const elSrc = $(el).attr('src') || '';
-        if (elSrc.includes(imgPath)) {
-          // Set object-position as inline style
-          const currentStyle = $(el).attr('style') || '';
-          const cleanStyle = currentStyle
-            .replace(/object-position:\s*[^;]+;?/g, '')
-            .replace(/^\s*;\s*/, '').trim();
-          const newPos = `object-position: ${posX}% ${posY}%;`;
-          const newStyle = cleanStyle ? cleanStyle + '; ' + newPos : newPos;
-          $(el).attr('style', newStyle);
-          found = true;
+      // Simple string approach: find img tags containing this path
+      const imgRegex = new RegExp(
+        '(<img\\s[^>]*src="[^"]*' + imgPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[^>]*?)(/?>)',
+        'g'
+      );
+
+      content = content.replace(imgRegex, (match, before, close) => {
+        // Remove existing object-position from style
+        let updated = before.replace(/\s*style="[^"]*"/, (styleAttr) => {
+          return styleAttr
+            .replace(/object-position:\s*[^;"]+;?\s*/g, '')
+            .replace(/style="\s*"/, ''); // remove empty style
+        });
+        // Add new style with object-position
+        const posStyle = `object-position: ${posX}% ${posY}%`;
+        if (updated.includes('style="')) {
+          updated = updated.replace(/style="([^"]*)"/, (m, existing) => {
+            const clean = existing.replace(/;\s*$/, '');
+            return `style="${clean}; ${posStyle}"`;
+          });
+        } else {
+          updated += ` style="${posStyle}"`;
         }
+        found = true;
+        return updated + close;
       });
 
-      // Also handle background-image elements
-      $('[style]').each((i, el) => {
-        const style = $(el).attr('style') || '';
-        if (style.includes(imgPath)) {
-          const cleanStyle = style
-            .replace(/background-position:\s*[^;]+;?/g, '')
-            .replace(/^\s*;\s*/, '').trim();
-          // Update the url(...) position part
-          const newStyle = cleanStyle.replace(
-            /url\([^)]+\)\s*[^;\/]*/,
-            (match) => match.replace(/center\s+\d+%|center\s+center|\d+%\s+\d+%|\d+%\s+center/i, `${posX}% ${posY}%`)
-          );
-          $(el).attr('style', newStyle);
-          found = true;
-        }
+      // Also handle background-image divs
+      const bgRegex = new RegExp(
+        '(<[^>]+style="[^"]*url\\([^)]*' + imgPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[^)]*\\)[^"]*)"',
+        'g'
+      );
+      content = content.replace(bgRegex, (match, before) => {
+        // Replace position in background shorthand (e.g. center 45%)
+        let updated = before.replace(
+          /(url\([^)]+\)\s*)(\w+\s+\d+%|\d+%\s+\d+%|center\s+center)/,
+          `$1${posX}% ${posY}%`
+        );
+        found = true;
+        return updated + '"';
       });
 
       if (found) {
-        const bodyContent = $('body').html() || $.html();
-        const headMatch = content.match(/^[\s\S]*?<body[^>]*>/i);
-        const tailMatch = content.match(/<\/body>[\s\S]*$/i);
-        if (headMatch && tailMatch) {
-          fs.writeFileSync(filePath, headMatch[0] + bodyContent + tailMatch[0], 'utf8');
-        }
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log('[Position] Updated', file, 'for', imgPath, '->', posX + '%', posY + '%');
         break;
       }
     }
 
-    if (!found) return res.status(404).json({ error: 'Image non trouvée dans les previews' });
+    if (!found) {
+      console.log('[Position] Image not found:', imgPath, 'in', previewDir);
+      return res.status(404).json({ error: 'Image non trouvée: ' + imgPath });
+    }
 
     // Rebuild
     try {
       execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
-    } catch (e) { console.error('Build error:', e.message); }
+      console.log('[Position] Rebuild OK');
+    } catch (e) {
+      console.error('[Position] Build error:', e.message);
+      return res.status(500).json({ error: 'Build failed' });
+    }
 
     res.json({ success: true });
   } catch (err) {
+    console.error('[Position] Error:', err);
     res.status(500).json({ error: err.message });
   }
 });

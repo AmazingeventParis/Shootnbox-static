@@ -396,12 +396,14 @@
             posY: posY.value
           })
         });
-        if (!res.ok) throw new Error('Erreur sauvegarde');
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Erreur ' + res.status);
         imageChanges++;
         updateChangesCount();
-        showToast('Position sauvegardee', 'success');
+        showToast('Position sauvegardee (' + posX.value + '% ' + posY.value + '%)', 'success');
       } catch (err) {
         showToast('Erreur: ' + err.message, 'error');
+        console.error('[SNB] Position save error:', err);
       }
       posSave.textContent = 'Appliquer';
       posOpen = false;
@@ -437,7 +439,10 @@
         formData.append('maxHeight', maxHeight);
 
         const res = await fetch('/api/upload-image', { method: 'POST', body: formData });
-        if (!res.ok) throw new Error((await res.json().catch(()=>({}))).error || 'Erreur');
+        if (!res.ok) {
+          const errData = await res.json().catch(()=>({}));
+          throw new Error(errData.error || 'Erreur ' + res.status);
+        }
         const result = await res.json();
 
         if (isImg) {
