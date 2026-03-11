@@ -341,10 +341,14 @@
     });
 
     // Change image button
+    let uploadTarget = null; // Save reference before file dialog opens
     changeBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (activeEl) fileInput.click();
+      if (activeEl) {
+        uploadTarget = activeEl; // Save before dialog steals focus
+        fileInput.click();
+      }
     });
 
     // Position button - toggle sliders
@@ -417,8 +421,11 @@
 
     // Upload handler
     fileInput.addEventListener('change', async () => {
-      if (!fileInput.files.length || !activeEl) return;
-      const el = activeEl;
+      const el = uploadTarget || activeEl;
+      if (!fileInput.files.length || !el) {
+        console.error('[SNB] Upload: no file or no target element');
+        return;
+      }
       const file = fileInput.files[0];
 
       const isImg = el.hasAttribute('data-snb-img');
@@ -465,6 +472,7 @@
 
       changeBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Changer`;
       fileInput.value = '';
+      uploadTarget = null;
     });
   }
 
