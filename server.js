@@ -382,6 +382,131 @@ function updatePreviewImageSrc(slug, oldSrc, newSrc) {
   }
 }
 
+// ===== MUR PHOTOS GALLERY MANAGER =====
+
+// GET: list all mur photos by category
+app.get('/api/mur-photos', requireAuth, (req, res) => {
+  try {
+    const murPath = path.join(__dirname, 'previews', 'mur.html');
+    const html = fs.readFileSync(murPath, 'utf8');
+    const $ = cheerio.load(html, { decodeEntities: false });
+
+    // Only get SET 1 (before the duplicate comment)
+    const photos = { portrait: [], paysage: [], slim: [] };
+    let pastDuplicate = false;
+    $('#smStrip .sm-photo').each((i, el) => {
+      const $el = $(el);
+      // Stop at duplicate section
+      const prevNode = el.previousSibling;
+      if (prevNode && prevNode.nodeType === 8 && prevNode.data.includes('DUPLICATA')) {
+        pastDuplicate = true;
+      }
+      if (pastDuplicate) return;
+
+      const cat = $el.attr('data-cat');
+      const src = $el.find('img').attr('src') || '';
+      const normalizedSrc = src.replace(/^\.\.\/public/, '');
+      if (cat && photos[cat] !== undefined) {
+        // Avoid duplicates within SET 1
+        if (!photos[cat].includes(normalizedSrc)) {
+          photos[cat].push(normalizedSrc);
+        }
+      }
+    });
+
+    res.json(photos);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST: add a photo to the mur
+app.post('/api/mur-photos', requireAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Aucune image' });
+    const { category } = req.body;
+    if (!['portrait', 'paysage', 'slim'].includes(category)) {
+      return res.status(400).json({ error: 'Categorie invalide' });
+    }
+
+    // Find next available filename
+    const bentoDir = path.join(__dirname, 'public', 'images', 'bento');
+    fs.mkdirSync(bentoDir, { recursive: true });
+    const existing = fs.readdirSync(bentoDir).filter(f => f.endsWith('.webp'));
+    const nums = existing.map(f => parseInt(f)).filter(n => !isNaN(n));
+    const nextNum = (nums.length ? Math.max(...nums) + 1 : 20);
+    const filename = nextNum + '.webp';
+    const outputPath = path.join(bentoDir, filename);
+
+    // Resize based on category (2x retina)
+    const heights = { portrait: 560, paysage: 560, slim: 760 };
+    await sharp(req.file.path)
+      .resize(null, heights[category], { fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: 85 })
+      .toFile(outputPath);
+
+    fs.unlinkSync(req.file.path);
+
+    const imgSrc = '/images/bento/' + filename;
+
+    // Update mur.html preview — add photo to SET 1 and DUPLICATA
+    const murPath = path.join(__dirname, 'previews', 'mur.html');
+    let murHtml = fs.readFileSync(murPath, 'utf8');
+
+    const newPhotoHtml = `        <div class="sm-photo ${category}" data-cat="${category}"><img loading="lazy" src="../public${imgSrc}" alt="Tirage photo ${category}"></div>\n`;
+
+    // Add before the DUPLICATA comment
+    murHtml = murHtml.replace(
+      /(\s*<!-- DUPLICATA boucle infinie -->)/,
+      newPhotoHtml + '$1'
+    );
+    // Also add in the duplicata section (before closing </div> of strip)
+    murHtml = murHtml.replace(
+      /(\s*<\/div>\s*<\/div>\s*\n\s*\n\s*<div class="sm-cta-row">)/,
+      newPhotoHtml + '$1'
+    );
+
+    fs.writeFileSync(murPath, murHtml, 'utf8');
+
+    // Rebuild
+    try {
+      execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
+    } catch (e) { console.error('Build error:', e.message); }
+
+    res.json({ success: true, src: imgSrc, filename });
+  } catch (err) {
+    if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE: remove a photo from the mur
+app.delete('/api/mur-photos', requireAuth, (req, res) => {
+  try {
+    const { src } = req.body;
+    if (!src) return res.status(400).json({ error: 'src manquant' });
+
+    const murPath = path.join(__dirname, 'previews', 'mur.html');
+    let murHtml = fs.readFileSync(murPath, 'utf8');
+
+    // Remove all occurrences of this photo (SET 1 + duplicata)
+    const previewSrc = '../public' + src;
+    const regex = new RegExp(`\\s*<div class="sm-photo[^"]*"[^>]*><img[^>]*src="${previewSrc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*><\\/div>`, 'g');
+    murHtml = murHtml.replace(regex, '');
+
+    fs.writeFileSync(murPath, murHtml, 'utf8');
+
+    // Rebuild
+    try {
+      execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
+    } catch (e) { console.error('Build error:', e.message); }
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ===== SERVE SITE =====
 
 // Inject admin script if authenticated

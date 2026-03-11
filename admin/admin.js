@@ -112,6 +112,8 @@
       initEditableElements();
       // Init editable images
       initEditableImages();
+      // Init mur gallery manager
+      initMurGallery();
     } catch (err) {
       showToast('Erreur de chargement', 'error');
     }
@@ -572,6 +574,140 @@
     toast.className = 'show ' + (type || '');
     clearTimeout(toast._timer);
     toast._timer = setTimeout(() => { toast.className = ''; }, 3000);
+  }
+
+  // ===== MUR GALLERY MANAGER =====
+  function initMurGallery() {
+    const murSection = document.querySelector('.snb-mur');
+    if (!murSection) return;
+
+    // Add "Gérer les photos" button
+    const murBtn = document.createElement('div');
+    murBtn.className = 'snb-mur-manage-btn';
+    murBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Gerer les photos du mur`;
+    murSection.style.position = 'relative';
+    murSection.appendChild(murBtn);
+
+    murBtn.addEventListener('click', openMurPanel);
+  }
+
+  async function openMurPanel() {
+    // Remove existing panel
+    const old = document.getElementById('snb-mur-panel');
+    if (old) old.remove();
+
+    const panel = document.createElement('div');
+    panel.id = 'snb-mur-panel';
+    panel.innerHTML = `
+      <div class="snb-mur-panel-inner">
+        <div class="snb-mur-panel-header">
+          <h3>Photos du mur</h3>
+          <button class="snb-mur-close">&times;</button>
+        </div>
+        <div class="snb-mur-panel-body" id="snbMurBody">
+          <div class="snb-mur-loading">Chargement...</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(panel);
+    panel.querySelector('.snb-mur-close').addEventListener('click', () => panel.remove());
+    panel.addEventListener('click', (e) => { if (e.target === panel) panel.remove(); });
+
+    // Load photos
+    try {
+      const res = await fetch('/api/mur-photos');
+      const photos = await res.json();
+      renderMurPhotos(photos);
+    } catch (err) {
+      document.getElementById('snbMurBody').innerHTML = '<div class="snb-mur-loading">Erreur de chargement</div>';
+    }
+  }
+
+  function renderMurPhotos(photos) {
+    const body = document.getElementById('snbMurBody');
+    const cats = [
+      { key: 'portrait', label: 'Portrait', color: '#E51981' },
+      { key: 'paysage', label: 'Paysage', color: '#0250FF' },
+      { key: 'slim', label: 'Strip', color: '#a855f7' }
+    ];
+
+    let html = '';
+    cats.forEach(cat => {
+      const items = photos[cat.key] || [];
+      html += `
+        <div class="snb-mur-cat">
+          <div class="snb-mur-cat-header">
+            <span class="snb-mur-cat-label" style="background:${cat.color}">${cat.label}</span>
+            <span class="snb-mur-cat-count">${items.length} photos</span>
+            <label class="snb-mur-add-btn" style="border-color:${cat.color};color:${cat.color}">
+              + Ajouter
+              <input type="file" accept="image/*" multiple data-cat="${cat.key}" style="display:none">
+            </label>
+          </div>
+          <div class="snb-mur-cat-grid">
+            ${items.map(src => `
+              <div class="snb-mur-thumb">
+                <img src="${src}" alt="">
+                <button class="snb-mur-del" data-src="${src}" title="Supprimer">&times;</button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+    body.innerHTML = html;
+
+    // Add upload handlers
+    body.querySelectorAll('input[type="file"]').forEach(input => {
+      input.addEventListener('change', async () => {
+        const cat = input.dataset.cat;
+        const files = Array.from(input.files);
+        if (!files.length) return;
+
+        for (const file of files) {
+          const label = input.closest('.snb-mur-add-btn');
+          label.textContent = 'Upload...';
+          label.style.opacity = '0.6';
+
+          try {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('category', cat);
+            const res = await fetch('/api/mur-photos', { method: 'POST', body: formData });
+            if (!res.ok) throw new Error((await res.json().catch(()=>({}))).error || 'Erreur');
+          } catch (err) {
+            showToast('Erreur: ' + err.message, 'error');
+          }
+        }
+
+        showToast(files.length + ' photo(s) ajoutee(s)', 'success');
+        // Reload panel
+        const res2 = await fetch('/api/mur-photos');
+        renderMurPhotos(await res2.json());
+      });
+    });
+
+    // Add delete handlers
+    body.querySelectorAll('.snb-mur-del').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const src = btn.dataset.src;
+        if (!confirm('Supprimer cette photo du mur ?')) return;
+        btn.textContent = '...';
+        try {
+          const res = await fetch('/api/mur-photos', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ src })
+          });
+          if (!res.ok) throw new Error('Erreur suppression');
+          showToast('Photo supprimee', 'success');
+          const res2 = await fetch('/api/mur-photos');
+          renderMurPhotos(await res2.json());
+        } catch (err) {
+          showToast('Erreur: ' + err.message, 'error');
+        }
+      });
+    });
   }
 
   // ===== WARN BEFORE LEAVING =====
