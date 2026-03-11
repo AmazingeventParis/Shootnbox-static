@@ -480,7 +480,7 @@
 
   // ===== UPDATE CHANGES COUNT =====
   function updateChangesCount() {
-    const count = Object.keys(changes).length + (seoData._modified ? 1 : 0);
+    const count = Object.keys(changes).length + (seoData._modified ? 1 : 0) + imageChanges;
     const el = document.getElementById('snbChangesCount');
     const btn = document.getElementById('snbPublishBtn');
     if (count > 0) {
@@ -545,6 +545,7 @@
       // Reset state
       changes = {};
       seoData._modified = false;
+      imageChanges = 0;
       document.querySelectorAll('.snb-modified').forEach(el => el.classList.remove('snb-modified'));
       updateChangesCount();
 
