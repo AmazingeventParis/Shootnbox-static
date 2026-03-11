@@ -372,7 +372,14 @@ function updatePreviewImageSrc(slug, oldSrc, newSrc) {
 
   if (!fs.existsSync(previewDir)) return;
 
-  const files = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+  // Only update active section files
+  const activeSections = pageSections[slug] || [];
+  const activeFiles = activeSections.map(s => s + '.html');
+  const allFiles = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+  const files = activeFiles.length > 0
+    ? allFiles.filter(f => activeFiles.includes(f))
+    : allFiles;
+
   for (const file of files) {
     const filePath = path.join(previewDir, file);
     let content = fs.readFileSync(filePath, 'utf8');
@@ -382,9 +389,16 @@ function updatePreviewImageSrc(slug, oldSrc, newSrc) {
     if (content.includes(imgPath)) {
       content = content.split(imgPath).join(newImgPath);
       fs.writeFileSync(filePath, content, 'utf8');
+      console.log('[Upload] Updated src in', file);
     }
   }
 }
+
+// Active sections per page (must match build.js pages config)
+const pageSections = {
+  'home': ['header', 'hero', 'trust', 'bento', 'stats', 'avis', 'equipe', 'savoirfaire', 'mur', 'carte-france', 'blog', 'footer', 'bornes'],
+  'location-photobooth': ['header', 'hero', 'intro', 'bornes', 'avis', 'usages', 'service-v2', 'fabrication', 'comparatif', 'couverture', 'faq', 'blog', 'footer']
+};
 
 // ===== IMAGE POSITION =====
 app.post('/api/image-position', requireAuth, (req, res) => {
@@ -396,8 +410,18 @@ app.post('/api/image-position', requireAuth, (req, res) => {
       ? path.join(__dirname, 'previews')
       : path.join(__dirname, 'previews', slug);
 
-    const files = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+    // Only search in active section files (not old versions like intro-v3.html)
+    const activeSections = pageSections[slug] || [];
+    const activeFiles = activeSections.map(s => s + '.html');
+    // Also check shared sections from previews root for sub-pages
+    const sharedDir = path.join(__dirname, 'previews');
+
+    const allFiles = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+    const files = activeFiles.length > 0
+      ? allFiles.filter(f => activeFiles.includes(f))
+      : allFiles;
     const imgPath = src.replace(/^\/images\//, '');
+    console.log('[Position] Searching in files:', files.join(', '), 'for', imgPath);
     let found = false;
 
     for (const file of files) {
