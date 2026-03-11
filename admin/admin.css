@@ -285,8 +285,17 @@ body.snb-admin-mode .snb-page-content {
   outline: 3px dashed rgba(229,25,129,0.7) !important;
   outline-offset: 3px;
 }
-.snb-img-btn {
+/* Floating toolbar */
+.snb-img-toolbar {
   position: absolute;
+  z-index: 99990;
+  pointer-events: auto;
+}
+.snb-img-tb-row {
+  display: flex;
+  gap: 6px;
+}
+.snb-img-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -308,9 +317,82 @@ body.snb-admin-mode .snb-page-content {
   transform: scale(1.05);
   box-shadow: 0 6px 24px rgba(229,25,129,0.6);
 }
+.snb-img-pos-btn {
+  background: linear-gradient(135deg, #0250FF, #4d8bff) !important;
+  box-shadow: 0 4px 16px rgba(2,80,255,0.4) !important;
+}
+.snb-img-pos-btn:hover {
+  box-shadow: 0 6px 24px rgba(2,80,255,0.6) !important;
+}
 .snb-img-btn-loading {
   background: #FF7A00 !important;
   animation: snb-pulse-upload 1s infinite;
+}
+
+/* Position sliders */
+.snb-img-sliders {
+  background: #141425;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 6px;
+  min-width: 220px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.snb-img-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.snb-img-slider-row label {
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'Raleway', sans-serif;
+  width: 14px;
+  text-align: center;
+}
+.snb-img-slider-row input[type="range"] {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  outline: none;
+}
+.snb-img-slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #E51981;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(229,25,129,0.5);
+}
+.snb-img-slider-row span {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  width: 32px;
+  text-align: right;
+}
+.snb-img-pos-save {
+  width: 100%;
+  padding: 6px;
+  background: linear-gradient(135deg, #E51981, #ff3fac);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  cursor: pointer;
+  margin-top: 2px;
+}
+.snb-img-pos-save:hover {
+  opacity: 0.9;
 }
 @keyframes snb-pulse-upload {
   0%, 100% { opacity: 0.8; }

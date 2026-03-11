@@ -382,6 +382,83 @@ function updatePreviewImageSrc(slug, oldSrc, newSrc) {
   }
 }
 
+// ===== IMAGE POSITION =====
+app.post('/api/image-position', requireAuth, (req, res) => {
+  try {
+    const { slug, src, posX, posY } = req.body;
+    if (!src) return res.status(400).json({ error: 'src manquant' });
+
+    const previewDir = slug === 'home'
+      ? path.join(__dirname, 'previews')
+      : path.join(__dirname, 'previews', slug);
+
+    // Find the preview file containing this image
+    const files = fs.readdirSync(previewDir).filter(f => f.endsWith('.html'));
+    const imgPath = src.replace(/^\/images\//, '');
+    let found = false;
+
+    for (const file of files) {
+      const filePath = path.join(previewDir, file);
+      let content = fs.readFileSync(filePath, 'utf8');
+      if (!content.includes(imgPath)) continue;
+
+      const $ = cheerio.load(content, { decodeEntities: false });
+      $('img').each((i, el) => {
+        const elSrc = $(el).attr('src') || '';
+        if (elSrc.includes(imgPath)) {
+          // Set object-position as inline style
+          const currentStyle = $(el).attr('style') || '';
+          const cleanStyle = currentStyle
+            .replace(/object-position:\s*[^;]+;?/g, '')
+            .replace(/^\s*;\s*/, '').trim();
+          const newPos = `object-position: ${posX}% ${posY}%;`;
+          const newStyle = cleanStyle ? cleanStyle + '; ' + newPos : newPos;
+          $(el).attr('style', newStyle);
+          found = true;
+        }
+      });
+
+      // Also handle background-image elements
+      $('[style]').each((i, el) => {
+        const style = $(el).attr('style') || '';
+        if (style.includes(imgPath)) {
+          const cleanStyle = style
+            .replace(/background-position:\s*[^;]+;?/g, '')
+            .replace(/^\s*;\s*/, '').trim();
+          // Update the url(...) position part
+          const newStyle = cleanStyle.replace(
+            /url\([^)]+\)\s*[^;\/]*/,
+            (match) => match.replace(/center\s+\d+%|center\s+center|\d+%\s+\d+%|\d+%\s+center/i, `${posX}% ${posY}%`)
+          );
+          $(el).attr('style', newStyle);
+          found = true;
+        }
+      });
+
+      if (found) {
+        const bodyContent = $('body').html() || $.html();
+        const headMatch = content.match(/^[\s\S]*?<body[^>]*>/i);
+        const tailMatch = content.match(/<\/body>[\s\S]*$/i);
+        if (headMatch && tailMatch) {
+          fs.writeFileSync(filePath, headMatch[0] + bodyContent + tailMatch[0], 'utf8');
+        }
+        break;
+      }
+    }
+
+    if (!found) return res.status(404).json({ error: 'Image non trouvée dans les previews' });
+
+    // Rebuild
+    try {
+      execSync('node build.js', { cwd: __dirname, timeout: 30000, stdio: 'pipe' });
+    } catch (e) { console.error('Build error:', e.message); }
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ===== MUR PHOTOS GALLERY MANAGER =====
 
 // GET: list all mur photos by category
