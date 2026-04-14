@@ -1,0 +1,160 @@
+(function(){
+var SCRIPT = document.currentScript;
+var API = 'https://shootnbox.fr/reservation/options_data.json';
+var RESA_URL = 'https://shootnbox.fr/reservation/';
+
+var FEATURES = {
+  ring: [{i:'📸',t:'Photos GIFs Boomerangs'},{i:'📲',t:'Partage instantane'},{i:'🌐',t:'Galerie en ligne'},{i:'🎭',t:'Filtres & deguisements'},{i:'🖼️',t:'Contour photo personnalise'},{i:'⚡',t:'Installation autonome'}],
+  vegas: [{i:'🖨️',t:'600 impressions'},{i:'📸',t:'Photos GIFs Boomerangs'},{i:'📲',t:'Partage instantane'},{i:'🌐',t:'Galerie en ligne'},{i:'🖼️',t:'Contour photo personnalise'},{i:'🎨',t:'Filtres de couleurs'}],
+  miroir: [{i:'🖨️',t:'600 impressions'},{i:'📸',t:'Photos illimitees'},{i:'✨',t:'Animations tactiles'},{i:'📲',t:'Partage instantane'},{i:'🖼️',t:'Contour photo personnalise'},{i:'👑',t:'Experience haut de gamme'}],
+  spinner: [{i:'🎥',t:'Videos illimitees'},{i:'👨‍🔧',t:'Technicien present'},{i:'🎵',t:'Musique personnalisee'},{i:'📲',t:'Partage instantane'},{i:'🌐',t:'Galerie en ligne'},{i:'🐌',t:'Slow motion'}],
+  'vegas-slim': [{i:'🖨️',t:'Impression photo'},{i:'📸',t:'Photos & GIFs illimites'},{i:'📲',t:'Partage instantane'},{i:'🌐',t:'Galerie en ligne'},{i:'🖼️',t:'Contour photo personnalise'},{i:'🚚',t:'Livraison toute France'}],
+  karaoke: [{i:'🎵',t:'20 000 chansons'},{i:'🎤',t:'2 micros inclus'},{i:'📴',t:'Pas de connexion requise'},{i:'🔊',t:'Enceintes puissantes'}],
+  aircam: [{i:'🎥',t:'Videos illimitees'},{i:'👨‍🔧',t:'Technicien present'},{i:'🎵',t:'Musique personnalisee'},{i:'📲',t:'Partage instantane'},{i:'🌐',t:'Galerie en ligne'},{i:'🐌',t:'Slow motion'}],
+  vogue: [{i:'📐',t:'L: 2,5m / P: 1,5m / H: 2,2m'},{i:'🎬',t:'Animation en interieur'},{i:'🎨',t:'Choix couleur neons'},{i:'👥',t:'Capacite : 10 personnes'}],
+  fashionbox: [{i:'🖨️',t:'600 impressions'},{i:'📸',t:'Photos illimitees'},{i:'👨‍🔧',t:'Technicien present'},{i:'🖼️',t:'Contour photo'},{i:'🌐',t:'Galerie Web'},{i:'🖥️',t:'Large ecran tactile'}]
+};
+
+var BADGES = {ring:'Sans impression',vegas:'Impression photo',miroir:'Impression photo',spinner:'Videobooth 360',karaoke:'Karaoke','vegas-slim':'Impression photo',aircam:'Videobooth 360',vogue:'Fotocall Neon',fashionbox:'Studio photo'};
+var BEST = 'vegas';
+
+var CSS = '\
+.snb-bornes *{margin:0;padding:0;box-sizing:border-box}\
+.snb-bornes{font-family:"Raleway",system-ui,sans-serif;padding:60px 20px;background:#f5f5f7}\
+.snb-bornes-title{text-align:center;margin-bottom:40px}\
+.snb-bornes-title h2{font-size:36px;font-weight:800;color:#1a1a2e;margin-bottom:8px}\
+.snb-bornes-title h2 span{background:linear-gradient(135deg,#E51981,#ff6eb4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}\
+.snb-bornes-title p{font-size:16px;color:#6b7280}\
+.snb-bornes-cards{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;max-width:1400px;margin:0 auto;align-items:stretch}\
+.snb-b-card{position:relative;width:283px;min-width:283px;max-width:283px;display:flex;flex-direction:column;background:#1e1e2e;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,0.06),0 20px 60px -15px rgba(0,0,0,0.3);transition:transform .3s ease,box-shadow .3s ease}\
+.snb-b-card:hover{transform:translateY(-8px) scale(1.05)}\
+.snb-b-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.5) 50%,transparent 60%);transform:translateX(-150%) translateY(-150%);transition:none;z-index:20;pointer-events:none}\
+.snb-b-card:hover::before{transform:translateX(150%) translateY(150%);transition:transform .8s ease}\
+.snb-b-slide{position:relative;height:213px;overflow:hidden}\
+.snb-b-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0;transition:opacity .8s ease}\
+.snb-b-slide>img.snb-active{opacity:1}\
+.snb-b-cat{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;z-index:10;white-space:nowrap;border:1px solid rgba(255,255,255,0.2)}\
+.snb-b-badge{position:absolute;top:10px;left:10px;color:#fff;font-weight:700;font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:14px;z-index:10}\
+.snb-b-promo{position:absolute;top:13px;right:-22px;color:#fff;font-weight:700;font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:5px 30px;transform:rotate(40deg);z-index:10}\
+.snb-b-content{padding:10px 14px 14px;display:flex;flex-direction:column;flex:1}\
+.snb-b-type{font-size:8px;font-weight:600;color:#9ca3af;letter-spacing:1.5px;text-transform:uppercase}\
+.snb-b-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:2px}\
+.snb-b-price{display:flex;align-items:baseline;gap:7px;margin:6px 0 8px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.1);transition:border-color .3s ease}\
+.snb-b-amount{font-size:27px;font-weight:800;line-height:1}\
+.snb-b-old{font-size:12px;color:rgba(255,255,255,0.4);text-decoration:line-through}\
+.snb-b-tag{margin-left:auto;color:#fff;font-size:7px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:4px 7px;border-radius:6px}\
+.snb-b-feats{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;flex:1}\
+.snb-b-feat{display:flex;align-items:center;gap:5px;padding:6px 8px;border-radius:8px}\
+.snb-b-feat-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:rgba(255,255,255,0.1)}\
+.snb-b-feat-text{font-size:10px;font-weight:700;color:#f0f0f5;line-height:1.2}\
+.snb-b-cta,.snb-b-cta:link,.snb-b-cta:visited,.snb-b-cta:hover,.snb-b-cta:active{display:block;width:100%;padding:10px;border:none;border-radius:10px;color:#fff!important;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;text-align:center;text-decoration:none!important;position:relative;overflow:hidden;transition:all .3s ease}\
+.snb-b-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}\
+@media(max-width:1000px){.snb-b-card{width:210px;min-width:210px;max-width:210px}.snb-bornes-cards{gap:14px}}\
+@media(max-width:900px){.snb-bornes-cards{display:grid;grid-template-columns:1fr 1fr;max-width:500px}.snb-b-card{width:100%;min-width:auto;max-width:none}}\
+@media(max-width:480px){.snb-bornes-cards{grid-template-columns:1fr;max-width:92vw}.snb-bornes-title h2{font-size:32px}.snb-b-card{border-radius:16px}}\
+';
+
+function hexToRgb(h){var r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return r+','+g+','+b;}
+
+function buildCard(b){
+  var c = b.color || '#E51981';
+  var rgb = hexToRgb(c);
+  var priceWe = b.priceParticulier - (b.promoWe || b.promoWE || 0);
+  var hasPromo = (b.promoWe || b.promoWE || 0) > 0;
+  var feats = b.features && b.features.length ? b.features : (FEATURES[b.id] || []);
+  var photos = b.photos || [];
+  var badge = BADGES[b.id] || b.type || '';
+  var isBest = b.id === BEST;
+  var isSurDevis = b.priceParticulier === 0;
+
+  var h = '<div class="snb-b-card" style="'+(isBest?'box-shadow:0 0 0 2px '+c+',0 20px 60px -15px rgba(0,0,0,0.1),0 0 40px -10px rgba('+rgb+',0.15);':'')+'" onmouseenter="this.style.boxShadow=\'0 0 0 2px '+c+',0 0 30px rgba('+rgb+',0.35),0 0 60px rgba('+rgb+',0.15)\'" onmouseleave="this.style.boxShadow=\''+(isBest?'0 0 0 2px '+c+',0 20px 60px -15px rgba(0,0,0,0.1)':'0 0 0 1px rgba(255,255,255,0.06),0 20px 60px -15px rgba(0,0,0,0.3)')+'\'">';
+
+  // Promo ribbon
+  if(hasPromo) h += '<div class="snb-b-promo" style="background:'+c+';box-shadow:0 4px 20px rgba('+rgb+',0.3);">Promo W-E</div>';
+
+  // Best-seller badge
+  if(isBest) h += '<div class="snb-b-badge" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));">Best-seller</div>';
+
+  // Slide
+  h += '<div class="snb-b-slide" data-snb-slide>';
+  h += '<div class="snb-b-cat">'+badge+'</div>';
+  photos.forEach(function(url,i){
+    h += '<img src="'+url+'" alt="'+b.name+'" loading="lazy"'+(i===0?' class="snb-active"':'')+'>';
+  });
+  h += '</div>';
+
+  // Content
+  h += '<div class="snb-b-content">';
+  h += '<div class="snb-b-type">'+b.type+'</div>';
+  var nameParts = b.name.split(' ');
+  var lastWord = nameParts.pop();
+  h += '<div class="snb-b-name" style=""><span style="color:#fff">'+(nameParts.length?nameParts.join(' ')+' ':'')+'</span><span style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">'+lastWord+'</span></div>';
+
+  // Price
+  h += '<div class="snb-b-price" style="transition:border-color .3s">';
+  if(isSurDevis){
+    h += '<div class="snb-b-amount" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:20px;">Sur devis</div>';
+  } else {
+    h += '<div class="snb-b-amount" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">'+priceWe+'&euro;</div>';
+    if(hasPromo) h += '<div class="snb-b-old">'+b.priceParticulier+'&euro;</div><div class="snb-b-tag" style="background:'+c+'">Week-end</div>';
+  }
+  h += '</div>';
+
+  // Features
+  h += '<div class="snb-b-feats">';
+  feats.forEach(function(f){
+    h += '<div class="snb-b-feat" style="background:rgba('+rgb+',0.12);border:1px solid rgba('+rgb+',0.25)"><div class="snb-b-feat-icon">'+f.i+'</div><div class="snb-b-feat-text">'+f.t+'</div></div>';
+  });
+  h += '</div>';
+
+  // CTA
+  h += '<a href="'+RESA_URL+'" class="snb-b-cta" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7))">En savoir +</a>';
+
+  h += '</div></div>';
+  return h;
+}
+
+function startSlideshows(container){
+  var slides = container.querySelectorAll('[data-snb-slide]');
+  slides.forEach(function(sl){
+    var imgs = sl.querySelectorAll('img');
+    if(imgs.length<2) return;
+    var cur = 0;
+    setInterval(function(){
+      imgs[cur].classList.remove('snb-active');
+      cur = (cur+1) % imgs.length;
+      imgs[cur].classList.add('snb-active');
+    }, 3000);
+  });
+}
+
+function init(){
+  fetch(API).then(function(r){return r.json()}).then(function(data){
+    var bornes = (data.bornes||[]).filter(function(b){return b.enabled;});
+    if(!bornes.length) return;
+
+    // Inject CSS
+    var style = document.createElement('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+
+    // Build HTML
+    var html = '<div class="snb-bornes">';
+    html += '<div class="snb-bornes-title"><h2>Nos <span>Photobooths</span></h2><p>Trouvez la borne ideale pour votre evenement</p></div>';
+    html += '<div class="snb-bornes-cards">';
+    bornes.forEach(function(b){ html += buildCard(b); });
+    html += '</div></div>';
+
+    // Inject HTML
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    SCRIPT.parentNode.insertBefore(wrapper, SCRIPT);
+
+    // Start slideshows
+    startSlideshows(wrapper);
+  }).catch(function(e){ console.error('Bornes embed error:', e); });
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+else init();
+})();
