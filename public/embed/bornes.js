@@ -1,6 +1,6 @@
 (function(){
 var SCRIPT = document.currentScript;
-var API = 'https://shootnbox.fr/reservation/options_data.json';
+var API = 'https://shootnbox.fr/reservation/embed/options_api.php';
 var RESA_URL = 'https://shootnbox.fr/reservation/';
 
 var FEATURES = {
@@ -35,7 +35,6 @@ var CSS = '\
 .snb-b-slide>img.snb-active{opacity:1}\
 .snb-b-cat{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;z-index:10;white-space:nowrap;border:1px solid rgba(255,255,255,0.2)}\
 .snb-b-badge{position:absolute;top:10px;left:10px;color:#fff;font-weight:700;font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:14px;z-index:10}\
-.snb-b-promo{position:absolute;top:13px;right:-22px;color:#fff;font-weight:700;font-size:7px;letter-spacing:1px;text-transform:uppercase;padding:5px 30px;transform:rotate(40deg);z-index:10}\
 .snb-b-content{padding:10px 14px 14px;display:flex;flex-direction:column;flex:1}\
 .snb-b-type{font-size:8px;font-weight:600;color:#9ca3af;letter-spacing:1.5px;text-transform:uppercase}\
 .snb-b-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:2px}\
@@ -49,6 +48,12 @@ var CSS = '\
 .snb-b-feat-text{font-size:10px;font-weight:700;color:#f0f0f5;line-height:1.2}\
 .snb-b-cta,.snb-b-cta:link,.snb-b-cta:visited,.snb-b-cta:hover,.snb-b-cta:active{display:block;width:100%;padding:10px;border:none;border-radius:10px;color:#fff!important;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;text-align:center;text-decoration:none!important;position:relative;overflow:hidden;transition:all .3s ease}\
 .snb-b-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}\
+.snb-b-fb-split{display:grid;grid-template-columns:1fr 1fr;height:213px;overflow:hidden;position:relative}\
+.snb-b-fb-fixed{background:linear-gradient(135deg,#f8eaff,#fce8f4);display:flex;align-items:center;justify-content:center;padding:6px}\
+.snb-b-fb-fixed img{max-width:100%;max-height:100%;object-fit:contain}\
+.snb-b-fb-slides{position:relative;overflow:hidden}\
+.snb-b-fb-slides>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}\
+.snb-b-fb-slides>img.snb-active{opacity:1}\
 @media(max-width:1000px){.snb-b-card{width:210px;min-width:210px;max-width:210px}.snb-bornes-cards{gap:14px}}\
 @media(max-width:900px){.snb-bornes-cards{display:grid;grid-template-columns:1fr 1fr;max-width:500px}.snb-b-card{width:100%;min-width:auto;max-width:none}}\
 @media(max-width:480px){.snb-bornes-cards{grid-template-columns:1fr;max-width:92vw}.snb-bornes-title h2{font-size:32px}.snb-b-card{border-radius:16px}}\
@@ -56,7 +61,7 @@ var CSS = '\
 
 function hexToRgb(h){var r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return r+','+g+','+b;}
 
-function buildCard(b){
+function buildCard(b, promoText){
   var c = b.color || '#E51981';
   var rgb = hexToRgb(c);
   var priceWe = b.priceParticulier - (b.promoWe || b.promoWE || 0);
@@ -69,19 +74,27 @@ function buildCard(b){
 
   var h = '<div class="snb-b-card" style="'+(isBest?'box-shadow:0 0 0 2px '+c+',0 20px 60px -15px rgba(0,0,0,0.1),0 0 40px -10px rgba('+rgb+',0.15);':'')+'" onmouseenter="this.style.boxShadow=\'0 0 0 2px '+c+',0 0 30px rgba('+rgb+',0.35),0 0 60px rgba('+rgb+',0.15)\'" onmouseleave="this.style.boxShadow=\''+(isBest?'0 0 0 2px '+c+',0 20px 60px -15px rgba(0,0,0,0.1)':'0 0 0 1px rgba(255,255,255,0.06),0 20px 60px -15px rgba(0,0,0,0.3)')+'\'">';
 
-  // Promo ribbon
-  if(hasPromo) h += '<div class="snb-b-promo" style="background:'+c+';box-shadow:0 4px 20px rgba('+rgb+',0.3);">Promo W-E</div>';
-
   // Best-seller badge
   if(isBest) h += '<div class="snb-b-badge" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));">Best-seller</div>';
 
   // Slide
-  h += '<div class="snb-b-slide" data-snb-slide>';
-  h += '<div class="snb-b-cat">'+badge+'</div>';
-  photos.forEach(function(url,i){
-    h += '<img src="'+url+'" alt="'+b.name+'" loading="lazy"'+(i===0?' class="snb-active"':'')+'>';
-  });
-  h += '</div>';
+  if(b.id === 'fashionbox' && photos.length > 1){
+    h += '<div class="snb-b-fb-split" style="position:relative">';
+    h += '<div class="snb-b-cat">'+badge+'</div>';
+    h += '<div class="snb-b-fb-fixed"><img src="'+photos[0]+'" alt="'+b.name+'" loading="lazy"></div>';
+    h += '<div class="snb-b-fb-slides" data-snb-slide>';
+    for(var pi=1;pi<photos.length;pi++){
+      h += '<img src="'+photos[pi]+'" alt="'+b.name+'" loading="lazy"'+(pi===1?' class="snb-active"':'')+'>';
+    }
+    h += '</div></div>';
+  } else {
+    h += '<div class="snb-b-slide" data-snb-slide>';
+    h += '<div class="snb-b-cat">'+badge+'</div>';
+    photos.forEach(function(url,i){
+      h += '<img src="'+url+'" alt="'+b.name+'" loading="lazy"'+(i===0?' class="snb-active"':'')+'>';
+    });
+    h += '</div>';
+  }
 
   // Content
   h += '<div class="snb-b-content">';
@@ -96,7 +109,7 @@ function buildCard(b){
     h += '<div class="snb-b-amount" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:20px;">Sur devis</div>';
   } else {
     h += '<div class="snb-b-amount" style="background:linear-gradient(135deg,'+c+',rgba('+rgb+',0.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">'+priceWe+'&euro;</div>';
-    if(hasPromo) h += '<div class="snb-b-old">'+b.priceParticulier+'&euro;</div><div class="snb-b-tag" style="background:'+c+'">Week-end</div>';
+    if(hasPromo) h += '<div class="snb-b-old">'+b.priceParticulier+'&euro;</div><div class="snb-b-tag" style="background:'+c+'">'+(promoText||'Promo')+'</div>';
   }
   h += '</div>';
 
@@ -130,7 +143,8 @@ function startSlideshows(container){
 
 function init(){
   fetch(API).then(function(r){return r.json()}).then(function(data){
-    var bornes = (data.bornes||[]).filter(function(b){return b.enabled;});
+    var bornes = data.bornes||[];
+    var promoText = (data.settings && data.settings.promoText) ? data.settings.promoText : 'Promo';
     if(!bornes.length) return;
 
     // Inject CSS
@@ -142,7 +156,7 @@ function init(){
     var html = '<div class="snb-bornes">';
     html += '<div class="snb-bornes-title"><h2>Nos <span>Photobooths</span></h2><p>Trouvez la borne ideale pour votre evenement</p></div>';
     html += '<div class="snb-bornes-cards">';
-    bornes.forEach(function(b){ html += buildCard(b); });
+    bornes.forEach(function(b){ html += buildCard(b, promoText); });
     html += '</div></div>';
 
     // Inject HTML
