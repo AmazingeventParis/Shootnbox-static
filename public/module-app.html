@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyShootnbox Module V3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&display=swap');
+
+.snb-app-section *{box-sizing:border-box!important}
+.snb-app-section{font-family:'Poppins',sans-serif!important;background:transparent;padding:0;margin:0;width:100%;height:100vh;max-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.snb-app-section .snb-app-bg{position:absolute;inset:0;background:linear-gradient(135deg,#fff5fa 0%,#ffffff 50%,#ffeaf4 100%);z-index:-2}
+.snb-app-section .snb-app-bg::before{content:'';position:absolute;top:-15%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,20,147,0.08) 0%,transparent 70%);border-radius:50%;z-index:-1}
+.snb-app-section .snb-app-bg::after{content:'';position:absolute;bottom:-20%;left:-15%;width:600px;height:600px;background:radial-gradient(circle,rgba(229,25,129,0.06) 0%,transparent 70%);border-radius:50%;z-index:-1}
+
+.snb-app-wrapper{max-width:1300px;width:100%;margin:0 auto;padding:20px 30px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+
+.snb-app-left{display:flex;flex-direction:column;gap:12px}
+.snb-app-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,20,147,0.12),rgba(229,25,129,0.08));color:#E51981;padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;width:fit-content;border:1px solid rgba(229,25,129,0.2)}
+.snb-app-badge-dot{width:8px;height:8px;background:#FF1493;border-radius:50%;animation:snb-app-pulse 2s infinite}
+@keyframes snb-app-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.3)}}
+
+.snb-app-title{font-size:36px;font-weight:900;line-height:1.15;color:#1a1a1a;margin:0;font-style:italic;overflow:visible}
+.snb-app-title .snb-word{display:inline-block;opacity:0;transform:translateY(20px);animation:snb-word-in 0.5s forwards;padding-bottom:4px}
+@keyframes snb-word-in{to{opacity:1;transform:translateY(0)}}
+.snb-app-title .snb-app-highlight{background:linear-gradient(135deg,#FF1493,#E51981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
+.snb-app-subtitle{font-size:14px;font-weight:400;color:#555;line-height:1.5;margin:0;max-width:520px}
+.snb-app-subtitle strong{color:#E51981;font-weight:700}
+
+.snb-app-features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:2px}
+.snb-app-feature{background:#ffffff;border-radius:12px;padding:10px 8px;text-align:center;box-shadow:0 4px 12px rgba(229,25,129,0.06),0 1px 3px rgba(0,0,0,0.04);border:1px solid rgba(229,25,129,0.08);transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);cursor:default;display:flex;flex-direction:column;align-items:center;gap:4px}
+.snb-app-feature:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(229,25,129,0.15),0 2px 6px rgba(0,0,0,0.06);border-color:rgba(255,20,147,0.25)}
+.snb-app-feature-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FF1493,#E51981);border-radius:10px;box-shadow:0 3px 8px rgba(255,20,147,0.3)}
+.snb-app-feature-icon svg{width:20px;height:20px;fill:#fff}
+.snb-app-feature-title{font-size:12px;font-weight:700;color:#1a1a1a;line-height:1.2;margin:0}
+
+.snb-app-stores{display:flex;gap:10px;margin-top:2px;flex-wrap:wrap}
+.snb-app-store-btn{display:flex;align-items:center;gap:10px;background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:12px;text-decoration:none;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.snb-app-store-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.25);background:#000}
+.snb-app-store-btn svg{width:26px;height:26px;flex-shrink:0}
+.snb-app-store-text{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+.snb-app-store-small{font-size:10px;opacity:0.85;font-weight:400}
+.snb-app-store-big{font-size:15px;font-weight:700}
+
+.snb-app-stats{display:flex;gap:20px;margin-top:4px;padding-top:8px;border-top:1px solid rgba(229,25,129,0.12)}
+.snb-app-stat{display:flex;flex-direction:column;gap:2px}
+.snb-app-stat-value{font-size:20px;font-weight:900;background:linear-gradient(135deg,#FF1493,#E51981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic;line-height:1}
+.snb-app-stat-label{font-size:11px;font-weight:500;color:#666;text-transform:uppercase;letter-spacing:0.5px}
+
+.snb-app-right{position:relative;display:flex;align-items:center;justify-content:center;min-height:480px}
+.snb-app-phone{position:relative;width:240px;height:490px;background:#1a1a1a;border-radius:42px;padding:10px;box-shadow:0 30px 60px rgba(229,25,129,0.25),0 10px 20px rgba(0,0,0,0.15),inset 0 0 0 2px #2a2a2a;transform:rotate(-5deg);transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);z-index:2}
+.snb-app-phone:hover{transform:rotate(-2deg) translateY(-5px)}
+.snb-app-phone::before{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:95px;height:22px;background:#000;border-radius:20px;z-index:3}
+.snb-app-phone-screen{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#000}
+.snb-app-carousel{position:relative;width:100%;height:100%}
+.snb-app-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease-in-out}
+.snb-app-slide.active{opacity:1}
+.snb-app-slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+.snb-app-floating{position:absolute;background:#fff;padding:10px 14px;border-radius:14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 20px rgba(229,25,129,0.18),0 2px 6px rgba(0,0,0,0.08);border:1px solid rgba(255,20,147,0.15);z-index:3;font-size:13px;font-weight:700;color:#1a1a1a}
+.snb-app-floating svg{width:18px;height:18px}
+.snb-app-floating-1{top:12%;left:2%;animation:snb-app-float1 5s ease-in-out infinite}
+.snb-app-floating-2{top:38%;right:2%;animation:snb-app-float2 6s ease-in-out infinite}
+.snb-app-floating-3{bottom:14%;left:4%;animation:snb-app-float3 5.5s ease-in-out infinite}
+.snb-app-floating-4{top:8%;right:6%;animation:snb-app-float4 6.5s ease-in-out infinite}
+.snb-app-floating-icon-photo{background:linear-gradient(135deg,#FF1493,#E51981);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.snb-app-floating-icon-heart{background:linear-gradient(135deg,#ff4d6d,#FF1493);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.snb-app-floating-icon-video{background:linear-gradient(135deg,#E51981,#a8155f);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.snb-app-floating-icon-star{background:linear-gradient(135deg,#FF1493,#ff4d6d);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.snb-app-floating-icon-photo svg,.snb-app-floating-icon-heart svg,.snb-app-floating-icon-video svg,.snb-app-floating-icon-star svg{width:15px;height:15px;fill:#fff}
+.snb-app-floating-text{display:flex;flex-direction:column;line-height:1.1}
+.snb-app-floating-num{font-size:14px;font-weight:800;color:#1a1a1a}
+.snb-app-floating-label{font-size:10px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:0.3px}
+
+@keyframes snb-app-float1{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+@keyframes snb-app-float2{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-15px) rotate(-2deg)}}
+@keyframes snb-app-float3{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes snb-app-float4{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-14px) rotate(-1deg)}}
+
+@media (max-width:960px){
+.snb-app-section{min-height:auto;padding:60px 0}
+.snb-app-wrapper{grid-template-columns:1fr;gap:40px;padding:20px}
+.snb-app-title{font-size:34px}
+.snb-app-subtitle{font-size:15px}
+.snb-app-features{grid-template-columns:repeat(3,1fr);gap:8px}
+.snb-app-feature{padding:12px 6px}
+.snb-app-feature-title{font-size:11px}
+.snb-app-right{min-height:540px;order:2}
+.snb-app-left{order:1}
+.snb-app-phone{width:250px;height:510px}
+.snb-app-stats{gap:14px}
+.snb-app-stat-value{font-size:20px}
+.snb-app-floating{padding:8px 12px}
+.snb-app-floating-num{font-size:13px}
+}
+@media (max-width:500px){
+.snb-app-features{grid-template-columns:repeat(2,1fr)}
+.snb-app-title{font-size:28px}
+.snb-app-stores{gap:8px}
+.snb-app-store-btn{padding:9px 14px;flex:1;justify-content:center}
+.snb-app-store-big{font-size:13px}
+.snb-app-stats{flex-wrap:wrap;gap:12px}
+.snb-app-stat{flex:1;min-width:80px}
+}
+</style>
+</head>
+<body style="margin:0;">
+
+<section class="snb-app-section">
+<div class="snb-app-bg"></div>
+<div class="snb-app-wrapper">
+
+<div class="snb-app-left">
+<span class="snb-app-badge"><span class="snb-app-badge-dot"></span>Application incluse gratuitement</span>
+
+<h2 class="snb-app-title" id="snbTitle"></h2>
+
+<p class="snb-app-subtitle">Avec chaque reservation, vous accedez a <strong>MyShootnbox</strong> : gerez votre evenement, creez des defis photo et suivez tout en temps reel. Les photos prises sur le photobooth sont automatiquement partagees dans l'app. Vos invites rejoignent en 30 secondes et profitent des filtres pros, de la galerie commune, du chat en direct, des challenges et des votes — tout est inclus.</p>
+
+<div class="snb-app-stats">
+<div class="snb-app-stat"><span class="snb-app-stat-value">100%</span><span class="snb-app-stat-label">Gratuit</span></div>
+<div class="snb-app-stat"><span class="snb-app-stat-value">30s</span><span class="snb-app-stat-label">Pour rejoindre</span></div>
+<div class="snb-app-stat"><span class="snb-app-stat-value">&infin;</span><span class="snb-app-stat-label">Photos illimitees</span></div>
+</div>
+
+<div class="snb-app-features">
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Filtres photo & video</p>
+</div>
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M4 4h7V2H4c-1.1 0-2 .9-2 2v7h2V4m16 0v7h2V4c0-1.1-.9-2-2-2h-7v2h7M4 20v-7H2v7c0 1.1.9 2 2 2h7v-2H4m16-7v7h-7v2h7c1.1 0 2-.9 2-2v-7h-2M12 7v10l8-5l-8-5Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Galerie temps reel</p>
+</div>
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M18 4l2 3h-3l-2-3h-2l2 3h-3l-2-3H8l2 3H7L5 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V4h-4m-8 15l-1.5-2H10V7h4v2h-1.5L14 11l-1.5 2H14v2h-4v-2h1.5L10 11l1.5-2H10V7h4v2h-1.5Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Videos cinema</p>
+</div>
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M12 2L9.91 8.26L3 9l5.5 4.74L7 20.5l5-3.5l5 3.5l-1.5-6.76L21 9l-6.91-.74L12 2Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Defis photo</p>
+</div>
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2M6 9h12v2H6V9m8 5H6v-2h8v2m4-6H6V6h12v2Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Chat en direct</p>
+</div>
+
+<div class="snb-app-feature">
+<div class="snb-app-feature-icon">
+<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z"/></svg>
+</div>
+<p class="snb-app-feature-title">Likes & votes</p>
+</div>
+
+</div>
+
+<div class="snb-app-stores">
+<a href="https://apps.apple.com/app/myshootnbox/id6761745035" class="snb-app-store-btn" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11Z"/></svg>
+<div class="snb-app-store-text"><span class="snb-app-store-small">Telecharger sur</span><span class="snb-app-store-big">App Store</span></div>
+</a>
+<a href="https://play.google.com/store/apps/details?id=com.shootnbox.shootnbox_app" class="snb-app-store-btn" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24"><path fill="#00d4ff" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92Z"/><path fill="#ffcb2b" d="m16.78 15.164-2.988-3.164 2.988-3.164 3.815 2.164a1 1 0 0 1 0 2Z"/><path fill="#ff3c4a" d="M13.792 12 3.61 22.186a.995.995 0 0 0 1.139.092l12.031-6.814Z"/><path fill="#00f076" d="M13.792 12 4.78 1.722a.995.995 0 0 0-1.17.092L16.78 8.836Z"/></svg>
+<div class="snb-app-store-text"><span class="snb-app-store-small">Disponible sur</span><span class="snb-app-store-big">Google Play</span></div>
+</a>
+</div>
+
+</div>
+
+<div class="snb-app-right">
+
+<div class="snb-app-floating snb-app-floating-1">
+<div class="snb-app-floating-icon-photo">
+<svg viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m8 3a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3Z"/></svg>
+</div>
+<div class="snb-app-floating-text"><span class="snb-app-floating-num">247</span><span class="snb-app-floating-label">photos</span></div>
+</div>
+
+<div class="snb-app-floating snb-app-floating-2">
+<div class="snb-app-floating-icon-heart">
+<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z"/></svg>
+</div>
+<div class="snb-app-floating-text"><span class="snb-app-floating-num">1.2k</span><span class="snb-app-floating-label">likes</span></div>
+</div>
+
+<div class="snb-app-floating snb-app-floating-3">
+<div class="snb-app-floating-icon-video">
+<svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4Z"/></svg>
+</div>
+<div class="snb-app-floating-text"><span class="snb-app-floating-num">38</span><span class="snb-app-floating-label">videos</span></div>
+</div>
+
+<div class="snb-app-floating snb-app-floating-4">
+<div class="snb-app-floating-icon-star">
+<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27Z"/></svg>
+</div>
+<div class="snb-app-floating-text"><span class="snb-app-floating-num">Defi #3</span><span class="snb-app-floating-label">en cours</span></div>
+</div>
+
+<div class="snb-app-phone">
+<div class="snb-app-phone-screen">
+<div class="snb-app-carousel" id="snbAppCarousel">
+<div class="snb-app-slide active"><img src="demo_screens/screen1.jpeg" alt="Ecran accueil"></div>
+<div class="snb-app-slide"><img src="demo_screens/screen2.jpeg" alt="Espace hote"></div>
+<div class="snb-app-slide"><img src="demo_screens/screen3.jpeg" alt="Galerie"></div>
+<div class="snb-app-slide"><img src="demo_screens/screen4.jpeg" alt="Personnalisation"></div>
+<div class="snb-app-slide"><img src="demo_screens/screen5.jpeg" alt="Defis photo"></div>
+<div class="snb-app-slide"><img src="demo_screens/screen6.jpeg" alt="Chat live"></div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<script>
+// Animation titre mot par mot
+(function(){
+var title=document.getElementById('snbTitle');
+var line1='La soiree se vit ensemble, les souvenirs aussi.';
+var line2="L'app qui prolonge la magie.";
+var words1=line1.split(' ');
+var words2=line2.split(' ');
+var html='';
+var delay=0;
+words1.forEach(function(w){
+html+='<span class="snb-word" style="animation-delay:'+delay+'s">'+w+'</span> ';
+delay+=0.08;
+});
+delay+=0.15;
+words2.forEach(function(w){
+html+='<span class="snb-word snb-app-highlight" style="animation-delay:'+delay+'s">'+w+'</span> ';
+delay+=0.08;
+});
+title.innerHTML=html;
+})();
+
+// Carousel screenshots
+(function(){
+var slides=document.querySelectorAll('#snbAppCarousel .snb-app-slide');
+var current=0;
+if(slides.length>0){
+setInterval(function(){
+slides[current].classList.remove('active');
+current=(current+1)%slides.length;
+slides[current].classList.add('active');
+},2800);
+}
+})();
+</script>
+
+</body>
+</html>
